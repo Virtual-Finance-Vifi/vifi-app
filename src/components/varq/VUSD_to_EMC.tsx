@@ -22,7 +22,7 @@ export default function VUSD_to_EMC() {
   const handleVUSDtoEMC = () => {
     writeContract({
       abi: VARQ_CONTRACT,
-      address: "0x077b8FEaAD247bdf4827B4D12bb9B938397FC529",
+      address: VARQ_ADDRESS,
       functionName: "convertVUSDToTokens",
       args: [transfer_VUSD],
     });

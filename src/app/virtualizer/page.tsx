@@ -8,6 +8,7 @@ import { useAccount, useReadContract } from "wagmi";
 import MUSD_CONTRACT from "../../contracts/mUSD.json"
 import VUSD_CONTRACT from "../../contracts/vtoken.json"
 import Modal from "@/components/virtualizer/Modal";
+import { MUSD_ADDRESS, VUSD_ADDRESS } from "@/constants/addresses";
 
 
 
@@ -24,14 +25,14 @@ export default function Virtualizer() {
 
   const {data: balance} = useReadContract({
     abi: MUSD_CONTRACT,
-    address: "0xbCCc252A134cEf81be20DF52F27D9029507F3605",
+    address: MUSD_ADDRESS,
     functionName: "balanceOf",
     args: [user_address]
   })
 
   const {data: vUSD_balance} = useReadContract({
     abi: VUSD_CONTRACT,
-    address: "0x99C9AFc5F81984684bd015Ab2300fD7F316a92cF",
+    address: VUSD_ADDRESS,
     functionName: "balanceOf",
     args: [user_address]
   })

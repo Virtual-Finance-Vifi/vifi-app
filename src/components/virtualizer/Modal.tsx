@@ -10,22 +10,18 @@ interface ModalProps {
 }
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
-  
-
   const { writeContractAsync, isSuccess, isError: error } = useWriteContract();
 
   useEffect(() => {
     if (isSuccess === true) {
-      onClose()
+      onClose();
     }
     if (error) {
       console.error("Transaction Failed");
     }
-  }, [isSuccess,  error, onClose]);
+  }, [isSuccess, error, onClose]);
 
   if (!isOpen) return null;
-
-  
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4">
@@ -40,18 +36,13 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
           </Button>
           <Button
             onClick={() =>
-                writeContractAsync({
+              writeContractAsync({
                 abi: MUSD_CONTRACT,
-                address: "0xbCCc252A134cEf81be20DF52F27D9029507F3605",
+                address: MUSD_ADDRESS,
                 functionName: "approve",
-                args: [
-                  "0x0a90769a8B53515C5F671eD7379DF3Ed2bDE910e",
-                  "1000000000000000000000000",
-                ],
-                
+                args: [VIRTUALIZER_ADDRESS, "1000000000000000000000000"],
               })
             }
-            
             className="mt-4 py-2 px-4 bg-[#020817] text-white"
           >
             Approve
