@@ -54,14 +54,26 @@ export default function Claim() {
 
   useEffect(() => {
     if (isConfirming) {
-      console.log("Transaction Pending");
+      toast.loading("Transaction Pending");
     }
+    toast.dismiss();
+      
     if (isConfirmed) {
-      console.log("Transaction completed")
+      toast.success("Transaction Successful", {
+        action: {
+          label: "View on Etherscan",
+          onClick: () => {
+            window.open(`https://sepolia.etherscan.io/tx/${hash}`);
+          },
+        },
+      });
       refreshBalance?.()
       console.log("Balance should be refreshed")
     }
-  }, [isConfirmed, isConfirming])
+      if (error) {
+      toast.error("Transaction Failed");
+    }
+  }, [isConfirmed, isConfirming, error, hash])
   
 
 
@@ -81,6 +93,7 @@ export default function Claim() {
                     functionName: "claim",
                   })
                 }
+                disabled={isConfirming}
                 className="rounded-2xl px-6 mt-12"
               >
                 Claim
