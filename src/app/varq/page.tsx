@@ -7,25 +7,26 @@ import EMC_to_VUSD from "@/components/varq/EMC_to_VUSD";
 import VARQ_CONTRACT from "../../contracts/varq.json";
 import VTOKEN_CONTRACT from "../../contracts/vtoken.json";
 import { useAccount, useReadContract, useWriteContract } from "wagmi";
+import { VRT_ADDRESS, VTTD_ADDRESS, VUSD_ADDRESS } from "@/constants/addresses";
 
 export default function Varq() {
   const user_address = useAccount().address;
   const [activeTab, setActiveTab] = useState<string>("deposit");
   const { data: vUSD_balance } = useReadContract({
     abi: VTOKEN_CONTRACT,
-    address: "0x99C9AFc5F81984684bd015Ab2300fD7F316a92cF",
+    address: VUSD_ADDRESS,
     functionName: "balanceOf",
     args: [user_address],
   });
   const { data: vTTD_balance } = useReadContract({
     abi: VTOKEN_CONTRACT,
-    address: "0xd011E96c10cD0eCb82a38CEdE921906Ee5e981EA",
+    address: VTTD_ADDRESS,
     functionName: "balanceOf",
     args: [user_address],
   });
   const { data: vRT_balance } = useReadContract({
     abi: VTOKEN_CONTRACT,
-    address: "0x9d1F0652927E16d6d8b0AfA9F270C33Fb4869087",
+    address: VRT_ADDRESS,
     functionName: "balanceOf",
     args: [user_address],
   });

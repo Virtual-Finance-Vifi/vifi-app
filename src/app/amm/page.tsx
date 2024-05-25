@@ -14,6 +14,7 @@ import Modal from "@/components/amm/Modal";
 import VTOKEN_CONTRACT from "../../contracts/vtoken.json";
 import SWAP_CONTRACT from "../../contracts/swap.json";
 import { parse } from "path";
+import { VRT_ADDRESS, VTTD_ADDRESS, SWAP_ADDRESS } from "@/constants/addresses";
 
 export default function AmmPage() {
   const { isConnected } = useAccount();
@@ -35,8 +36,8 @@ export default function AmmPage() {
   };
 
   const vrt_to_vttd = [
-    "0x9d1F0652927E16d6d8b0AfA9F270C33Fb4869087",
-    "0xd011E96c10cD0eCb82a38CEdE921906Ee5e981EA",
+    VRT_ADDRESS,
+    VTTD_ADDRESS,
     3000,
     address,
     Number(parseEther(vRT.toString())),
@@ -45,8 +46,8 @@ export default function AmmPage() {
   ];
 
   const vttd_to_vrt = [
-    "0xd011E96c10cD0eCb82a38CEdE921906Ee5e981EA",
-    "0x9d1F0652927E16d6d8b0AfA9F270C33Fb4869087",
+    VTTD_ADDRESS,
+    VRT_ADDRESS,
     3000,
     address,
     Number(parseEther(vTTD.toString())),
@@ -75,16 +76,16 @@ export default function AmmPage() {
 
   const { data: vrt_approval } = useReadContract({
     abi: VTOKEN_CONTRACT,
-    address: "0x9d1F0652927E16d6d8b0AfA9F270C33Fb4869087",
+    address: VRT_ADDRESS,
     functionName: "allowance",
-    args: [address, "0x3bFA4769FB09eefC5a80d6E87c3B9C650f7Ae48E"],
+    args: [address, SWAP_ADDRESS],
   });
 
   const { data: vttd_approval } = useReadContract({
     abi: VTOKEN_CONTRACT,
-    address: "0xd011E96c10cD0eCb82a38CEdE921906Ee5e981EA",
+    address: VTTD_ADDRESS,
     functionName: "allowance",
-    args: [address, "0x3bFA4769FB09eefC5a80d6E87c3B9C650f7Ae48E"],
+    args: [address, SWAP_ADDRESS],
   });
 
   const vrt_approve = vrt_approval?.toString();
@@ -97,7 +98,7 @@ export default function AmmPage() {
           try {
             await writeContractAsync({
               abi: SWAP_CONTRACT,
-              address: "0x3bFA4769FB09eefC5a80d6E87c3B9C650f7Ae48E",
+              address: SWAP_ADDRESS,
               functionName: "exactInputSingle",
               args: [vrt_to_vttd],
             });
@@ -106,7 +107,7 @@ export default function AmmPage() {
             console.error("Transaction error:", error);
           }
         } else {
-          openModal('vrt');
+          openModal("vrt");
         }
         break;
 
@@ -115,7 +116,7 @@ export default function AmmPage() {
           try {
             await writeContractAsync({
               abi: SWAP_CONTRACT,
-              address: "0x3bFA4769FB09eefC5a80d6E87c3B9C650f7Ae48E",
+              address: SWAP_ADDRESS,
               functionName: "exactInputSingle",
               args: [vttd_to_vrt],
             });
@@ -124,7 +125,7 @@ export default function AmmPage() {
             console.error("Transaction error:", error);
           }
         } else {
-          openModal('vttd');
+          openModal("vttd");
         }
         break;
 
@@ -158,7 +159,7 @@ export default function AmmPage() {
             </Tab>
           </TabList>
         </TabGroup>
-        {Swap === 'vrt' ? (
+        {Swap === "vrt" ? (
           <>
             <InputComponent
               type="pay"

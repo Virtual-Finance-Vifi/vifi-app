@@ -3,11 +3,12 @@ import { Button } from "../ui/button";
 import InputComponent from "@/components/virtualizer/Input";
 import Modal from "./Modal";
 import DisabledInputComponent from "./DisabledInput";
-import VIRTUALISER_CONTRACT from "../../contracts/virtualizer.json"
+import VIRTUALISER_CONTRACT from "../../contracts/virtualizer.json";
 import { useAccount, useReadContract, useWriteContract } from "wagmi";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import MUSD_CONTRACT from "../../contracts/mUSD.json";
 import { parseEther } from "viem";
+import { MUSD_ADDRESS, VIRTUALIZER_ADDRESS } from "@/constants/addresses";
 
 export default function DepositWidget() {
   const { address } = useAccount();
@@ -23,9 +24,9 @@ export default function DepositWidget() {
 
   const { data: approved } = useReadContract({
     abi: MUSD_CONTRACT,
-    address: "0xbCCc252A134cEf81be20DF52F27D9029507F3605",
+    address: MUSD_ADDRESS,
     functionName: "allowance",
-    args: [address, "0x0a90769a8B53515C5F671eD7379DF3Ed2bDE910e"],
+    args: [address, VIRTUALIZER_ADDRESS],
   });
 
   const approve_str = approved?.toString();
@@ -37,7 +38,7 @@ export default function DepositWidget() {
     } else {
       writeContract({
         abi: VIRTUALISER_CONTRACT,
-        address: "0x0a90769a8B53515C5F671eD7379DF3Ed2bDE910e",
+        address: VIRTUALIZER_ADDRESS,
         functionName: "unwrap",
         args: [transfer_vUSD],
       });

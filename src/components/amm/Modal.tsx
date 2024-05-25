@@ -10,7 +10,12 @@ interface ModalProps {
   swapType: string;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, swapType }) => {
+const Modal: React.FC<ModalProps> = ({
+  isOpen,
+  onClose,
+  children,
+  swapType,
+}) => {
   const { writeContractAsync, isSuccess, isError: error } = useWriteContract();
 
   useEffect(() => {
@@ -26,9 +31,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, swapType }) =>
 
   const handleApprove = () => {
     const abi = VRT_CONTRACT;
-    const address = swapType === "vrt" 
-      ? "0x9d1F0652927E16d6d8b0AfA9F270C33Fb4869087"
-      : "0xd011E96c10cD0eCb82a38CEdE921906Ee5e981EA"; // Replace with actual VTTD contract address
+    const address = swapType === "vrt" ? VRT_ADDRESS : VTTD_ADDRESS; // Replace with actual VTTD contract address
 
     writeContractAsync({
       abi,

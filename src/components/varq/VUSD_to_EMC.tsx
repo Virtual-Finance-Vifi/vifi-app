@@ -6,6 +6,7 @@ import { useAccount, useWriteContract } from "wagmi";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import VARQ_CONTRACT from "../../contracts/varq.json";
 import { parseEther } from "viem";
+import { VARQ_ADDRESS } from "@/constants/addresses";
 // import DisabledInputComponent from "./DisabledInput";
 
 export default function VUSD_to_EMC() {
@@ -22,7 +23,7 @@ export default function VUSD_to_EMC() {
   const handleVUSDtoEMC = () => {
     writeContract({
       abi: VARQ_CONTRACT,
-      address: "0x077b8FEaAD247bdf4827B4D12bb9B938397FC529",
+      address: VARQ_ADDRESS,
       functionName: "convertVUSDToTokens",
       args: [transfer_VUSD],
     });

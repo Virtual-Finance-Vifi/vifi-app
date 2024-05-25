@@ -23,16 +23,16 @@ export default function Vex() {
   const { open } = useWeb3Modal();
   const [vUSD, setVUSD] = useState<number>(0);
   const [vTTD, setVTTD] = useState<number>(0);
-  const [swap,setSwap]=useState<boolean>(false);
+  const [swap, setSwap] = useState<boolean>(false);
 
   const handleConnect = () => {
     open();
   };
-  const handleSwap=()=>{
+  const handleSwap = () => {
     setSwap(!swap);
   };
   const { data: name } = useReadContract({
-    address: "0xbCCc252A134cEf81be20DF52F27D9029507F3605",
+    address: MUSD_ADDRESS,
     abi: MUSD_CONTRACT,
     functionName: "name",
   });
@@ -45,7 +45,6 @@ export default function Vex() {
       </section>
 
       <Card className="max-w-md mx-auto rounded-3xl lg:mt-0 mt-14 bg-background">
-        
         {swap ? (
           <>
             <InputComponent
@@ -70,7 +69,7 @@ export default function Vex() {
                     d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"
                   />
                 </svg>
-             </button>
+              </button>
             </div>
             <InputComponent
               type="pay"
@@ -79,7 +78,7 @@ export default function Vex() {
               setValue={setVUSD}
             />
           </>
-        ):(
+        ) : (
           <>
             <InputComponent
               type="pay"
@@ -103,7 +102,7 @@ export default function Vex() {
                     d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"
                   />
                 </svg>
-             </button>
+              </button>
             </div>
             <InputComponent
               type="receive"
@@ -112,9 +111,8 @@ export default function Vex() {
               setValue={setVTTD}
             />
           </>
-
         )}
-        
+
         <div className="flex justify-center">
           {!isConnected ? (
             <Button onClick={handleConnect}>Connect Wallet</Button>

@@ -6,6 +6,7 @@ import { useAccount, useWriteContract } from "wagmi";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import VARQ_CONTRACT from "../../contracts/varq.json";
 import { parseEther } from "viem";
+import { VARQ_ADDRESS } from "@/constants/addresses";
 
 export default function EMC_to_VUSD() {
   const address = useAccount();
@@ -15,31 +16,30 @@ export default function EMC_to_VUSD() {
   const [VUSD, setVUSD] = useState<number>(0);
   const [VTTD, setVTTD] = useState<number>(0);
   const [VRT, setVRT] = useState<number>(0);
-  const [isModalOpen,setModalOpen]=useState<boolean>(false);
-  const {writeContract,error,isError}=useWriteContract();
+  const [isModalOpen, setModalOpen] = useState<boolean>(false);
+  const { writeContract, error, isError } = useWriteContract();
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
   const { open } = useWeb3Modal();
-  const transfer_VUSD=String(parseEther(VUSD.toString()));
-  const transfer_VTTD=String(parseEther(VTTD.toString()));
-  const transfer_VRT=String(parseEther(VRT.toString()));
+  const transfer_VUSD = String(parseEther(VUSD.toString()));
+  const transfer_VTTD = String(parseEther(VTTD.toString()));
+  const transfer_VRT = String(parseEther(VRT.toString()));
   const handleEMCtoVUSD = () => {
     writeContract({
       abi: VARQ_CONTRACT,
-      address: "0x077b8FEaAD247bdf4827B4D12bb9B938397FC529",
+      address: VARQ_ADDRESS,
       functionName: "convertTokensToVUSD",
-      args: [transfer_VTTD,transfer_VRT],
+      args: [transfer_VTTD, transfer_VRT],
     });
 
-    console.log("Transferring:",[VTTD,VRT] );
-    
+    console.log("Transferring:", [VTTD, VRT]);
   };
-    
-  if(isError){
+
+  if (isError) {
     console.log(error);
-  }else{
-    console.log("Transferring:",VUSD );
-  };
+  } else {
+    console.log("Transferring:", VUSD);
+  }
   return (
     <div>
       <div className="flex rounded-2xl items-left flex-col flex-grow pt-4 mx-2 text-accent">
@@ -77,7 +77,9 @@ export default function EMC_to_VUSD() {
           <Button onClick={handleConnect}>Connect Wallet</Button>
         ) : (
           <>
-            <Button className="rounded-2xl px-6" onClick={handleEMCtoVUSD}>Convert</Button>
+            <Button className="rounded-2xl px-6" onClick={handleEMCtoVUSD}>
+              Convert
+            </Button>
           </>
         )}
       </div>
