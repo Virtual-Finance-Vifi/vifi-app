@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Button } from "../ui/button";
 import { useWriteContract } from "wagmi";
 import MUSD_CONTRACT from "../../contracts/mUSD.json";
+import { MUSD_ADDRESS, VIRTUALIZER_ADDRESS } from "@/constants/addresses";
 
 interface ModalProps {
   isOpen: boolean;
