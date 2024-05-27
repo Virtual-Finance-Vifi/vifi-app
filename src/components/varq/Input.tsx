@@ -33,6 +33,10 @@ const InputComponent: React.FC<InputComponentProps> = ({
     }
   }, [value, label, onValueChange, isMounted]);
 
+  useEffect(() => {
+    setValue(initialValue);
+  }, [initialValue]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = parseFloat(e.target.value);
     if (!isNaN(newValue)) {
