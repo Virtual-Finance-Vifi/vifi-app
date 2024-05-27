@@ -5,55 +5,57 @@ import CustomTab from "@/components/CustomTab";
 import DepositWidget from "@/components/virtualizer/DepositWidget";
 import WithdrawWidget from "@/components/virtualizer/WithdrawWidget";
 import { useAccount, useReadContract } from "wagmi";
-import MUSD_CONTRACT from "../../contracts/mUSD.json"
-import VUSD_CONTRACT from "../../contracts/vtoken.json"
-import Modal from "@/components/virtualizer/Modal";
-
-
+import MUSD_CONTRACT from "../../contracts/mUSD.json";
+import VUSD_CONTRACT from "../../contracts/vtoken.json";
+import { MUSD_ADDRESS, VUSD_ADDRESS } from "@/constants/addresses";
+import { formatEther } from "viem";
 
 export default function Virtualizer() {
   const [activeTab, setActiveTab] = useState<string>("deposit");
-  const user_address = useAccount().address;
-  const [mUSDCbalance, setmUSDC_Balance] = useState<string>("");
-  const [vUSDBalance, setVUSD_Balance] = useState<string>("");
-  
+  const { address } = useAccount();
+  const [formattedMusdcBalance, setFormattedMusdcBalance] =
+    useState<string>("");
+  const [formattedVUSDBalance, setFormattedVUSDBalance] = useState<string>("");
 
   const handleTabChange = (tabName: string) => {
     setActiveTab(tabName);
   };
 
-  const {data: balance} = useReadContract({
-    abi: MUSD_CONTRACT,
-    address: "0xbCCc252A134cEf81be20DF52F27D9029507F3605",
-    functionName: "balanceOf",
-    args: [user_address]
-  })
+  const { data: mUSDC_balance, refetch: refresh_musdc_Balance } =
+    useReadContract({
+      abi: MUSD_CONTRACT,
+      address: MUSD_ADDRESS,
+      functionName: "balanceOf",
+      args: [address],
+    });
 
-  const {data: vUSD_balance} = useReadContract({
-    abi: VUSD_CONTRACT,
-    address: "0x99C9AFc5F81984684bd015Ab2300fD7F316a92cF",
-    functionName: "balanceOf",
-    args: [user_address]
-  })
-
-  console.log("VUSD:", vUSD_balance)
-  const vUSD_string = String(vUSD_balance)
-  const formatVUSD_balance = vUSD_string?.slice(0, -18)
-
-  const string_balance = balance?.toString()
-  const formatMUSD_balance = string_balance?.slice(0, -18)
+  const { data: vUSD_balance, refetch: refresh_vusd_Balance } = useReadContract(
+    {
+      abi: VUSD_CONTRACT,
+      address: VUSD_ADDRESS,
+      functionName: "balanceOf",
+      args: [address],
+    }
+  );
 
   useEffect(() => {
-    if (formatMUSD_balance) {
-      setmUSDC_Balance((formatMUSD_balance));
+    if (mUSDC_balance !== undefined && mUSDC_balance !== null) {
+      const formatted_musdc_balance = formatEther(
+        BigInt(Number(mUSDC_balance))
+      );
+      setFormattedMusdcBalance(formatted_musdc_balance.toString());
     }
-  }, [formatMUSD_balance]);
+    if (vUSD_balance !== undefined && vUSD_balance !== null) {
+      const formatted_vusdc_balance = formatEther(BigInt(Number(vUSD_balance)));
+      setFormattedVUSDBalance(formatted_vusdc_balance.toString());
+    }
+  }, [mUSDC_balance, vUSD_balance, address]);
 
-  useEffect(() => {
-    if (formatVUSD_balance) {
-      setVUSD_Balance((formatVUSD_balance));
-    }
-  }, [formatVUSD_balance]);
+  const refreshBalances = () => {
+    refresh_musdc_Balance();
+    refresh_vusd_Balance();
+  };
+
   return (
     <div className="flex items-center flex-col flex-grow pt-6 lg:pt-12">
       <Card className="max-w-md mx-auto rounded-3xl lg:mt-0 mt-14 bg-background">
@@ -72,24 +74,30 @@ export default function Virtualizer() {
         <div>
           {activeTab === "deposit" && (
             <div>
-              <DepositWidget />
+              <DepositWidget refreshBalance={refreshBalances} />
             </div>
           )}
           {activeTab === "withdraw" && (
             <div>
-              <WithdrawWidget />
+              <WithdrawWidget refreshBalance={refreshBalances} />
             </div>
           )}
         </div>
-        <div className="p-2 flex flex-col w-full">
-          <div className="flex justify-center">
-            <h1 className="mt-4 mb-2">Balance:</h1>
+        {address && (
+          <div className="p-2 flex flex-col w-full">
+            <div className="flex justify-center">
+              <h1 className="mt-4 mb-2">Balance:</h1>
+            </div>
+            <div className="flex flex-row justify-evenly">
+              {formattedMusdcBalance && (
+                <h1>{Number(formattedMusdcBalance).toFixed(2)} MUSDC</h1>
+              )}
+              {formattedVUSDBalance && (
+                <h1>{Number(formattedVUSDBalance).toFixed(2)} VUSD</h1>
+              )}
+            </div>
           </div>
-          <div className="flex flex-row justify-evenly">
-            <h1>mUSDC: {mUSDCbalance}</h1>
-            <h1>vUSD: {vUSDBalance}</h1>
-          </div>
-        </div>
+        )}
       </Card>
     </div>
   );

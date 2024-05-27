@@ -1,19 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "../ui/button";
 import InputComponent from "./Input";
 import Modal from "./Modal";
 import DisabledInputComponent from "./DisabledInput";
-import { useAccount, useReadContract, useWriteContract } from "wagmi";
+import {
+  useAccount,
+  useReadContract,
+  useWaitForTransactionReceipt,
+  useWriteContract,
+} from "wagmi";
 import MUSD_CONTRACT from "../../contracts/mUSD.json";
-import VIRTUALISER_CONTRACT from "../../contracts/virtualizer.json"
+import VIRTUALISER_CONTRACT from "../../contracts/virtualizer.json";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { parseEther } from "viem";
+import { MUSD_ADDRESS, VIRTUALIZER_ADDRESS } from "@/constants/addresses";
+import { toast } from "sonner";
 
-export default function DepositWidget() {
+interface DepositWidgetProps {
+  refreshBalance: () => void; // Define the type of refreshBalance as a function
+}
+
+const DepositWidget: React.FC<DepositWidgetProps> = ({ refreshBalance }) => {
   const { address } = useAccount();
   const [mUSDC, setmUSDC] = useState<number>(0);
   const [isModalOpen, setModalOpen] = useState(false);
-  const { writeContract, isError } = useWriteContract();
+  const { writeContract, data: hash } = useWriteContract();
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
   const { open } = useWeb3Modal();
@@ -21,11 +32,19 @@ export default function DepositWidget() {
     open();
   };
 
+  const {
+    isLoading: isConfirming,
+    error,
+    isSuccess: isConfirmed,
+  } = useWaitForTransactionReceipt({
+    hash,
+  });
+
   const { data: approved } = useReadContract({
     abi: MUSD_CONTRACT,
-    address: "0xbCCc252A134cEf81be20DF52F27D9029507F3605",
+    address: MUSD_ADDRESS,
     functionName: "allowance",
-    args: [address, "0x0a90769a8B53515C5F671eD7379DF3Ed2bDE910e"],
+    args: [address, VIRTUALIZER_ADDRESS],
   });
 
   const approve_str = approved?.toString();
@@ -37,7 +56,7 @@ export default function DepositWidget() {
     } else {
       writeContract({
         abi: VIRTUALISER_CONTRACT,
-        address: "0x0a90769a8B53515C5F671eD7379DF3Ed2bDE910e",
+        address: VIRTUALIZER_ADDRESS,
         functionName: "wrap",
         args: [transfer_mUSDC],
       });
@@ -46,11 +65,34 @@ export default function DepositWidget() {
     }
   };
 
+  useEffect(() => {
+    if (isConfirming) {
+      toast.loading("Transaction Pending");
+    }
+    toast.dismiss();
+      
+    if (isConfirmed) {
+      toast.success("Transaction Successful", {
+        action: {
+          label: "View on Etherscan",
+          onClick: () => {
+            window.open(`https://sepolia.etherscan.io/tx/${hash}`);
+          },
+        },
+      });
+      refreshBalance?.();
+      setmUSDC(0);
+    }
+      if (error) {
+      toast.error("Transaction Failed");
+    }
+  }, [isConfirmed, isConfirming, error, hash])
+
   return (
     <div>
       <div className="flex rounded-2xl items-left flex-col flex-grow pt-4">
         <div>
-          <div className={`flex mx-2 text-accent`}>
+          <div className="flex mx-2 text-accent">
             <InputComponent
               label="mUSDC"
               type="deposit"
@@ -67,11 +109,13 @@ export default function DepositWidget() {
             Connect Wallet
           </Button>
         ) : (
-          <>
-            <Button className="w-full" onClick={handleDeposit}>
-              Deposit
-            </Button>
-          </>
+          <Button
+            className="w-full"
+            onClick={handleDeposit}
+            disabled={isConfirming}
+          >
+            Deposit
+          </Button>
         )}
 
         <Modal isOpen={isModalOpen} onClose={closeModal}>
@@ -85,4 +129,6 @@ export default function DepositWidget() {
       </div>
     </div>
   );
-}
+};
+
+export default DepositWidget;

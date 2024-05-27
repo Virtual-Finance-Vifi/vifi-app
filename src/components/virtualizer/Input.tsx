@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 
 interface InputComponentProps {
   label: string;
-  initialValue: number;  
-  onValueChange?: (newValue: number) => void;  
+  initialValue: number;
+  onValueChange?: (newValue: number) => void;
   type: string;
 }
 
@@ -35,12 +35,16 @@ const InputComponent: React.FC<InputComponentProps> = ({
     }
   }, [value, label, onValueChange, isMounted]);
 
+  useEffect(() => {
+    setValue(initialValue);
+  }, [initialValue]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = parseFloat(e.target.value);
     if (!isNaN(newValue)) {
       setValue(newValue);
     } else {
-      setValue(0); 
+      setValue(0);
     }
   };
 
@@ -49,11 +53,9 @@ const InputComponent: React.FC<InputComponentProps> = ({
       <div className="mb-6">
         <div className="flex flex-row">
           <h1 className="mb-2 ml-3 text-white">
-            {type === "deposit" ? "Deposit" : "Withdraw"}
+            {type === 'deposit' ? 'Deposit' : 'Withdraw'}
           </h1>
-          <h1 className="mb-2 ml-1 text-white">
-            {label}
-          </h1>
+          <h1 className="mb-2 ml-1 text-white">{label}</h1>
         </div>
         <input
           type="text"
