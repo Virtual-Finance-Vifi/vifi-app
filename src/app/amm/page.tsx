@@ -162,7 +162,7 @@ export default function AmmPage() {
     }
   };
 
-  const refreshBalance = () => {
+  const refreshBalances = () => {
     refresh_vrt_balance(), refresh_vttd_balance();
   };
 
@@ -181,8 +181,9 @@ export default function AmmPage() {
           },
         },
       });
-      refreshBalance?.();
-      console.log("Balance should be refreshed");
+      refreshBalances();
+      setvRT(0);
+      setvTTD(0);
     }
     if (error) {
       toast.error("Transaction Failed");
