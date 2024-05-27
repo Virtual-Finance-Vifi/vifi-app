@@ -16,6 +16,7 @@ import MUSD_CONTRACT from "../../contracts/mUSD.json";
 import { Card, Tab, TabGroup, TabList, TabPanels } from "@tremor/react";
 import { UserGroupIcon, UserIcon } from "@heroicons/react/24/outline";
 import InputComponent from "@/components/InputWidget";
+import { MUSD_ADDRESS } from "@/constants/addresses";
 
 export default function Vex() {
   const { isConnected } = useAccount();
