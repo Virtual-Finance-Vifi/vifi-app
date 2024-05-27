@@ -25,7 +25,7 @@ export default function Claim() {
   const handleConnect = () => {
     open();
   };
-  const { writeContract, data:hash} = useWriteContract();
+  const { writeContract, data: hash } = useWriteContract();
 
   const {
     isLoading: isConfirming,
@@ -35,7 +35,7 @@ export default function Claim() {
     hash,
   });
 
-  const { data: mUSDC_balance, refetch:refreshBalance } = useReadContract({
+  const { data: mUSDC_balance, refetch: refreshBalance } = useReadContract({
     abi: MUSD_CONTRACT,
     address: MUSD_ADDRESS,
     functionName: "balanceOf",
@@ -43,22 +43,11 @@ export default function Claim() {
   });
 
   useEffect(() => {
-    console.log("Address:", address);
-    if (mUSDC_balance !== undefined && mUSDC_balance !== null) {
-      const formatted_musdc_balance = formatEther(
-        BigInt(Number(mUSDC_balance))
-      );
-      console.log("MUSDC balance:", formatted_musdc_balance?.toString());
-      setFormattedMusdcBalance(formatted_musdc_balance.toString());
-    }
-  }, [mUSDC_balance, address]);
-
-  useEffect(() => {
     if (isConfirming) {
       toast.loading("Transaction Pending");
     }
     toast.dismiss();
-      
+
     if (isConfirmed) {
       toast.success("Transaction Successful", {
         action: {
@@ -68,15 +57,13 @@ export default function Claim() {
           },
         },
       });
-      refreshBalance?.()
-      console.log("Balance should be refreshed")
+      refreshBalance?.();
+      console.log("Balance should be refreshed");
     }
-      if (error) {
+    if (error) {
       toast.error("Transaction Failed");
     }
-  }, [isConfirmed, isConfirming, error, hash])
-  
-
+  }, [isConfirmed, isConfirming, error, hash]);
 
   return (
     <main className="flex flex-row justify-center align-center">
@@ -102,7 +89,9 @@ export default function Claim() {
             </>
           )}
           <div className="mt-8 flex justify-center">
-            {formattedMusdcBalance && <h1>Balance: {(Number(formattedMusdcBalance)).toFixed(2)} MUSDC</h1>}
+            <h1>
+              Balance: {(Number(mUSDC_balance) / 10 ** 18).toFixed(2)} MUSDC
+            </h1>
           </div>
         </div>
       </Card>

@@ -13,9 +13,6 @@ import { formatEther } from "viem";
 export default function Varq() {
   const { address } = useAccount();
   const [activeTab, setActiveTab] = useState<string>("deposit");
-  const [formattedVUSDBalance, setFormattedVUSDBalance] = useState("");
-  const [formattedVRTBalance, setFormattedVRTBalance] = useState("");
-  const [formattedVTTDBalance, setFormattedVTTDBalance] = useState("");
 
   const { data: vUSD_balance, refetch: refresh_vusd_balance } = useReadContract(
     {
@@ -44,20 +41,6 @@ export default function Varq() {
     setActiveTab(tabName);
   };
 
-  useEffect(() => {
-    if (vUSD_balance !== undefined && vUSD_balance !== null) {
-      const formatted_vusdc_balance = formatEther(BigInt(Number(vUSD_balance)));
-      setFormattedVUSDBalance(formatted_vusdc_balance.toString());
-    }
-    if (vTTD_balance !== undefined && vTTD_balance !== null) {
-      const formatted_vttd_balance = formatEther(BigInt(Number(vTTD_balance)));
-      setFormattedVUSDBalance(formatted_vttd_balance.toString());
-    }
-    if (vRT_balance !== undefined && vRT_balance !== null) {
-      const formatted_vrt_balance = formatEther(BigInt(Number(vRT_balance)));
-      setFormattedVUSDBalance(formatted_vrt_balance.toString());
-    }
-  }, [vUSD_balance, vRT_balance, , vTTD_balance, address]);
 
   const refreshBalances = () => {
     refresh_vusd_balance();

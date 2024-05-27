@@ -13,9 +13,6 @@ import { formatEther } from "viem";
 export default function Virtualizer() {
   const [activeTab, setActiveTab] = useState<string>("deposit");
   const { address } = useAccount();
-  const [formattedMusdcBalance, setFormattedMusdcBalance] =
-    useState<string>("");
-  const [formattedVUSDBalance, setFormattedVUSDBalance] = useState<string>("");
 
   const handleTabChange = (tabName: string) => {
     setActiveTab(tabName);
@@ -37,19 +34,6 @@ export default function Virtualizer() {
       args: [address],
     }
   );
-
-  useEffect(() => {
-    if (mUSDC_balance !== undefined && mUSDC_balance !== null) {
-      const formatted_musdc_balance = formatEther(
-        BigInt(Number(mUSDC_balance))
-      );
-      setFormattedMusdcBalance(formatted_musdc_balance.toString());
-    }
-    if (vUSD_balance !== undefined && vUSD_balance !== null) {
-      const formatted_vusdc_balance = formatEther(BigInt(Number(vUSD_balance)));
-      setFormattedVUSDBalance(formatted_vusdc_balance.toString());
-    }
-  }, [mUSDC_balance, vUSD_balance, address]);
 
   const refreshBalances = () => {
     refresh_musdc_Balance();
@@ -89,12 +73,8 @@ export default function Virtualizer() {
               <h1 className="mt-4 mb-2">Balance:</h1>
             </div>
             <div className="flex flex-row justify-evenly">
-              {formattedMusdcBalance && (
-                <h1>{Number(formattedMusdcBalance).toFixed(2)} MUSDC</h1>
-              )}
-              {formattedVUSDBalance && (
-                <h1>{Number(formattedVUSDBalance).toFixed(2)} VUSD</h1>
-              )}
+              <h1>{(Number(mUSDC_balance) / 10 ** 18).toFixed(2)} MUSDC</h1>
+              <h1>{(Number(vUSD_balance) / 10 ** 18).toFixed(2)} VUSD</h1>
             </div>
           </div>
         )}
