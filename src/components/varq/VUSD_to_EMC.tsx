@@ -67,6 +67,7 @@ const VUSD_to_EMC: React.FC<VUSDToEMCProps> = ({ refreshBalance }) => {
     if (error) {
       toast.error("Transaction Failed");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConfirmed, isConfirming, error, hash]);
 
   return (
