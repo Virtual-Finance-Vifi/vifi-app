@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Button } from "../ui/button";
 import { useWriteContract } from "wagmi";
 import VRT_CONTRACT from "../../contracts/vtoken.json";
+import { VRT_ADDRESS, VTTD_ADDRESS } from "@/constants/addresses";
 
 interface ModalProps {
   isOpen: boolean;
