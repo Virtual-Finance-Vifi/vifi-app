@@ -16,6 +16,7 @@ import CLAIM_CONTRACT from "../../contracts/claim.json";
 import { Card } from "@tremor/react";
 import { formatEther } from "viem";
 import { MUSD_ADDRESS, CLAIM_ADDRESS } from "@/constants/addresses";
+import { toast } from "sonner";
 
 export default function Claim() {
   const { address } = useAccount();
