@@ -11,7 +11,6 @@ const InputComponent: React.FC<InputComponentProps> = ({
   setValue,
   type,
 }) => {
-  const formattedValue = `${value} ${label}`;
   return (
     <div className="flex bg-[#2b3655] rounded-2xl items-left flex-col flex-grow pt-6 mb-4">
       <div className="mb-6">
