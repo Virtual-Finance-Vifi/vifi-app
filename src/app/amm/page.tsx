@@ -1,7 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { useAccount, useReadContract, useWriteContract } from "wagmi";
+import {
+  useAccount,
+  useReadContract,
+  useWaitForTransactionReceipt,
+  useWriteContract,
+} from "wagmi";
 import { parseEther } from "viem";
 import { toast } from "sonner";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
@@ -64,7 +69,15 @@ export default function AmmPage() {
   const handleSwapVttd = () => {
     setSwap("vttd");
   };
-  const { writeContractAsync } = useWriteContract();
+
+  const { writeContract, data: hash } = useWriteContract();
+  const {
+    isLoading: isConfirming,
+    error,
+    isSuccess: isConfirmed,
+  } = useWaitForTransactionReceipt({
+    hash,
+  });
 
   useEffect(() => {
     setvRT(parseFloat((vTTD / 0.97).toFixed(2)));
@@ -88,6 +101,21 @@ export default function AmmPage() {
     args: [address, SWAP_ADDRESS],
   });
 
+  const { data: vTTD_balance, refetch: refresh_vttd_balance } = useReadContract(
+    {
+      abi: VTOKEN_CONTRACT,
+      address: VTTD_ADDRESS,
+      functionName: "balanceOf",
+      args: [address],
+    }
+  );
+  const { data: vRT_balance, refetch: refresh_vrt_balance } = useReadContract({
+    abi: VTOKEN_CONTRACT,
+    address: VRT_ADDRESS,
+    functionName: "balanceOf",
+    args: [address],
+  });
+
   const vrt_approve = vrt_approval?.toString();
   const vttd_approve = vttd_approval?.toString();
 
@@ -96,7 +124,7 @@ export default function AmmPage() {
       case "vrt":
         if (vrt_approve !== "0") {
           try {
-            await writeContractAsync({
+            writeContract({
               abi: SWAP_CONTRACT,
               address: SWAP_ADDRESS,
               functionName: "exactInputSingle",
@@ -114,7 +142,7 @@ export default function AmmPage() {
       case "vttd":
         if (vttd_approve !== "0") {
           try {
-            await writeContractAsync({
+            writeContract({
               abi: SWAP_CONTRACT,
               address: SWAP_ADDRESS,
               functionName: "exactInputSingle",
@@ -133,6 +161,33 @@ export default function AmmPage() {
         console.error("Invalid Swap value:", Swap);
     }
   };
+
+  const refreshBalance = () => {
+    refresh_vrt_balance(), refresh_vttd_balance();
+  };
+
+  useEffect(() => {
+    if (isConfirming) {
+      toast.loading("Transaction Pending");
+    }
+    toast.dismiss();
+
+    if (isConfirmed) {
+      toast.success("Transaction Successful", {
+        action: {
+          label: "View on Etherscan",
+          onClick: () => {
+            window.open(`https://sepolia.etherscan.io/tx/${hash}`);
+          },
+        },
+      });
+      refreshBalance?.();
+      console.log("Balance should be refreshed");
+    }
+    if (error) {
+      toast.error("Transaction Failed");
+    }
+  }, [isConfirmed, isConfirming, error, hash]);
 
   return (
     <main>
@@ -236,7 +291,7 @@ export default function AmmPage() {
           {!isConnected ? (
             <Button onClick={handleConnect}>Connect Wallet</Button>
           ) : (
-            <Button className="rounded-2xl px-6" onClick={handleDeposit}>
+            <Button className="rounded-2xl px-6 w-full" onClick={handleDeposit}>
               Swap
             </Button>
           )}
@@ -244,6 +299,17 @@ export default function AmmPage() {
         <Modal isOpen={isModalOpen} onClose={closeModal} swapType={modalType}>
           <p>Approve the contract to proceed with the swap.</p>
         </Modal>
+        {address && (
+          <div className="p-2 flex flex-col w-full">
+            <div className="flex justify-center">
+              <h1 className="mt-4 mb-2">Balance:</h1>
+            </div>
+            <div className="flex flex-row justify-between">
+              <h1>vTTD: {(Number(vTTD_balance) / 10 ** 18).toFixed(2)}</h1>
+              <h1>vRT: {(Number(vRT_balance) / 10 ** 18).toFixed(2)}</h1>
+            </div>
+          </div>
+        )}
       </Card>
     </main>
   );
