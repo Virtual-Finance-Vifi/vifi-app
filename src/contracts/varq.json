@@ -35,13 +35,13 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "vTTDAmount",
+				"name": "vRTAmount",
 				"type": "uint256"
 			},
 			{
-				"internalType": "uint256",
-				"name": "vRTAmount",
-				"type": "uint256"
+				"internalType": "address",
+				"name": "destination",
+				"type": "address"
 			}
 		],
 		"name": "convertTokensToVUSD",
@@ -55,6 +55,11 @@
 				"internalType": "uint256",
 				"name": "vUSDAmount",
 				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "destination",
+				"type": "address"
 			}
 		],
 		"name": "convertVUSDToTokens",
@@ -70,6 +75,19 @@
 				"internalType": "address",
 				"name": "",
 				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getBurnCBrate",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
