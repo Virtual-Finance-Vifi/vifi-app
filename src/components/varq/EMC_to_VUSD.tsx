@@ -2,38 +2,52 @@ import React, { useEffect, useState } from "react";
 import InputComponent from "./Input";
 import Image from "next/image";
 import { Button } from "../ui/button";
-import { useAccount, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
+import {
+  useAccount,
+  useWaitForTransactionReceipt,
+  useWriteContract,
+} from "wagmi";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import VARQ_CONTRACT from "../../contracts/varq.json";
-import { parseEther } from "viem";
+import { Address, parseEther } from "viem";
 import { VARQ_ADDRESS } from "@/constants/addresses";
 import { toast } from "sonner";
 
 interface EMCToVUSDProps {
-  refreshBalance: () => void; 
+  refreshBalance: () => void;
 }
 
-const EMC_to_VUSD: React.FC<EMCToVUSDProps> = ({ refreshBalance }) =>{
+const EMC_to_VUSD: React.FC<EMCToVUSDProps> = ({ refreshBalance }) => {
   const { address } = useAccount();
   const handleConnect = () => {
     open();
   };
-  const [VTTD, setVTTD] = useState<number>(0);
+  const [destinationAddress, setDestinationAddress] = useState<Address>(
+    () => address || "0x"
+  );
   const [VRT, setVRT] = useState<number>(0);
-  const { writeContract, data:hash } = useWriteContract();
+  const { writeContract, data: hash } = useWriteContract();
   const { open } = useWeb3Modal();
-  const transfer_VTTD = String(parseEther(VTTD.toString()));
   const transfer_VRT = String(parseEther(VRT.toString()));
+
+  const handleDestinationAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    if (newValue === "") {
+      setDestinationAddress(address || "0x" as Address);
+    } else {
+      setDestinationAddress(newValue as Address);
+    }
+  };
 
   const handleEMCtoVUSD = () => {
     writeContract({
       abi: VARQ_CONTRACT,
       address: VARQ_ADDRESS,
       functionName: "convertTokensToVUSD",
-      args: [transfer_VTTD, transfer_VRT],
+      args: [transfer_VRT, destinationAddress],
     });
 
-    console.log("Transferring:", [VTTD, VRT]);
+    console.log("Transferring: ", [VRT] + "to " + [destinationAddress]);
   };
 
   const {
@@ -61,7 +75,6 @@ const EMC_to_VUSD: React.FC<EMCToVUSDProps> = ({ refreshBalance }) =>{
       });
       refreshBalance?.();
       setVRT(0);
-      setVTTD(0);
     }
     if (error) {
       toast.error("Transaction Failed");
@@ -72,14 +85,17 @@ const EMC_to_VUSD: React.FC<EMCToVUSDProps> = ({ refreshBalance }) =>{
     <div>
       <div className="flex rounded-2xl items-left flex-col flex-grow pt-4 mx-2 text-accent">
         <h1 className="text-primary ml-2">vTTD & vRT -{">"} vUSD</h1>
-        <InputComponent
-          label="vTTD"
-          onValueChange={setVTTD}
-          initialValue={VTTD}
-        />
       </div>
       <div className="flex rounded-2xl items-left flex-col flex-grow mx-2 text-accent">
         <InputComponent label="vRT" onValueChange={setVRT} initialValue={VRT} />
+        <p className="text-primary ml-2">Destination Address (Optional)</p>
+        <input
+          className="pl-4 rounded-xl mb-4 bg-[#2b3655] input input-ghost text-xl focus:text-white focus:outline-none h-[2.2rem] min-h-[2.2rem] px-1 font-medium placeholder:text-[#9ba3af] text-gray-400"
+          type="text"
+          name="destinationAddress"
+          placeholder="0x"
+          onChange={handleDestinationAddress}
+        />
       </div>
       <div className="flex flex-col justify-center mx-2">
         {!address ? (
@@ -94,6 +110,6 @@ const EMC_to_VUSD: React.FC<EMCToVUSDProps> = ({ refreshBalance }) =>{
       </div>
     </div>
   );
-}
+};
 
 export default EMC_to_VUSD;
