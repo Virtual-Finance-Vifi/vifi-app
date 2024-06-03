@@ -7,7 +7,7 @@ import {
   useWaitForTransactionReceipt,
   useWriteContract,
 } from "wagmi";
-import { parseEther } from "viem";
+import { formatEther, formatGwei, parseEther } from "viem";
 import { toast } from "sonner";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import MUSD_CONTRACT from "../../contracts/mUSD.json";
@@ -18,8 +18,14 @@ import DisabledInputComponent from "@/components/amm/DisabledInput";
 import Modal from "@/components/amm/Modal";
 import VTOKEN_CONTRACT from "../../contracts/vtoken.json";
 import SWAP_CONTRACT from "../../contracts/swap.json";
+import VARQ_CONTRACT from "@/contracts/varq.json";
 import { parse } from "path";
-import { VRT_ADDRESS, VTTD_ADDRESS, SWAP_ADDRESS } from "@/constants/addresses";
+import {
+  VRT_ADDRESS,
+  VTTD_ADDRESS,
+  SWAP_ADDRESS,
+  VARQ_ADDRESS,
+} from "@/constants/addresses";
 
 export default function AmmPage() {
   const { isConnected } = useAccount();
@@ -27,6 +33,8 @@ export default function AmmPage() {
   const { open } = useWeb3Modal();
   const [vRT, setvRT] = useState<number>(0);
   const [vTTD, setvTTD] = useState<number>(0);
+  const [receiveVRT, setReceiveVRT] = useState<number>(0);
+  const [receiveVTTD, setReceiveVTTD] = useState<number>(0);
   const [Swap, setSwap] = useState<string>("vrt");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState("");
@@ -79,14 +87,6 @@ export default function AmmPage() {
     hash,
   });
 
-  useEffect(() => {
-    setvRT(parseFloat((vTTD / 0.97).toFixed(2)));
-  }, [vTTD]);
-
-  useEffect(() => {
-    setvTTD(parseFloat((vRT * 0.97).toFixed(2)));
-  }, [vRT]);
-
   const { data: vrt_approval } = useReadContract({
     abi: VTOKEN_CONTRACT,
     address: VRT_ADDRESS,
@@ -115,6 +115,33 @@ export default function AmmPage() {
     functionName: "balanceOf",
     args: [address],
   });
+
+  const { data: cb_rate, refetch: refresh_cb_rate } = useReadContract({
+    abi: VARQ_CONTRACT,
+    address: VARQ_ADDRESS,
+    functionName: "CBrate",
+  });
+
+  const formatted_cb_rate = Number(cb_rate) / 10 ** 2;
+
+  useEffect(() => {
+    if (formatted_cb_rate !== undefined && !Number.isNaN(formatted_cb_rate)) {
+      // console.log("Set vrt cb rate = ", formatted_cb_rate)
+      setReceiveVRT(parseFloat((vTTD - formatted_cb_rate).toFixed(2)));
+    }
+  }, [vTTD]);
+
+  useEffect(() => {
+    if (formatted_cb_rate !== undefined && !Number.isNaN(formatted_cb_rate)) {
+      // console.log("Set vttd cb rate = ", formatted_cb_rate)
+      setReceiveVTTD(parseFloat((vRT - formatted_cb_rate).toFixed(2)));
+    }
+  }, [vRT]);
+
+  // if (cb_rate !== undefined && cb_rate !== null) {
+  //   console.log("type of cbrate = ", typeof cb_rate);
+  //   console.log("CB rate = ", (format_cb_rate/10**2));
+  // }
 
   const vrt_approve = vrt_approval?.toString();
   const vttd_approve = vttd_approval?.toString();
@@ -248,7 +275,7 @@ export default function AmmPage() {
             <DisabledInputComponent
               type="receive"
               label="vTTD"
-              initialValue={vTTD}
+              initialValue={receiveVTTD}
               currency="vTTD"
             />
           </>
@@ -284,7 +311,7 @@ export default function AmmPage() {
             <DisabledInputComponent
               type="receive"
               label="vRT"
-              initialValue={vRT}
+              initialValue={receiveVRT}
               currency="vRT"
             />
           </>
