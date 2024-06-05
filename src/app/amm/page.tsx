@@ -126,22 +126,16 @@ export default function AmmPage() {
 
   useEffect(() => {
     if (formatted_cb_rate !== undefined && !Number.isNaN(formatted_cb_rate)) {
-      // console.log("Set vrt cb rate = ", formatted_cb_rate)
-      setReceiveVRT(parseFloat((vTTD - formatted_cb_rate).toFixed(2)));
+      setReceiveVRT(parseFloat((vTTD - (0.003*vTTD)).toFixed(3)));
     }
   }, [vTTD]);
 
   useEffect(() => {
     if (formatted_cb_rate !== undefined && !Number.isNaN(formatted_cb_rate)) {
-      // console.log("Set vttd cb rate = ", formatted_cb_rate)
-      setReceiveVTTD(parseFloat((vRT - formatted_cb_rate).toFixed(2)));
+      console.log("cb rate = ", formatted_cb_rate)
+      setReceiveVTTD(parseFloat((vRT - (0.003*vRT)).toFixed(3)));
     }
   }, [vRT]);
-
-  // if (cb_rate !== undefined && cb_rate !== null) {
-  //   console.log("type of cbrate = ", typeof cb_rate);
-  //   console.log("CB rate = ", (format_cb_rate/10**2));
-  // }
 
   const vrt_approve = vrt_approval?.toString();
   const vttd_approve = vttd_approval?.toString();
