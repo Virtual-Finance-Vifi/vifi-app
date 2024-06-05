@@ -39,7 +39,7 @@ const UnifiedInput:React.FC<UnifiedInputProps>=({label,value,setValue,type})=>{
                     value={value!== 0 ? value.toString() : ""}
                     onChange={handleChange}
                     placeholder="0"
-                    className="ml-3 bg-[#2b3655] input input-ghost text-3xl focus:text-white focus:outline-none focus:bg-transparent h-[2.2rem] min-h-[2.2rem] px-1 font-medium placeholder:text-accent/50 text-gray-400"
+                    className="ml-3 bg-[#2b3655] input input-ghost text-3xl focus:text-white focus:outline-none focus:bg-transparent h-[2.2rem] min-h-[2.2rem] px-1 font-medium placeholder:text-gray-450 text-gray-400 border-2 border-red-500"
                 />
             </div>
         </div>
