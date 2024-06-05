@@ -87,14 +87,14 @@ export default function AmmPage() {
     hash,
   });
 
-  const { data: vrt_approval } = useReadContract({
+  const { data: vrt_approval, refetch: refetch_vrt_approval } = useReadContract({
     abi: VTOKEN_CONTRACT,
     address: VRT_ADDRESS,
     functionName: "allowance",
     args: [address, SWAP_ADDRESS],
   });
 
-  const { data: vttd_approval } = useReadContract({
+  const { data: vttd_approval, refetch: refetch_vttd_approval } = useReadContract({
     abi: VTOKEN_CONTRACT,
     address: VTTD_ADDRESS,
     functionName: "allowance",
@@ -186,6 +186,10 @@ export default function AmmPage() {
   const refreshBalances = () => {
     refresh_vrt_balance(), refresh_vttd_balance();
   };
+
+  const refreshApprovals = () => {
+    refetch_vrt_approval(), refetch_vttd_approval();
+  }
 
   useEffect(() => {
     if (isConfirming) {
@@ -319,7 +323,7 @@ export default function AmmPage() {
             </Button>
           )}
         </div>
-        <Modal isOpen={isModalOpen} onClose={closeModal} swapType={modalType}>
+        <Modal isOpen={isModalOpen} onClose={closeModal} swapType={modalType} refetchApprovals={refreshApprovals}>
           <p>Approve the contract to proceed with the swap.</p>
         </Modal>
         {address && (

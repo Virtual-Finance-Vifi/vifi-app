@@ -10,6 +10,7 @@ interface ModalProps {
   onClose: () => void;
   children: React.ReactNode;
   swapType: string;
+  refetchApprovals: () => void;
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -17,18 +18,9 @@ const Modal: React.FC<ModalProps> = ({
   onClose,
   children,
   swapType,
+  refetchApprovals
 }) => {
   const { writeContractAsync, isSuccess, isError: error, data:hash } = useWriteContract();
-
-  useEffect(() => {
-    if (isSuccess === true) {
-      onClose();
-    }
-    if (error) {
-      console.error("Transaction Failed");
-    }
-  }, [isSuccess, error, onClose]);
-
 
   const {
     isLoading: isConfirming,
@@ -53,6 +45,8 @@ const Modal: React.FC<ModalProps> = ({
           },
         },
       });
+      onClose();
+      refetchApprovals?.()
     }
     if (error) {
       toast.error("Approval Failed");
@@ -84,12 +78,14 @@ const Modal: React.FC<ModalProps> = ({
         <div className="flex flex-row justify-between">
           <Button
             onClick={onClose}
+            disabled={isConfirming}
             className="mt-4 py-2 px-4 bg-[#020817] text-white"
           >
             Cancel
           </Button>
           <Button
             onClick={handleApprove}
+            disabled={isConfirming}
             className="mt-4 py-2 px-4 bg-[#020817] text-white"
           >
             Approve {swapType.toUpperCase()}
