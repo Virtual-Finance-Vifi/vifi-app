@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import { Button } from "../ui/button";
-import { useWriteContract } from "wagmi";
+import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import VRT_CONTRACT from "../../contracts/vtoken.json";
 import { VRT_ADDRESS, VTTD_ADDRESS } from "@/constants/addresses";
+import { toast } from "sonner";
 
 interface ModalProps {
   isOpen: boolean;
@@ -17,7 +18,7 @@ const Modal: React.FC<ModalProps> = ({
   children,
   swapType,
 }) => {
-  const { writeContractAsync, isSuccess, isError: error } = useWriteContract();
+  const { writeContractAsync, isSuccess, isError: error, data:hash } = useWriteContract();
 
   useEffect(() => {
     if (isSuccess === true) {
@@ -27,6 +28,37 @@ const Modal: React.FC<ModalProps> = ({
       console.error("Transaction Failed");
     }
   }, [isSuccess, error, onClose]);
+
+
+  const {
+    isLoading: isConfirming,
+    isError:receiptError,
+    isSuccess: isConfirmed,
+  } = useWaitForTransactionReceipt({
+    hash,
+  });
+
+  useEffect(() => {
+    if (isConfirming) {
+      toast.loading("Approval Pending");
+    }
+    toast.dismiss();
+
+    if (isConfirmed) {
+      toast.success("Approval Successful", {
+        action: {
+          label: "View on Etherscan",
+          onClick: () => {
+            window.open(`https://sepolia.etherscan.io/tx/${hash}`);
+          },
+        },
+      });
+    }
+    if (error) {
+      toast.error("Approval Failed");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isConfirmed, isConfirming, error, hash]);
 
   if (!isOpen) return null;
 
