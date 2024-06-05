@@ -3,19 +3,17 @@ import React from 'react';
 
 interface UnifiedInputProps{
     label:string;
-    value:number;
-    setValue:(value:number)=>void;
+    value:string;
+    setValue:(value:string)=>void;
     type?:string;
 }
 
 const UnifiedInput:React.FC<UnifiedInputProps>=({label,value,setValue,type})=>{
     const handleChange=(e:React.ChangeEvent<HTMLInputElement>)=>{
-        const newValue=parseFloat(e.target.value);
-        if(!isNaN(newValue)){
-            setValue(newValue);
-        }else{
-            setValue(0);
-        }
+        const inputvalue=e.target.value;
+    if(inputvalue===""||/^[0-9]*\.?[0-9]*$/.test(inputvalue)){
+        setValue(inputvalue);
+    }
     };
 
     return(
@@ -36,7 +34,7 @@ const UnifiedInput:React.FC<UnifiedInputProps>=({label,value,setValue,type})=>{
                 </div>
                 <input
                     type="number"
-                    value={value!== 0 ? value.toString() : ""}
+                    value={value}
                     onChange={handleChange}
                     placeholder="0"
                     className="ml-3 bg-[#2b3655] input input-ghost text-3xl focus:text-white focus:outline-none focus:bg-transparent h-[2.2rem] min-h-[2.2rem] px-1 font-medium placeholder:text-gray-450 text-gray-400"
