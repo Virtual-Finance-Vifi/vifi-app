@@ -9,9 +9,10 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void; // Define the type for onClose as a function that returns nothing
   children: React.ReactNode;
+  refetchApproval: () => void;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, refetchApproval }) => {
   const { writeContractAsync, isSuccess, isError: error , data:hash} = useWriteContract();
 
   useEffect(() => {
@@ -46,6 +47,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
           },
         },
       });
+      refetchApproval?.()
     }
     if (error) {
       toast.error("Approval Failed");
