@@ -40,7 +40,7 @@ const DepositWidget: React.FC<DepositWidgetProps> = ({ refreshBalance }) => {
     hash,
   });
 
-  const { data: approved } = useReadContract({
+  const { data: approved, refetch: refetch_approval } = useReadContract({
     abi: MUSD_CONTRACT,
     address: MUSD_ADDRESS,
     functionName: "allowance",
@@ -119,7 +119,7 @@ const DepositWidget: React.FC<DepositWidgetProps> = ({ refreshBalance }) => {
           </Button>
         )}
 
-        <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <Modal isOpen={isModalOpen} onClose={closeModal} refetchApproval={refetch_approval}>
           <DisabledInputComponent
             label="mUSDC"
             heading="Approve amount of funds that can be transferred"
