@@ -5,9 +5,10 @@ interface UnifiedInputProps {
   value: number;
   setValue: (value: number) => void;
   type?: string;
+  disabled?:boolean;
 }
 
-const UnifiedInput: React.FC<UnifiedInputProps> = ({ label, value, setValue, type }) => {
+const UnifiedInput: React.FC<UnifiedInputProps> = ({ label, value, setValue, type , disabled}) => {
   const [inputValue, setInputValue] = useState<string>(value !== 0 ? value.toString() : "");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,8 +31,8 @@ const UnifiedInput: React.FC<UnifiedInputProps> = ({ label, value, setValue, typ
             <h1 className="mb-2 ml-3 text-white">
               {type === 'deposit' ? 'Deposit' :
                 type === 'withdraw' ? 'Withdraw' :
-                  type === 'pay' ? 'Pay' :
-                    type === 'receive' ? 'Receive' : ''}
+                  type === 'pay' ? 'You Pay' :
+                    type === 'receive' ? 'You receive (≈)' : ''}
             </h1>
           )}
           <h1 className="mb-2 ml-3 text-white">{label}</h1>
@@ -41,7 +42,10 @@ const UnifiedInput: React.FC<UnifiedInputProps> = ({ label, value, setValue, typ
           value={inputValue}
           onChange={handleChange}
           placeholder="0"
-          className="ml-3 bg-[#2b3655] input input-ghost text-3xl focus:text-white focus:outline-none focus:bg-transparent h-[2.2rem] min-h-[2.2rem] px-1 font-medium placeholder:text-gray-450 text-gray-400"
+          disabled={disabled}
+          className="indent-3 bg-[#2b3655] input input-ghost text-3xl focus:text-white focus:outline-none focus:bg-transparent 
+          h-[2.2rem] min-h-[2.2rem] px-1 font-medium placeholder:text-accent/50 text-gray-400 w-full 
+          overflow-hidden text-ellipsis whitespace-nowrap"
         />
       </div>
     </div>
