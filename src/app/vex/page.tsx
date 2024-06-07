@@ -13,16 +13,19 @@ import { parseEther } from "viem";
 import { toast } from "sonner";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import MUSD_CONTRACT from "../../contracts/mUSD.json";
+import VEX_CONTRACT from "../../contracts/vex.json";
 import { Card, Tab, TabGroup, TabList, TabPanels } from "@tremor/react";
 import { UserGroupIcon, UserIcon } from "@heroicons/react/24/outline";
 import InputComponent from "@/components/InputWidget";
-import { MUSD_ADDRESS } from "@/constants/addresses";
+import UnifiedInput from "@/components/UnifiedValueInput";
+import { MUSD_ADDRESS,VEX_ADDRESS } from "@/constants/addresses";
 
 export default function Vex() {
   const { isConnected } = useAccount();
   const { address } = useAccount();
   const { open } = useWeb3Modal();
   const [vUSD, setVUSD] = useState<number>(0);
+
   const [vTTD, setVTTD] = useState<number>(0);
   const [swap, setSwap] = useState<boolean>(false);
 
@@ -37,7 +40,18 @@ export default function Vex() {
     abi: MUSD_CONTRACT,
     functionName: "name",
   });
-  const { writeContract } = useWriteContract();
+  const { writeContract, error } = useWriteContract();
+  const transfer_vUSD = parseEther(vUSD.toString());
+  const handleVUSDtoVTTD=()=>{
+    writeContract({
+      abi: VEX_CONTRACT,
+      address: VEX_ADDRESS,
+      functionName: "swapVexIn",
+      args: [transfer_vUSD],
+    });
+    console.log("transferring");
+    console.log(error);
+  };
 
   return (
     <main>
@@ -48,7 +62,7 @@ export default function Vex() {
       <Card className="max-w-md mx-auto rounded-3xl lg:mt-0 mt-14 bg-background">
         {swap ? (
           <>
-            <InputComponent
+            <UnifiedInput
               type="receive"
               label="vTTD"
               value={vTTD}
@@ -72,7 +86,7 @@ export default function Vex() {
                 </svg>
               </button>
             </div>
-            <InputComponent
+            <UnifiedInput
               type="pay"
               label="vUSDC"
               value={vUSD}
@@ -81,7 +95,7 @@ export default function Vex() {
           </>
         ) : (
           <>
-            <InputComponent
+            <UnifiedInput
               type="pay"
               label="vUSDC"
               value={vUSD}
@@ -105,7 +119,7 @@ export default function Vex() {
                 </svg>
               </button>
             </div>
-            <InputComponent
+            <UnifiedInput
               type="receive"
               label="vTTD"
               value={vTTD}
@@ -119,19 +133,7 @@ export default function Vex() {
             <Button onClick={handleConnect}>Connect Wallet</Button>
           ) : (
             <>
-              {/* <Button
-                onClick={() =>
-                  sendTransaction({
-                    to: "0x1a343eFB966E63bfA25A2b368455448f02466Ffc",
-                    value: parseEther("0.1"),
-                  })
-                }
-                disabled={isConfirming}
-                variant={"secondary"}
-              >
-                Swap
-              </Button> */}
-              <Button className="rounded-2xl px-6">Convert</Button>
+              <Button className="rounded-2xl px-6" onClick={handleVUSDtoVTTD}>Convert</Button>
             </>
           )}
         </div>
