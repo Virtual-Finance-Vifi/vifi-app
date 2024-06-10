@@ -5,6 +5,7 @@ interface DisabledInputComponentProps {
   label: string;
   initialValue: number;
   currency: string;
+  balance: number;
 }
 
 const DisabledInputComponent: React.FC<DisabledInputComponentProps> = ({
@@ -12,6 +13,7 @@ const DisabledInputComponent: React.FC<DisabledInputComponentProps> = ({
   label,
   initialValue,
   currency,
+  balance,
 }) => {
   const [value, setValue] = useState(initialValue);
 
@@ -34,6 +36,7 @@ const DisabledInputComponent: React.FC<DisabledInputComponentProps> = ({
           h-[2.2rem] min-h-[2.2rem] px-1 font-medium placeholder:text-accent/50 text-gray-400 w-full 
           overflow-hidden text-ellipsis whitespace-nowrap"
         />
+        <h1 className="ml-3">Balance: {(Number(balance) / 10 ** 18).toFixed(2)}</h1>
       </div>
     </div>
   );

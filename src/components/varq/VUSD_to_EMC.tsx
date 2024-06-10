@@ -14,9 +14,10 @@ import { toast } from "sonner";
 
 interface VUSDToEMCProps {
   refreshBalance: () => void; 
+  balance: number;
 }
 
-const VUSD_to_EMC: React.FC<VUSDToEMCProps> = ({ refreshBalance }) => {
+const VUSD_to_EMC: React.FC<VUSDToEMCProps> = ({ refreshBalance, balance }) => {
   const { address } = useAccount();
   const { open } = useWeb3Modal();
   const [destinationAddress, setDestinationAddress] = useState<Address>(
@@ -91,6 +92,7 @@ const VUSD_to_EMC: React.FC<VUSDToEMCProps> = ({ refreshBalance }) => {
           label="vUSD"
           onValueChange={setVUSD}
           initialValue={VUSD}
+          balance={balance}
         />
         <p className="text-primary ml-2">Destination Address (Optional)</p>
         <input

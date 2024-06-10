@@ -5,12 +5,14 @@ interface InputComponentProps {
   label: string;
   initialValue: number;  
   onValueChange?: (newValue: number) => void;  
+  balance: number;
 }
 
 const InputComponent: React.FC<InputComponentProps> = ({
   label,
   initialValue,
   onValueChange,
+  balance
 }) => {
   const [value, setValue] = useState(initialValue);
   const [isMounted, setIsMounted] = useState(false);
@@ -38,17 +40,17 @@ const InputComponent: React.FC<InputComponentProps> = ({
     setValue(initialValue);
   }, [initialValue]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = parseFloat(e.target.value);
-    if (!isNaN(newValue)) {
-      setValue(newValue);
-    } else {
-      setValue(0); 
-    }
-  };
+  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const newValue = parseFloat(e.target.value);
+  //   if (!isNaN(newValue)) {
+  //     setValue(newValue);
+  //   } else {
+  //     setValue(0); 
+  //   }
+  // };
 
   return (
-    <UnifiedInput label={label} value={value} setValue={setValue}/>
+    <UnifiedInput label={label} value={value} setValue={setValue} balance={balance}/>
   );
 };
 
