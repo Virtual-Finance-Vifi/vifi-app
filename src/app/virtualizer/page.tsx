@@ -40,6 +40,10 @@ export default function Virtualizer() {
     refresh_vusd_Balance();
   };
 
+  const mUSD_balance_number = mUSDC_balance ? Number(mUSDC_balance) : 0;
+  const vUSD_balance_number = vUSD_balance ? Number(vUSD_balance) : 0;
+
+
   return (
     <div className="flex items-center flex-col flex-grow pt-6 lg:pt-12">
       <Card className="max-w-md mx-auto rounded-3xl lg:mt-0 mt-14 bg-background">
@@ -58,26 +62,15 @@ export default function Virtualizer() {
         <div>
           {activeTab === "deposit" && (
             <div>
-              <DepositWidget refreshBalance={refreshBalances} />
+              <DepositWidget refreshBalance={refreshBalances} balance={mUSD_balance_number} />
             </div>
           )}
           {activeTab === "withdraw" && (
             <div>
-              <WithdrawWidget refreshBalance={refreshBalances} />
+              <WithdrawWidget refreshBalance={refreshBalances} balance={vUSD_balance_number} />
             </div>
           )}
         </div>
-        {address && (
-          <div className="p-2 flex flex-col w-full">
-            <div className="flex justify-center">
-              <h1 className="mt-4 mb-2">Balance:</h1>
-            </div>
-            <div className="flex flex-row justify-evenly">
-              <h1>{(Number(mUSDC_balance) / 10 ** 18).toFixed(2)} MUSDC</h1>
-              <h1>{(Number(vUSD_balance) / 10 ** 18).toFixed(2)} VUSD</h1>
-            </div>
-          </div>
-        )}
       </Card>
     </div>
   );

@@ -6,6 +6,7 @@ interface InputComponentProps {
   initialValue: number;
   onValueChange?: (newValue: number) => void;
   type: string;
+  balance: number;
 }
 
 const InputComponent: React.FC<InputComponentProps> = ({
@@ -13,6 +14,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
   initialValue,
   onValueChange,
   type,
+  balance,
 }) => {
   const [value, setValue] = useState(initialValue);
   const [isMounted, setIsMounted] = useState(false);
@@ -50,7 +52,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
   };
 
   return (
-    <UnifiedInput label={label} value={value} setValue={setValue} type={type}/>
+    <UnifiedInput label={label} value={value} setValue={setValue} type={type} balance={balance}/>
   );
 };
 

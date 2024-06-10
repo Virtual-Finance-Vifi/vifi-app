@@ -15,9 +15,10 @@ import { toast } from "sonner";
 
 interface EMCToVUSDProps {
   refreshBalance: () => void;
+  balance: number;
 }
 
-const EMC_to_VUSD: React.FC<EMCToVUSDProps> = ({ refreshBalance }) => {
+const EMC_to_VUSD: React.FC<EMCToVUSDProps> = ({ refreshBalance, balance }) => {
   const { address } = useAccount();
   const handleConnect = () => {
     open();
@@ -87,7 +88,7 @@ const EMC_to_VUSD: React.FC<EMCToVUSDProps> = ({ refreshBalance }) => {
         <h1 className="text-primary ml-2">vTTD & vRT -{">"} vUSD</h1>
       </div>
       <div className="flex rounded-2xl items-left flex-col flex-grow mx-2 text-accent">
-        <InputComponent label="vRT" onValueChange={setVRT} initialValue={VRT} />
+        <InputComponent label="vRT" onValueChange={setVRT} initialValue={VRT} balance={balance}/>
         <p className="text-primary ml-2">Destination Address (Optional)</p>
         <input
           className="pl-4 rounded-xl mb-4 bg-[#2b3655] input input-ghost text-xl focus:text-white focus:outline-none h-[2.2rem] min-h-[2.2rem] px-1 font-medium placeholder:text-[#9ba3af] text-gray-400"

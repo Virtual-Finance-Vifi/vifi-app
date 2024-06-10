@@ -48,6 +48,10 @@ export default function Varq() {
     refresh_vrt_balance();
   };
 
+  const vRT_balance_number = vRT_balance ? Number(vRT_balance) : 0;
+  const vTTD_balance_number = vTTD_balance ? Number(vTTD_balance) : 0;
+  const vUSD_balance_number = vUSD_balance ? Number(vUSD_balance) : 0;
+
   return (
     <div className="flex items-center flex-col flex-grow pt-6 lg:pt-12">
       <Card className="max-w-md mx-auto rounded-3xl lg:mt-0 mt-14 bg-background">
@@ -66,12 +70,12 @@ export default function Varq() {
         <div>
           {activeTab === "deposit" && (
             <div>
-              <VUSD_to_EMC refreshBalance={refreshBalances} />
+              <VUSD_to_EMC refreshBalance={refreshBalances} balance={vUSD_balance_number} />
             </div>
           )}
           {activeTab === "withdraw" && (
             <div>
-              <EMC_to_VUSD refreshBalance={refreshBalances}/>
+              <EMC_to_VUSD refreshBalance={refreshBalances} balance={vRT_balance_number}/>
             </div>
           )}
         </div>

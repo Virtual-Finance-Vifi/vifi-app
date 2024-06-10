@@ -18,9 +18,10 @@ import { toast } from "sonner";
 
 interface DepositWidgetProps {
   refreshBalance: () => void; // Define the type of refreshBalance as a function
+  balance: number;
 }
 
-const DepositWidget: React.FC<DepositWidgetProps> = ({ refreshBalance }) => {
+const DepositWidget: React.FC<DepositWidgetProps> = ({ refreshBalance, balance }) => {
   const { address } = useAccount();
   const [mUSDC, setmUSDC] = useState<number>(0);
   const [isModalOpen, setModalOpen] = useState(false);
@@ -99,6 +100,7 @@ const DepositWidget: React.FC<DepositWidgetProps> = ({ refreshBalance }) => {
               type="deposit"
               initialValue={mUSDC}
               onValueChange={setmUSDC}
+              balance={balance}
             />
           </div>
         </div>

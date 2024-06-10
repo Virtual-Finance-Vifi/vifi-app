@@ -140,6 +140,9 @@ export default function AmmPage() {
   const vrt_approve = vrt_approval?.toString();
   const vttd_approve = vttd_approval?.toString();
 
+  const vTTD_balance_number = vTTD_balance ? Number(vTTD_balance) : 0;
+  const vRT_balance_number = vRT_balance ? Number(vRT_balance) : 0;
+
   const handleDeposit = async () => {
     switch (Swap) {
       case "vrt":
@@ -248,7 +251,9 @@ export default function AmmPage() {
               label="vRT"
               value={vRT}
               setValue={setvRT}
+              balance={vRT_balance_number}
             />
+
             <div className="flex justify-center mb-2">
               <button
                 onClick={handleSwapVttd}
@@ -275,6 +280,7 @@ export default function AmmPage() {
               label="vTTD"
               initialValue={receiveVTTD}
               currency="vTTD"
+              balance={vTTD_balance_number}
             />
           </>
         ) : (
@@ -284,6 +290,7 @@ export default function AmmPage() {
               label="vTTD"
               value={vTTD}
               setValue={setvTTD}
+              balance={vTTD_balance_number}
             />
             <div className="flex justify-center mb-2">
               <button
@@ -311,6 +318,7 @@ export default function AmmPage() {
               label="vRT"
               initialValue={receiveVRT}
               currency="vRT"
+              balance={vRT_balance_number}
             />
           </>
         )}
@@ -326,17 +334,6 @@ export default function AmmPage() {
         <Modal isOpen={isModalOpen} onClose={closeModal} swapType={modalType} refetchApprovals={refreshApprovals}>
           <p>Approve the contract to proceed with the swap.</p>
         </Modal>
-        {address && (
-          <div className="p-2 flex flex-col w-full">
-            <div className="flex justify-center">
-              <h1 className="mt-4 mb-2">Balance:</h1>
-            </div>
-            <div className="flex flex-row justify-between">
-              <h1>vTTD: {(Number(vTTD_balance) / 10 ** 18).toFixed(2)}</h1>
-              <h1>vRT: {(Number(vRT_balance) / 10 ** 18).toFixed(2)}</h1>
-            </div>
-          </div>
-        )}
       </Card>
     </main>
   );
