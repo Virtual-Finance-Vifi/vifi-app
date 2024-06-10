@@ -58,7 +58,7 @@ const UnifiedInput: React.FC<UnifiedInputProps> = ({
           onChange={handleChange}
           placeholder="0"
           disabled={disabled}
-          className="ml-2 bg-[#2b3655] input input-ghost text-3xl focus:text-white focus:outline-none focus:bg-transparent 
+          className="pl-3 bg-[#2b3655] input input-ghost text-3xl focus:text-white focus:outline-none focus:bg-transparent 
           h-[2.2rem] min-h-[2.2rem] px-1 font-medium placeholder:text-gray-350 text-gray-400 w-full 
           overflow-hidden text-ellipsis whitespace-nowrap"
         />
