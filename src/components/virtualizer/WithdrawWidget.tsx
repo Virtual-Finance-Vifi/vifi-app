@@ -13,9 +13,10 @@ import { toast } from "sonner";
 
 interface WithdrawWidgetProps {
   refreshBalance: () => void; // Define the type of refreshBalance as a function
+  balance: number;
 }
 
-const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({ refreshBalance }) => {
+const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({ refreshBalance, balance }) => {
   const { address } = useAccount();
   const [vUSD, setvUSD] = useState<number>(0);
   const [isModalOpen, setModalOpen] = useState(false);
@@ -94,6 +95,7 @@ const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({ refreshBalance }) => {
               type="withdraw"
               initialValue={vUSD}
               onValueChange={setvUSD}
+              balance={balance}
             />
           </div>
         </div>
