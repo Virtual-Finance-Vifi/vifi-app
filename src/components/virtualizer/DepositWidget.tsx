@@ -108,12 +108,12 @@ const DepositWidget: React.FC<DepositWidgetProps> = ({ refreshBalance, balance }
 
       <div className="mx-2">
         {!address ? (
-          <Button className="w-full" onClick={handleConnect}>
+          <Button className="w-full rounded-full bg-red-500 text-white" onClick={handleConnect}>
             Connect Wallet
           </Button>
         ) : (
           <Button
-            className="w-full"
+            className="w-full rounded-full bg-red-500 text-white"
             onClick={handleDeposit}
             disabled={isConfirming}
           >

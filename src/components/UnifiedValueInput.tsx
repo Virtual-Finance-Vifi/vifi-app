@@ -34,11 +34,11 @@ const UnifiedInput: React.FC<UnifiedInputProps> = ({
   };
 
   return (
-    <div className="flex bg-[#2b3655] rounded-2xl items-left flex-col flex-grow pt-6 mb-4">
-      <div className="mb-6">
+    <div className="flex rounded-2xl items-left flex-col flex-grow pt-6 mb-4">
+      <div className="mb-6 rounded-lg bg-inherit border border-slate-500">
         <div className="flex flex-row">
           {type && (
-            <h1 className="mb-2 ml-3 text-white">
+            <h1 className="mb-2 ml-3 text-white" style={{color:"var(--background)", filter:"invert(1)"}}>
               {type === "deposit"
                 ? "Deposit"
                 : type === "withdraw"
@@ -50,7 +50,7 @@ const UnifiedInput: React.FC<UnifiedInputProps> = ({
                 : ""}
             </h1>
           )}
-          <h1 className="mb-2 ml-3 text-white">{label}</h1>
+          <h1 className="mb-2 ml-3 text-white" style={{color:"var(--background)", filter:"invert(1)"}}>{label}</h1>
         </div>
         <input
           type="number"
@@ -58,9 +58,10 @@ const UnifiedInput: React.FC<UnifiedInputProps> = ({
           onChange={handleChange}
           placeholder="0"
           disabled={disabled}
-          className="pl-3 bg-[#2b3655] input input-ghost text-3xl focus:text-white focus:outline-none focus:bg-transparent 
+          className="pl-3 bg-inherit input input-ghost text-3xl focus:text-white focus:outline-none focus:bg-transparent 
           h-[2.2rem] min-h-[2.2rem] px-1 font-medium placeholder:text-gray-350 text-gray-400 w-full 
           overflow-hidden text-ellipsis whitespace-nowrap"
+          style={{color:"var(--background)", filter:"invert(1)"}}
         />
         {balance ? (
           <h1 className="ml-3 text-white">

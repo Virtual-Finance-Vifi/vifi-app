@@ -47,7 +47,14 @@ export default function Virtualizer() {
   return (
     <div className="flex items-center flex-col flex-grow pt-6 lg:pt-12">
       <Card className="max-w-md mx-auto rounded-3xl lg:mt-0 mt-14 bg-background">
-        <div className="justify-center flex mb-6">
+        <div className="flex flex-row">
+          <img src="virt_red.svg"/>
+          <h1 className="pl-4 text-red-500 text-4xl font-bold">
+            Virtualizer
+          </h1>
+          <img src="settings_icon.svg" className="ml-24 mb-4"/>
+        </div>
+        <div className="justify-start flex mb-6">
           <CustomTab
             label="Deposit"
             isActive={activeTab === "deposit"}
