@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
   useAccount,
@@ -7,10 +8,9 @@ import {
   useWaitForTransactionReceipt,
   useWriteContract,
 } from "wagmi";
-import { formatEther, formatGwei, parseEther } from "viem";
+import { parseEther } from "viem";
 import { toast } from "sonner";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
-import MUSD_CONTRACT from "../../contracts/mUSD.json";
 import { Card, Tab, TabGroup, TabList, TabPanels } from "@tremor/react";
 import { UserGroupIcon, UserIcon } from "@heroicons/react/24/outline";
 import InputComponent from "@/components/amm/InputWidget";
@@ -19,7 +19,6 @@ import Modal from "@/components/amm/Modal";
 import VTOKEN_CONTRACT from "../../contracts/vtoken.json";
 import SWAP_CONTRACT from "../../contracts/swap.json";
 import VARQ_CONTRACT from "@/contracts/varq.json";
-import { parse } from "path";
 import {
   VRT_ADDRESS,
   VTTD_ADDRESS,
@@ -87,19 +86,22 @@ export default function AmmPage() {
     hash,
   });
 
-  const { data: vrt_approval, refetch: refetch_vrt_approval } = useReadContract({
-    abi: VTOKEN_CONTRACT,
-    address: VRT_ADDRESS,
-    functionName: "allowance",
-    args: [address, SWAP_ADDRESS],
-  });
+  const { data: vrt_approval, refetch: refetch_vrt_approval } = useReadContract(
+    {
+      abi: VTOKEN_CONTRACT,
+      address: VRT_ADDRESS,
+      functionName: "allowance",
+      args: [address, SWAP_ADDRESS],
+    }
+  );
 
-  const { data: vttd_approval, refetch: refetch_vttd_approval } = useReadContract({
-    abi: VTOKEN_CONTRACT,
-    address: VTTD_ADDRESS,
-    functionName: "allowance",
-    args: [address, SWAP_ADDRESS],
-  });
+  const { data: vttd_approval, refetch: refetch_vttd_approval } =
+    useReadContract({
+      abi: VTOKEN_CONTRACT,
+      address: VTTD_ADDRESS,
+      functionName: "allowance",
+      args: [address, SWAP_ADDRESS],
+    });
 
   const { data: vTTD_balance, refetch: refresh_vttd_balance } = useReadContract(
     {
@@ -126,14 +128,14 @@ export default function AmmPage() {
 
   useEffect(() => {
     if (formatted_cb_rate !== undefined && !Number.isNaN(formatted_cb_rate)) {
-      setReceiveVRT(parseFloat((vTTD - (0.003*vTTD)).toFixed(3)));
+      setReceiveVRT(parseFloat((vTTD - 0.003 * vTTD).toFixed(3)));
     }
   }, [vTTD]);
 
   useEffect(() => {
     if (formatted_cb_rate !== undefined && !Number.isNaN(formatted_cb_rate)) {
-      console.log("cb rate = ", formatted_cb_rate)
-      setReceiveVTTD(parseFloat((vRT - (0.003*vRT)).toFixed(3)));
+      console.log("cb rate = ", formatted_cb_rate);
+      setReceiveVTTD(parseFloat((vRT - 0.003 * vRT).toFixed(3)));
     }
   }, [vRT]);
 
@@ -192,7 +194,7 @@ export default function AmmPage() {
 
   const refreshApprovals = () => {
     refetch_vrt_approval(), refetch_vttd_approval();
-  }
+  };
 
   useEffect(() => {
     if (isConfirming) {
@@ -221,24 +223,43 @@ export default function AmmPage() {
 
   return (
     <main>
-      <Card className="max-w-md mx-auto rounded-3xl lg:mt-0 mt-14 bg-background">
+      <Card className="max-w-md mx-auto rounded-3xl lg:mt-8 mt-14 bg-background">
+        <div className="flex flex-row items-center justify-between">
+          <div className="flex flex-row items-center">
+            <Image
+              src="/amm-logo.svg"
+              alt="amm-logo"
+              width={58}
+              height={58}
+              priority
+            />
+            <h1 className="ml-2 text-[#68AAFF] lg:text-3xl font-bold">AMM</h1>
+          </div>
+
+          <Image
+            src="/settings_icon.svg"
+            alt="settings icon"
+            width={32}
+            height={32}
+            priority
+          />
+        </div>
+
         <TabGroup>
           <TabList className="my-2">
             <Tab
-              className="px-4 rounded-2xl hover:bg-secondary"
-              icon={UserGroupIcon}
+              className="px-4 rounded-2xl bg-secondary"
+              // icon={UserGroupIcon}
             >
               Swap
             </Tab>
             <Tab
-              className="px-4 rounded-2xl hover:bg-secondary"
-              icon={UserIcon}
+              className="px-4 rounded-2xl"
             >
               Limit Order
             </Tab>
             <Tab
-              className="px-4 rounded-2xl hover:bg-secondary"
-              icon={UserIcon}
+              className="px-4 rounded-2xl"
             >
               Pool
             </Tab>
@@ -257,7 +278,7 @@ export default function AmmPage() {
             <div className="flex justify-center mb-2">
               <button
                 onClick={handleSwapVttd}
-                className="btn btn-accent hover:bg-secondary p-2 rounded-xl"
+                className="btn btn-accent hover:bg-secondary p-2 border rounded-xl"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -295,7 +316,7 @@ export default function AmmPage() {
             <div className="flex justify-center mb-2">
               <button
                 onClick={handleSwapVrt}
-                className="btn btn-accent hover:bg-secondary p-2 rounded-xl"
+                className="btn btn-accent hover:bg-secondary p-2 border rounded-xl"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -326,12 +347,17 @@ export default function AmmPage() {
           {!isConnected ? (
             <Button onClick={handleConnect}>Connect Wallet</Button>
           ) : (
-            <Button className="rounded-2xl px-6 w-full" onClick={handleDeposit}>
+            <Button className="rounded-2xl px-6 w-full bg-[#68AAFF]" onClick={handleDeposit}>
               Swap
             </Button>
           )}
         </div>
-        <Modal isOpen={isModalOpen} onClose={closeModal} swapType={modalType} refetchApprovals={refreshApprovals}>
+        <Modal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          swapType={modalType}
+          refetchApprovals={refreshApprovals}
+        >
           <p>Approve the contract to proceed with the swap.</p>
         </Modal>
       </Card>
