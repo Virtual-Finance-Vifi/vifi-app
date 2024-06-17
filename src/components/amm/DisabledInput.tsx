@@ -26,7 +26,7 @@ const DisabledInputComponent: React.FC<DisabledInputComponentProps> = ({
   return (
     <div className="flex border rounded-2xl items-left flex-col flex-grow pt-6 mb-4">
       <div className="mb-6">
-        <h1 className="mb-2 ml-3 text-white">{type === 'pay' ? 'You pay' : 'You receive (≈)'}</h1>
+        <h1 className="mb-2 ml-3 text-primary">{type === 'pay' ? 'You pay' : 'You receive (≈)'}</h1>
         <input
           disabled
           type="text"
