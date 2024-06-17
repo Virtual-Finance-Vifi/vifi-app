@@ -36,10 +36,18 @@ export default function RootLayout({
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable
+          fontSans.variable,
+          "border-4 border-red-400"
         )}
       >
-        <div id="root" className="p-24">
+        <div id="root" className="p-24 w-screen h-screen border-4 border-blue-200">
+          <div className="fixed bottom-0 left-0 right-0">
+            <div className="flex justify-between">
+              <img src="bleft_img.svg" />
+              <img src="bright_img.svg"/>
+            </div>
+
+          </div>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
