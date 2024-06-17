@@ -82,3 +82,7 @@
       -webkit-appearance: none;
     }
  }
+
+.grayscale {
+  filter: grayscale(100%);
+}

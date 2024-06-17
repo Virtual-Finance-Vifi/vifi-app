@@ -39,6 +39,7 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
+
         <div id="root" className="p-24 w-screen h-screen">
           <div className="fixed bottom-0 left-0 right-0">
             <div className="flex justify-between">
@@ -47,6 +48,7 @@ export default function RootLayout({
             </div>
 
           </div>
+
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
