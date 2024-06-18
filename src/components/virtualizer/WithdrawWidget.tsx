@@ -17,9 +17,9 @@ interface CustomToastProps {
 }
 
 const CustomToast: React.FC<CustomToastProps> = ({ message, gifUrl }) => (
-  <div className="flex items-center">
-    <img src={gifUrl} alt="Toast Icon" />
-    <span>{message}</span>
+  <div className="flex flex-col items-center">
+    <img src={gifUrl} alt="Toast Icon" className="border border-green-400 self-center" />
+    <h1 className="text-xl font-bold">{message}...</h1>
   </div>
 );
 interface WithdrawWidgetProps {
@@ -75,15 +75,16 @@ const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({ refreshBalance, balance
   useEffect(() => {
     if (isConfirming) {
       toast.loading(<CustomToast message="TransactionPending" gifUrl="walking_orange.gif"/>,{
-        /*style:{
+        style:{
           background:"#3A4047",
-          width:"459px",
-          height:"576px",
-          top:"145px",
-          left:"490px",
+          width:"33vw",
+          height:"75vh",
+          top:"50%",
+          left:"50%",
+          transform:"translate(-50%,-50%)",
           position:"fixed"
-        },*/
-        className:"bg-[#3A4047] w-full h-full"
+        },
+        //className:"bg-[#3A4047] w-full h-full top-[145px] left-[490px]"
       });
     }
     toast.dismiss();
