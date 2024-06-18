@@ -55,6 +55,13 @@ export default function Varq() {
   return (
     <div className="flex items-center flex-col flex-grow pt-6 lg:pt-12">
       <Card className="max-w-md mx-auto rounded-3xl lg:mt-0 mt-14 bg-background">
+        <div className="flex flex-row">
+          <img src="forge_green.svg"/>
+          <h1 className="pl-4 text-[#00A651] text-4xl font-bold">
+            Forge
+          </h1>
+          <img src="settings_icon.svg" className="ml-48 mb-4"/>
+        </div>
         <div className="justify-center flex mb-6">
           <CustomTab
             label="USD to EMC"

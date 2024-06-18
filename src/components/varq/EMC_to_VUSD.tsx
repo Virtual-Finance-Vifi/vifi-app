@@ -84,14 +84,14 @@ const EMC_to_VUSD: React.FC<EMCToVUSDProps> = ({ refreshBalance, balance }) => {
   }, [isConfirmed, isConfirming, error, hash]);
   return (
     <div>
-      <div className="flex rounded-2xl items-left flex-col flex-grow pt-4 mx-2 text-accent">
+      <div className="flex rounded-2xl items-left flex-col flex-grow pt-4 mx-2">
         <h1 className="text-primary ml-2">vTTD & vRT -{">"} vUSD</h1>
       </div>
-      <div className="flex rounded-2xl items-left flex-col flex-grow mx-2 text-accent">
+      <div className="flex rounded-2xl items-left flex-col flex-grow mx-2">
         <InputComponent label="vRT" onValueChange={setVRT} initialValue={VRT} balance={balance}/>
         <p className="text-primary ml-2">Destination Address (Optional)</p>
         <input
-          className="pl-4 rounded-xl mb-4 bg-[#2b3655] input input-ghost text-xl focus:text-white focus:outline-none h-[2.2rem] min-h-[2.2rem] px-1 font-medium placeholder:text-[#9ba3af] text-gray-400"
+          className="pl-4 rounded-xl mb-4 bg-inherit border border-[#8FA2B7] input input-ghost text-xl focus:text-white focus:outline-none h-[2.2rem] min-h-[2.2rem] px-1 font-medium placeholder:text-[#9ba3af] text-gray-400"
           type="text"
           name="destinationAddress"
           placeholder="0x"
@@ -103,7 +103,7 @@ const EMC_to_VUSD: React.FC<EMCToVUSDProps> = ({ refreshBalance, balance }) => {
           <Button onClick={handleConnect}>Connect Wallet</Button>
         ) : (
           <>
-            <Button className="rounded-2xl px-6" onClick={handleEMCtoVUSD}>
+            <Button className="bg-[#00A651] rounded-2xl px-6" onClick={handleEMCtoVUSD}>
               Convert
             </Button>
           </>
