@@ -45,7 +45,7 @@ export default function Virtualizer() {
   const vUSD_balance_number = vUSD_balance ? Number(vUSD_balance) : 0;
 
   return (
-    <div className="flex items-center flex-col flex-grow pt-6 lg:pt-12">
+    <div className="flex items-center flex-col flex-grow pt-6">
       <Card className="max-w-md mx-auto rounded-3xl lg:mt-0 mt-14 bg-background">
         <div className="flex flex-row items-center justify-between pb-4">
           <div className="flex flex-row items-center">

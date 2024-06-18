@@ -181,7 +181,7 @@ export default function Vex() {
   }, [isConfirmed, isConfirming, error, hash]);
 
   return (
-    <main>
+    <main className="pt-6">
 
       <Card className="max-w-md mx-auto rounded-3xl lg:mt-0 mt-14 bg-background">
       <div className="flex flex-row items-center justify-between pb-4">
@@ -215,7 +215,7 @@ export default function Vex() {
             />
             <div className="flex justify-center mb-2">
               <button
-                className="btn btn-accent hover:bg-secondary p-2 rounded-xl"
+                className="btn btn-accent hover:bg-secondary p-2 border border-[#8FA2B7] rounded-xl"
                 onClick={handleSwapVUSD}
               >
                 <svg

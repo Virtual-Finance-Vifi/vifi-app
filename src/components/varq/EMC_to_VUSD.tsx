@@ -85,11 +85,11 @@ const EMC_to_VUSD: React.FC<EMCToVUSDProps> = ({ refreshBalance, balance }) => {
   return (
     <div>
       <div className="flex rounded-2xl items-left flex-col flex-grow pt-4 mx-2">
-        <h1 className="text-primary ml-2">vTTD & vRT -{">"} vUSD</h1>
+        <h1 className="ml-2">vTTD & vRT -{">"} vUSD</h1>
       </div>
       <div className="flex rounded-2xl items-left flex-col flex-grow mx-2">
         <InputComponent label="vRT" onValueChange={setVRT} initialValue={VRT} balance={balance}/>
-        <p className="text-primary ml-2">Destination Address (Optional)</p>
+        <p className="ml-2">Destination Address (Optional)</p>
         <input
           className="pl-4 rounded-xl mb-4 bg-inherit border border-[#8FA2B7] input input-ghost text-xl focus:text-white focus:outline-none h-[2.2rem] min-h-[2.2rem] px-1 font-medium placeholder:text-[#9ba3af] text-gray-400"
           type="text"
