@@ -11,8 +11,7 @@ import {
 import { parseEther } from "viem";
 import { toast } from "sonner";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
-import { Card, Tab, TabGroup, TabList, TabPanels } from "@tremor/react";
-import { UserGroupIcon, UserIcon } from "@heroicons/react/24/outline";
+import { Card, Tab, TabGroup, TabList } from "@tremor/react";
 import InputComponent from "@/components/amm/InputWidget";
 import DisabledInputComponent from "@/components/amm/DisabledInput";
 import Modal from "@/components/amm/Modal";

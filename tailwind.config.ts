@@ -58,8 +58,10 @@ const config = {
         },
       },
       textColor: {
-        primary: "hsla(211, 22%, 52%, 1)",
-        secondary: "hsla(155, 52%, 25%, 1)",
+        primary: "hsla(155, 52%, 25%, 1)",
+        dark: {
+          primary: "hsla(211, 22%, 52%, 1)",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
