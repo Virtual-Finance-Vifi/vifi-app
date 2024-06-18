@@ -34,7 +34,7 @@ const UnifiedInput: React.FC<UnifiedInputProps> = ({
   };
 
   return (
-    <div className="border border-[#8FA2B7] flex rounded-2xl items-left flex-col flex-grow pt-4 mb-4">
+    <div className="border border-[#8FA2B7] w-full flex rounded-2xl items-left flex-col flex-grow pt-4 mb-4">
       <div className="pb-4">
         <div className="flex flex-row">
           {type && (

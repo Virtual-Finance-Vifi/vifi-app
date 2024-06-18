@@ -89,7 +89,7 @@ const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({ refreshBalance, balance
     <div>
       <div className="flex rounded-2xl items-left flex-col flex-grow pt-4">
         <div>
-          <div className="flex mx-2 text-accent">
+          <div className="flex mx-2">
             <InputComponent
               label="vUSD"
               type="withdraw"
