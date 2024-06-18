@@ -36,7 +36,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
   };
 
   return (
-    <div className="flex border rounded-2xl items-left flex-col flex-grow pt-4 mb-4">
+    <div className="flex border border-[#8FA2B7] rounded-2xl items-left flex-col flex-grow pt-4 mb-4">
       <div className="pb-4">
         <h1 className="mb-2 ml-3">
           {type === "pay" ? "You pay" : "You receive"}
