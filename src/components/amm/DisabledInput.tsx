@@ -24,15 +24,15 @@ const DisabledInputComponent: React.FC<DisabledInputComponentProps> = ({
   const formattedValue = `${value} ${currency}`;
 
   return (
-    <div className="flex border rounded-2xl items-left flex-col flex-grow pt-6 mb-4">
-      <div className="mb-6">
-        <h1 className="mb-2 ml-3 text-primary">{type === 'pay' ? 'You pay' : 'You receive (≈)'}</h1>
+    <div className="flex border rounded-2xl items-left flex-col flex-grow pt-4 mb-4">
+      <div className="mb-4">
+        <h1 className="mb-2 ml-3">{type === 'pay' ? 'You pay' : 'You receive (≈)'}</h1>
         <input
           disabled
           type="text"
           value={formattedValue}
           placeholder="0"
-          className="indent-3 bg-background input input-ghost text-3xl focus:text-white focus:outline-none focus:bg-transparent 
+          className="pl-3 pb-2 bg-background input input-ghost text-3xl focus:text-white focus:outline-none focus:bg-transparent 
           h-[2.2rem] min-h-[2.2rem] px-1 font-medium placeholder:text-accent/50 text-gray-400 w-full 
           overflow-hidden text-ellipsis whitespace-nowrap"
         />
