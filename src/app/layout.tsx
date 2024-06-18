@@ -40,7 +40,7 @@ export default function RootLayout({
         )}
       >
 
-        <div id="root" className="p-24 w-screen h-screen">
+        <div id="root" className="p-2 w-screen h-screen">
           <div className="fixed bottom-0 left-0 right-0">
             <div className="flex justify-between">
               <img src="bleft_img.svg"/>

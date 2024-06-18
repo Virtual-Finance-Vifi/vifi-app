@@ -1,5 +1,6 @@
 "use client";
 import { Card } from "@tremor/react";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import CustomTab from "@/components/CustomTab";
 import DepositWidget from "@/components/virtualizer/DepositWidget";
@@ -43,18 +44,32 @@ export default function Virtualizer() {
   const mUSD_balance_number = mUSDC_balance ? Number(mUSDC_balance) : 0;
   const vUSD_balance_number = vUSD_balance ? Number(vUSD_balance) : 0;
 
-
   return (
-    <div className="flex items-center flex-col flex-grow pt-6 lg:pt-12">
+    <div className="flex items-center flex-col flex-grow pt-6">
       <Card className="max-w-md mx-auto rounded-3xl lg:mt-0 mt-14 bg-background">
-        <div className="flex flex-row">
-          <img src="virt_red.svg"/>
-          <h1 className="pl-4 text-red-500 text-4xl font-bold">
-            Virtualizer
-          </h1>
-          <img src="settings_icon.svg" className="ml-24 mb-4"/>
+        <div className="flex flex-row items-center justify-between pb-4">
+          <div className="flex flex-row items-center">
+            <Image
+              src="/virtualizer-logo.svg"
+              alt="virtualizer-logo"
+              width={58}
+              height={58}
+              priority
+            />
+            <h1 className="ml-2 text-[#F15A22] lg:text-3xl font-bold">
+              Virtualizer
+            </h1>
+          </div>
+
+          <Image
+            src="/settings_icon.svg"
+            alt="settings icon"
+            width={32}
+            height={32}
+            priority
+          />
         </div>
-        <div className="justify-start flex mb-6">
+        <div className="justify-start flex">
           <CustomTab
             label="Deposit"
             isActive={activeTab === "deposit"}
@@ -69,12 +84,18 @@ export default function Virtualizer() {
         <div>
           {activeTab === "deposit" && (
             <div>
-              <DepositWidget refreshBalance={refreshBalances} balance={mUSD_balance_number} />
+              <DepositWidget
+                refreshBalance={refreshBalances}
+                balance={mUSD_balance_number}
+              />
             </div>
           )}
           {activeTab === "withdraw" && (
             <div>
-              <WithdrawWidget refreshBalance={refreshBalances} balance={vUSD_balance_number} />
+              <WithdrawWidget
+                refreshBalance={refreshBalances}
+                balance={vUSD_balance_number}
+              />
             </div>
           )}
         </div>

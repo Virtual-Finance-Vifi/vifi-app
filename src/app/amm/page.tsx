@@ -11,8 +11,7 @@ import {
 import { parseEther } from "viem";
 import { toast } from "sonner";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
-import { Card, Tab, TabGroup, TabList, TabPanels } from "@tremor/react";
-import { UserGroupIcon, UserIcon } from "@heroicons/react/24/outline";
+import { Card, Tab, TabGroup, TabList } from "@tremor/react";
 import InputComponent from "@/components/amm/InputWidget";
 import DisabledInputComponent from "@/components/amm/DisabledInput";
 import Modal from "@/components/amm/Modal";
@@ -222,8 +221,8 @@ export default function AmmPage() {
   }, [isConfirmed, isConfirming, error, hash]);
 
   return (
-    <main>
-      <Card className="max-w-md mx-auto rounded-3xl lg:mt-8 mt-14 bg-background">
+    <main className="pt-6">
+      <Card className="max-w-md mx-auto rounded-3xl lg:mt-0 bg-background">
         <div className="flex flex-row items-center justify-between">
           <div className="flex flex-row items-center">
             <Image
@@ -278,7 +277,7 @@ export default function AmmPage() {
             <div className="flex justify-center mb-2">
               <button
                 onClick={handleSwapVttd}
-                className="btn btn-accent hover:bg-secondary p-2 border rounded-xl"
+                className="btn btn-accent hover:bg-secondary p-2 border border-[#8FA2B7] rounded-xl"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

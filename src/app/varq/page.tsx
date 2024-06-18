@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import CustomTab from "@/components/CustomTab";
 import { Card } from "@tremor/react";
 import React, { useEffect, useState } from "react";
@@ -53,9 +54,31 @@ export default function Varq() {
   const vUSD_balance_number = vUSD_balance ? Number(vUSD_balance) : 0;
 
   return (
-    <div className="flex items-center flex-col flex-grow pt-6 lg:pt-12">
+    <div className="flex items-center flex-col flex-grow pt-6">
       <Card className="max-w-md mx-auto rounded-3xl lg:mt-0 mt-14 bg-background">
-        <div className="justify-center flex mb-6">
+      <div className="flex flex-row items-center justify-between pb-4">
+          <div className="flex flex-row items-center">
+            <Image
+              src="/forge-logo.svg"
+              alt="forge-logo"
+              width={58}
+              height={58}
+              priority
+            />
+            <h1 className="ml-2 text-[#00A651] lg:text-3xl font-bold">
+              Forge
+            </h1>
+          </div>
+
+          <Image
+            src="/settings_icon.svg"
+            alt="settings icon"
+            width={32}
+            height={32}
+            priority
+          />
+        </div>
+        <div className="justify-left flex px-2">
           <CustomTab
             label="USD to EMC"
             isActive={activeTab === "deposit"}

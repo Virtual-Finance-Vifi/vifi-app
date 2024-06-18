@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 import {
   useAccount,
   useWaitForTransactionReceipt,
@@ -180,12 +181,29 @@ export default function Vex() {
   }, [isConfirmed, isConfirming, error, hash]);
 
   return (
-    <main>
-      <section className="py-12 flex flex-col items-center text-center gap-8">
-        <h1 className="text-4xl font-bold">Swap</h1>
-      </section>
+    <main className="pt-6">
 
       <Card className="max-w-md mx-auto rounded-3xl lg:mt-0 mt-14 bg-background">
+      <div className="flex flex-row items-center justify-between pb-4">
+          <div className="flex flex-row items-center">
+            <Image
+              src="/swap-logo.svg"
+              alt="swap-logo"
+              width={58}
+              height={58}
+              priority
+            />
+            <h1 className="ml-2 text-[#68AAFF] lg:text-3xl font-bold">Swap</h1>
+          </div>
+
+          <Image
+            src="/settings_icon.svg"
+            alt="settings icon"
+            width={32}
+            height={32}
+            priority
+          />
+        </div>
         {Swap === "vTTD" ? (
           <>
             <UnifiedInput
@@ -197,7 +215,7 @@ export default function Vex() {
             />
             <div className="flex justify-center mb-2">
               <button
-                className="btn btn-accent hover:bg-secondary p-2 rounded-xl"
+                className="btn btn-accent hover:bg-secondary p-2 border border-[#8FA2B7] rounded-xl"
                 onClick={handleSwapVUSD}
               >
                 <svg
@@ -269,7 +287,7 @@ export default function Vex() {
             <Button onClick={handleConnect}>Connect Wallet</Button>
           ) : (
             <>
-              <Button className="rounded-2xl px-6" onClick={handleDeposit}>
+              <Button className="rounded-2xl px-6 w-full bg-[#68AAFF]" onClick={handleDeposit}>
                 Convert
               </Button>
             </>
