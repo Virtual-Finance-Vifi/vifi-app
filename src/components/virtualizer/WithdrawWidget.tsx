@@ -11,6 +11,17 @@ import { parseEther } from "viem";
 import { MUSD_ADDRESS, VIRTUALIZER_ADDRESS } from "@/constants/addresses";
 import { toast } from "sonner";
 
+interface CustomToastProps {
+  message: string;
+  gifUrl: string;
+}
+
+const CustomToast: React.FC<CustomToastProps> = ({ message, gifUrl }) => (
+  <div className="flex flex-col items-center">
+    <img src={gifUrl} alt="Toast Icon" className="border border-green-400 self-center" />
+    <h1 className="text-xl font-bold">{message}...</h1>
+  </div>
+);
 interface WithdrawWidgetProps {
   refreshBalance: () => void; // Define the type of refreshBalance as a function
   balance: number;
@@ -63,7 +74,18 @@ const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({ refreshBalance, balance
 
   useEffect(() => {
     if (isConfirming) {
-      toast.loading("Transaction Pending");
+      toast.loading(<CustomToast message="TransactionPending" gifUrl="walking_orange.gif"/>,{
+        style:{
+          background:"#3A4047",
+          width:"33vw",
+          height:"75vh",
+          top:"50%",
+          left:"50%",
+          transform:"translate(-50%,-50%)",
+          position:"fixed"
+        },
+        //className:"bg-[#3A4047] w-full h-full top-[145px] left-[490px]"
+      });
     }
     toast.dismiss();
       
