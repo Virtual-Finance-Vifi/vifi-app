@@ -17,9 +17,11 @@ interface CustomToastProps {
 }
 
 const CustomToast: React.FC<CustomToastProps> = ({ message, gifUrl }) => (
-  <div className="flex flex-col items-center">
-    <img src={gifUrl} alt="Toast Icon" className="border border-green-400 self-center" />
-    <h1 className="text-xl font-bold">{message}...</h1>
+  <div className="flex flex-col border border-purple-500 
+   w-full h-full align-center justify-center items-center">
+    <img src={gifUrl} alt="Toast Icon" className="border border-green-400 w-2/3 h-1/2" />
+    <h1 className="text-[24px] font-bold font-['Archivo']">{message}</h1>
+    <p className="!border-b-2 !border-red-400"></p>
   </div>
 );
 interface WithdrawWidgetProps {
@@ -58,23 +60,46 @@ const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({ refreshBalance, balance
   const transfer_vUSD = String(parseEther(vUSD.toString()));
 
   const handleWithdraw = () => {
-    if (approve_str === "0") {
-      openModal();
-    } else {
-      writeContract({
-        abi: VIRTUALISER_CONTRACT,
-        address: VIRTUALIZER_ADDRESS,
-        functionName: "unwrap",
-        args: [transfer_vUSD],
-      });
+    try{
+      if (approve_str === "0") {
+        openModal();
+      } else {
+        writeContract({
+          abi: VIRTUALISER_CONTRACT,
+          address: VIRTUALIZER_ADDRESS,
+          functionName: "unwrap",
+          args: [transfer_vUSD],
+        });
+  
+        console.log("Transferring:", transfer_vUSD);
 
-      console.log("Transferring:", transfer_vUSD);
+        toast.loading(<CustomToast message="Waiting for confirmation..." gifUrl="walking_orange.gif" />, {
+          style: {
+            background: '#101419',
+            width: '33vw', // 1/3 of viewport width
+            height: '75vh', // 1/3 of viewport height
+            top: '50%', // Center vertically
+            left: '50%', // Center horizontally
+            transform: 'translate(-50%, -50%)', // Adjust position relative to center
+            position: 'fixed', // Ensure it's fixed position
+            border:'solid green',
+            display:'flex',
+            flexDirection:'column',
+            justifyContent:'center'
+          },
+          //className:"!bg-[#3A4047] !w-1/3 !h-3/4vh !top-1/2 !left-1/2 !-translate-x-1/2 !-translate-y-1/2 !fixed !border-solid !border-green"
+        });
+      }
+
+    }catch{
+
     }
+    
   };
 
   useEffect(() => {
     if (isConfirming) {
-      toast.loading(<CustomToast message="TransactionPending" gifUrl="walking_orange.gif"/>,{
+      toast.loading(<CustomToast message="Transaction Pending ..." gifUrl="pending_lemon.gif"/>,{
         style:{
           background:"#3A4047",
           width:"33vw",
@@ -90,7 +115,17 @@ const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({ refreshBalance, balance
     toast.dismiss();
       
     if (isConfirmed) {
-      toast.success("Transaction Successful", {
+      toast.success(<CustomToast message="Transaction Successful" gifUrl="changing_fruit.gif"/>, {
+        style:{
+          background:"#3A4047",
+          width:"33vw",
+          height:"75vh",
+          top:"50%",
+          left:"50%",
+          transform:"translate(-50%,-50%)",
+          position:"fixed"
+        },
+        //className:"bg-[#3A4047] w-full h-full top-[145px] left-[490px]"
         action: {
           label: "View on Etherscan",
           onClick: () => {
