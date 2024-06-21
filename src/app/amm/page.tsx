@@ -12,8 +12,7 @@ import { parseEther } from "viem";
 import { toast } from "sonner";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { Card, Tab, TabGroup, TabList } from "@tremor/react";
-import InputComponent from "@/components/amm/InputWidget";
-import DisabledInputComponent from "@/components/amm/DisabledInput";
+import InputComponent from "@/components/amm/Input";
 import Modal from "@/components/amm/Modal";
 import VTOKEN_CONTRACT from "../../contracts/vtoken.json";
 import SWAP_CONTRACT from "../../contracts/swap.json";
@@ -295,12 +294,13 @@ export default function AmmPage() {
                 </svg>
               </button>
             </div>
-            <DisabledInputComponent
+            <InputComponent
               type="receive"
+              value={receiveVTTD}
+              setValue={setReceiveVTTD}
               label="vTTD"
-              initialValue={receiveVTTD}
-              currency="vTTD"
               balance={vTTD_balance_number}
+              disabled={true}
             />
           </>
         ) : (
@@ -333,12 +333,13 @@ export default function AmmPage() {
                 </svg>
               </button>
             </div>
-            <DisabledInputComponent
+            <InputComponent
               type="receive"
+              value={receiveVRT}
               label="vRT"
-              initialValue={receiveVRT}
-              currency="vRT"
               balance={vRT_balance_number}
+              setValue={setReceiveVRT}
+              disabled={true}
             />
           </>
         )}
