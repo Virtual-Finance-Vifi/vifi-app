@@ -15,7 +15,7 @@ export const VEX_ADDRESS = "0xD3AD0258d0929d30F40b5f3516FAE2891B4C7D79";
     - Base Sepolia
 **/
 
-export const addresses = {
+export const addresses: any = {
     11155111: {
         testnet: true,
         musd: "0xB152BB6e264E90A23e86617B1763FB4e734F50c5",
