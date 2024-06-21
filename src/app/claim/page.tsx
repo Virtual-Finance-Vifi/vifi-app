@@ -71,7 +71,7 @@ export default function Claim() {
       <Card className="max-w-md mx-auto rounded-3xl lg:mt-0 mt-14 bg-background">
         <div className="flex flex-col justify-center h-96 w-96">
           {!address ? (
-            <Button onClick={handleConnect}>Connect Wallet</Button>
+            <Button className="rounded-2xl px-6 w-full bg-[#68AAFF] hover:bg-[#87b9fb] font-semibold" onClick={handleConnect}>Connect Wallet</Button>
           ) : (
             <>
               <Button
@@ -83,7 +83,7 @@ export default function Claim() {
                   })
                 }
                 disabled={isConfirming}
-                className="rounded-2xl px-6 mt-12"
+                className="rounded-2xl px-6 w-full bg-[#68AAFF] hover:bg-[#87b9fb] font-semibold"
               >
                 Claim
               </Button>

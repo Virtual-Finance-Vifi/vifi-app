@@ -193,7 +193,7 @@ export default function Vex() {
               height={58}
               priority
             />
-            <h1 className="ml-2 text-[#68AAFF] lg:text-3xl font-bold">Swap</h1>
+            <h1 className="ml-2 text-[#FFCB05] lg:text-3xl font-bold">Swap</h1>
           </div>
 
           <Image
@@ -284,10 +284,10 @@ export default function Vex() {
 
         <div className="flex justify-center">
           {!isConnected ? (
-            <Button onClick={handleConnect}>Connect Wallet</Button>
+            <Button className="rounded-2xl px-6 w-full bg-[#FFCB05] hover:bg-[#FBD873] font-semibold" onClick={handleConnect}>Connect Wallet</Button>
           ) : (
             <>
-              <Button className="rounded-2xl px-6 w-full bg-[#68AAFF]" onClick={handleDeposit}>
+              <Button className="rounded-2xl px-6 w-full bg-[#FFCB05] hover:bg-[#FBD873] font-semibold" onClick={handleDeposit}>
                 Convert
               </Button>
             </>
