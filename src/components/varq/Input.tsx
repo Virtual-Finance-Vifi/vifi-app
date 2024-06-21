@@ -40,15 +40,6 @@ const InputComponent: React.FC<InputComponentProps> = ({
     setValue(initialValue);
   }, [initialValue]);
 
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const newValue = parseFloat(e.target.value);
-  //   if (!isNaN(newValue)) {
-  //     setValue(newValue);
-  //   } else {
-  //     setValue(0); 
-  //   }
-  // };
-
   return (
     <UnifiedInput label={label} value={value} setValue={setValue} balance={balance}/>
   );
