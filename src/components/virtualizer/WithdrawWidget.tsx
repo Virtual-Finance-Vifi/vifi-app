@@ -125,11 +125,11 @@ const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({ refreshBalance, balance
 
       <div className="mx-2">
         {!address ? (
-          <Button className="w-full rounded-full bg-red-500 text-white" onClick={handleConnect}>
+          <Button className="w-full rounded-full bg-[#F15A22] hover:bg-[#F5846F] font-semibold" onClick={handleConnect}>
             Connect Wallet
           </Button>
         ) : (
-          <Button className="w-full rounded-full bg-red-500 text-white" onClick={handleWithdraw} disabled={isConfirming}>
+          <Button className="w-full rounded-full bg-[#F15A22] hover:bg-[#F5846F] font-semibold" onClick={handleWithdraw} disabled={isConfirming}>
             Withdraw
           </Button>
         )}

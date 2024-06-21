@@ -105,10 +105,10 @@ const VUSD_to_EMC: React.FC<VUSDToEMCProps> = ({ refreshBalance, balance }) => {
       </div>
       <div className="flex flex-col justify-center mx-2">
         {!address ? (
-          <Button onClick={handleConnect}>Connect Wallet</Button>
+          <Button className="bg-[#00A651] rounded-2xl px-6 hover:bg-[#C2D952]" onClick={handleConnect}>Connect Wallet</Button>
         ) : (
           <>
-            <Button className="bg-[#00A651] rounded-2xl px-6" onClick={handleVUSDtoEMC}>
+            <Button className="bg-[#00A651] rounded-2xl px-6 hover:bg-[#C2D952]" onClick={handleVUSDtoEMC}>
               Convert
             </Button>
           </>
