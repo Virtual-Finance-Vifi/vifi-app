@@ -3,16 +3,26 @@ import Image from "next/image";
 import { ModeToggle } from "./Modetoggle";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+
 
 export default function Nav() {
+  const pathname = usePathname();
   const [activeTab, setActiveTab] = useState<string>("");
+
+  useEffect(() => {
+    const tabName = pathname.split('/')[1];
+    setActiveTab(tabName);
+    localStorage.setItem('activeTab', tabName);
+  }, [pathname]);
+  
 
   useEffect(() => {
     const storedActiveTab = localStorage.getItem("activeTab");
     if (storedActiveTab) {
       setActiveTab(storedActiveTab);
     }
-  }, []);
+  }, [activeTab]);
 
   const handleTabChange = (tabName: string) => {
     setActiveTab(tabName);
@@ -52,7 +62,7 @@ export default function Nav() {
               Claim
             </Link>
 
-            <Link href="vex" onClick={() => handleTabChange("swap")}>
+            <Link href="swap" onClick={() => handleTabChange("swap")}>
               <div
                 className={`flex flex-row group hover:text-[#ffcb03] hover:${
                   activeTab === "swap"
@@ -103,7 +113,7 @@ export default function Nav() {
               </div>
             </Link>
 
-            <Link href="varq" onClick={() => handleTabChange("forge")}>
+            <Link href="forge" onClick={() => handleTabChange("forge")}>
               <div
                 className={`flex flex-row group hover:text-[#00A651] hover:${
                   activeTab === "forge"
