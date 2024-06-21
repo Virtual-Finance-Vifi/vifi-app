@@ -19,7 +19,7 @@ import {
   VTTD_ADDRESS,
   VEX_ADDRESS,
 } from "@/constants/addresses";
-import VexModal from "@/components/vex/VexModal";
+import VexModal from "@/components/swap/VexModal";
 import VTOKEN_CONTRACT from "@/contracts/vtoken.json";
 
 export default function Vex() {
