@@ -56,31 +56,6 @@ export default function Home() {
           Welcome to our Testnet Dapp.
         </p>
       </section>
-      <div className="flex gap-6 items-center justify-center">
-        {!isConnected ? (
-          <Button onClick={handleConnect}>Connect Wallet</Button>
-        ) : (
-          <>
-            <Button onClick={handleConnect}>Info</Button>
-            <Button onClick={() => signMessage({ message: "gm" })}>
-              {" "}
-              Say GM{" "}
-            </Button>
-            <Button
-              onClick={() =>
-                sendTransaction({
-                  to: "0x1a343eFB966E63bfA25A2b368455448f02466Ffc",
-                  value: parseEther("0.1"),
-                })
-              }
-              disabled={isConfirming}
-              variant={"secondary"}
-            >
-              Tip .1 Eth
-            </Button>
-          </>
-        )}
-      </div>
     </main>
   );
 }
