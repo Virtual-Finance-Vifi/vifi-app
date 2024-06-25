@@ -4,7 +4,12 @@ import InputComponent from "@/components/virtualizer/Input";
 import Modal from "./Modal";
 import DisabledInputComponent from "./DisabledInput";
 import VIRTUALISER_CONTRACT from "../../contracts/virtualizer.json";
-import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
+import {
+  useAccount,
+  useReadContract,
+  useWriteContract,
+  useWaitForTransactionReceipt,
+} from "wagmi";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import MUSD_CONTRACT from "../../contracts/mUSD.json";
 import { parseEther } from "viem";
@@ -18,10 +23,22 @@ interface CustomToastProps {
   height: number;
 }
 
-const CustomToast: React.FC<CustomToastProps> = ({ message, gifUrl, width, height }) => (
-  <div className="flex flex-col border border-purple-500 
-   w-full h-full align-center justify-center items-center">
-    <img src={gifUrl} alt="Toast Icon" className={`border border-green-400 w-[${width}px] h-[${height}px]`} />
+const CustomToast: React.FC<CustomToastProps> = ({
+  message,
+  gifUrl,
+  width,
+  height,
+}) => (
+  <div
+    className="flex flex-col border border-purple-500 
+   w-full h-full align-center justify-center items-center"
+  >
+    <img
+      src={gifUrl}
+      alt="Toast Icon"
+      style={{ width: `${width}px`, height: `${height}px` }}
+      className="border border-green-400"
+    />
     <h1 className="text-[24px] font-bold font-['Archivo']">{message}</h1>
   </div>
 );
@@ -30,7 +47,10 @@ interface WithdrawWidgetProps {
   balance: number;
 }
 
-const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({ refreshBalance, balance }) => {
+const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({
+  refreshBalance,
+  balance,
+}) => {
   const { address } = useAccount();
   const [vUSD, setvUSD] = useState<number>(0);
   const [isModalOpen, setModalOpen] = useState(false);
@@ -61,7 +81,7 @@ const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({ refreshBalance, balance
   const transfer_vUSD = String(parseEther(vUSD.toString()));
 
   const handleWithdraw = () => {
-    try{
+    try {
       if (approve_str === "0") {
         openModal();
       } else {
@@ -71,80 +91,97 @@ const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({ refreshBalance, balance
           functionName: "unwrap",
           args: [transfer_vUSD],
         });
-  
+
         console.log("Transferring:", transfer_vUSD);
 
-        toast.loading(<CustomToast message="Waiting for confirmation..." gifUrl="walking_orange.gif" width={186}
-        height={197}/>, {
-          style: {
-            background: '#101419',
-            width: '33vw', // 1/3 of viewport width
-            height: '75vh', // 1/3 of viewport height
-            top: '50%', // Center vertically
-            left: '50%', // Center horizontally
-            transform: 'translate(-50%, -50%)', // Adjust position relative to center
-            position: 'fixed', // Ensure it's fixed position
-            border:'solid green',
-            display:'flex',
-            flexDirection:'column',
-            justifyContent:'center'
-          },
-          //className:"!bg-[#3A4047] !w-1/3 !h-3/4vh !top-1/2 !left-1/2 !-translate-x-1/2 !-translate-y-1/2 !fixed !border-solid !border-green"
-        });
+        toast.loading(
+          <CustomToast
+            message="Waiting for confirmation..."
+            gifUrl="walking_orange.gif"
+            width={186}
+            height={197}
+          />,
+          {
+            style: {
+              background: "#101419",
+              width: "33vw", // 1/3 of viewport width
+              height: "75vh", // 1/3 of viewport height
+              top: "50%", // Center vertically
+              left: "50%", // Center horizontally
+              transform: "translate(-50%, -50%)", // Adjust position relative to center
+              position: "fixed", // Ensure it's fixed position
+              border: "solid green",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+            },
+            //className:"!bg-[#3A4047] !w-1/3 !h-3/4vh !top-1/2 !left-1/2 !-translate-x-1/2 !-translate-y-1/2 !fixed !border-solid !border-green"
+          }
+        );
       }
-
-    }catch{
-
-    }
-    
+    } catch {}
   };
 
   useEffect(() => {
     if (isConfirming) {
-      toast.loading(<CustomToast message="Transaction Pending ..." gifUrl="pending_lemon.gif" width={156}
-      height={175}/>,{
-        style:{
-          background:"#3A4047",
-          width:"33vw",
-          height:"75vh",
-          top:"50%",
-          left:"50%",
-          transform:"translate(-50%,-50%)",
-          position:"fixed"
-        },
-        //className:"bg-[#3A4047] w-full h-full top-[145px] left-[490px]"
-      });
+      toast.loading(
+        <CustomToast
+          message="Transaction Pending ..."
+          gifUrl="pending_lemon.gif"
+          width={156}
+          height={175}
+        />,
+        {
+          style: {
+            background: "#3A4047",
+            width: "33vw",
+            height: "75vh",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%,-50%)",
+            position: "fixed",
+          },
+          //className:"bg-[#3A4047] w-full h-full top-[145px] left-[490px]"
+        }
+      );
     }
     toast.dismiss();
-      
+
     if (isConfirmed) {
-      toast.success(<CustomToast message="Transaction Successful" gifUrl="changing_fruit.gif" width={240}
-      height={196}/>, {
-        style:{
-          background:"#3A4047",
-          width:"33vw",
-          height:"75vh",
-          top:"50%",
-          left:"50%",
-          transform:"translate(-50%,-50%)",
-          position:"fixed"
-        },
-        //className:"bg-[#3A4047] w-full h-full top-[145px] left-[490px]"
-        action: {
-          label: "View on Etherscan",
-          onClick: () => {
-            window.open(`https://sepolia.etherscan.io/tx/${hash}`);
+      toast.success(
+        <CustomToast
+          message="Transaction Successful"
+          gifUrl="changing_fruit.gif"
+          width={240}
+          height={196}
+        />,
+        {
+          style: {
+            background: "#3A4047",
+            width: "33vw",
+            height: "75vh",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%,-50%)",
+            position: "fixed",
           },
-        },
-      });
+          //className:"bg-[#3A4047] w-full h-full top-[145px] left-[490px]"
+          action: {
+            label: "View on Etherscan",
+            onClick: () => {
+              window.open(`https://sepolia.etherscan.io/tx/${hash}`);
+            },
+          },
+        }
+      );
       refreshBalance?.();
       setvUSD(0);
     }
-      if (error) {
+    if (error) {
       toast.error("Transaction Failed");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isConfirmed, isConfirming, error, hash])
+  }, [isConfirmed, isConfirming, error, hash]);
 
   return (
     <div>
@@ -164,16 +201,27 @@ const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({ refreshBalance, balance
 
       <div className="mx-2">
         {!address ? (
-          <Button className="w-full rounded-full bg-red-500 text-white" onClick={handleConnect}>
+          <Button
+            className="w-full rounded-full bg-red-500 text-white"
+            onClick={handleConnect}
+          >
             Connect Wallet
           </Button>
         ) : (
-          <Button className="w-full rounded-full bg-red-500 text-white" onClick={handleWithdraw} disabled={isConfirming}>
+          <Button
+            className="w-full rounded-full bg-red-500 text-white"
+            onClick={handleWithdraw}
+            disabled={isConfirming}
+          >
             Withdraw
           </Button>
         )}
 
-        <Modal isOpen={isModalOpen} onClose={closeModal} refetchApproval={refetch_approval}>
+        <Modal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          refetchApproval={refetch_approval}
+        >
           <DisabledInputComponent
             label="vUSD"
             heading="Approve amount of funds that can be transferred"
