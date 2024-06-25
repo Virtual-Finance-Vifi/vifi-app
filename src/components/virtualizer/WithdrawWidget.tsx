@@ -14,14 +14,15 @@ import { toast } from "sonner";
 interface CustomToastProps {
   message: string;
   gifUrl: string;
+  width: number;
+  height: number;
 }
 
-const CustomToast: React.FC<CustomToastProps> = ({ message, gifUrl }) => (
+const CustomToast: React.FC<CustomToastProps> = ({ message, gifUrl, width, height }) => (
   <div className="flex flex-col border border-purple-500 
    w-full h-full align-center justify-center items-center">
-    <img src={gifUrl} alt="Toast Icon" className="border border-green-400 w-2/3 h-1/2" />
+    <img src={gifUrl} alt="Toast Icon" className={`border border-green-400 w-[${width}px] h-[${height}px]`} />
     <h1 className="text-[24px] font-bold font-['Archivo']">{message}</h1>
-    <p className="!border-b-2 !border-red-400"></p>
   </div>
 );
 interface WithdrawWidgetProps {
@@ -73,7 +74,8 @@ const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({ refreshBalance, balance
   
         console.log("Transferring:", transfer_vUSD);
 
-        toast.loading(<CustomToast message="Waiting for confirmation..." gifUrl="walking_orange.gif" />, {
+        toast.loading(<CustomToast message="Waiting for confirmation..." gifUrl="walking_orange.gif" width={186}
+        height={197}/>, {
           style: {
             background: '#101419',
             width: '33vw', // 1/3 of viewport width
@@ -99,7 +101,8 @@ const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({ refreshBalance, balance
 
   useEffect(() => {
     if (isConfirming) {
-      toast.loading(<CustomToast message="Transaction Pending ..." gifUrl="pending_lemon.gif"/>,{
+      toast.loading(<CustomToast message="Transaction Pending ..." gifUrl="pending_lemon.gif" width={156}
+      height={175}/>,{
         style:{
           background:"#3A4047",
           width:"33vw",
@@ -115,7 +118,8 @@ const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({ refreshBalance, balance
     toast.dismiss();
       
     if (isConfirmed) {
-      toast.success(<CustomToast message="Transaction Successful" gifUrl="changing_fruit.gif"/>, {
+      toast.success(<CustomToast message="Transaction Successful" gifUrl="changing_fruit.gif" width={240}
+      height={196}/>, {
         style:{
           background:"#3A4047",
           width:"33vw",
