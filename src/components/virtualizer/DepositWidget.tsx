@@ -20,7 +20,7 @@ import { toast } from "sonner";
 
 interface DepositWidgetProps {
   refreshBalance: () => void; // Define the type of refreshBalance as a function
-  balance: number;
+  balance: number | null;
 }
 
 const DepositWidget: React.FC<DepositWidgetProps> = ({

@@ -6,7 +6,7 @@ interface InputComponentProps {
   initialValue: number;
   onValueChange?: (newValue: number) => void;
   type: string;
-  balance: number;
+  balance: number | null;
 }
 
 const InputComponent: React.FC<InputComponentProps> = ({
