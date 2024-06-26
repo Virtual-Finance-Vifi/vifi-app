@@ -8,10 +8,13 @@ import WithdrawWidget from "@/components/virtualizer/WithdrawWidget";
 import { useAccount, useReadContract } from "wagmi";
 import MUSD_CONTRACT from "../../contracts/mUSD.json";
 import VUSD_CONTRACT from "../../contracts/vtoken.json";
-import { MUSD_ADDRESS, VUSD_ADDRESS } from "@/constants/addresses";
+import { config } from "@/configs";
+import { getChainId } from "@wagmi/core";
+import { addresses } from "@/constants/addresses";
 import { formatEther } from "viem";
 
 export default function Virtualizer() {
+  const chainId = getChainId(config);
   const [activeTab, setActiveTab] = useState<string>("deposit");
   const { address } = useAccount();
 
@@ -22,7 +25,7 @@ export default function Virtualizer() {
   const { data: mUSDC_balance, refetch: refresh_musdc_Balance } =
     useReadContract({
       abi: MUSD_CONTRACT,
-      address: MUSD_ADDRESS,
+      address: addresses[chainId]["musd"],
       functionName: "balanceOf",
       args: [address],
     });
@@ -30,7 +33,7 @@ export default function Virtualizer() {
   const { data: vUSD_balance, refetch: refresh_vusd_Balance } = useReadContract(
     {
       abi: VUSD_CONTRACT,
-      address: VUSD_ADDRESS,
+      address: addresses[chainId]["vusd"],
       functionName: "balanceOf",
       args: [address],
     }

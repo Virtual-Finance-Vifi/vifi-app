@@ -10,7 +10,9 @@ import {
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import VARQ_CONTRACT from "../../contracts/varq.json";
 import { Address, parseEther } from "viem";
-import { VARQ_ADDRESS } from "@/constants/addresses";
+import { config } from "@/configs";
+import { getChainId } from "@wagmi/core";
+import { addresses } from "@/constants/addresses";
 import { toast } from "sonner";
 
 interface EMCToVUSDProps {
@@ -19,6 +21,7 @@ interface EMCToVUSDProps {
 }
 
 const EMC_to_VUSD: React.FC<EMCToVUSDProps> = ({ refreshBalance, balance }) => {
+  const chainId = getChainId(config);
   const { address } = useAccount();
   const handleConnect = () => {
     open();
@@ -34,7 +37,7 @@ const EMC_to_VUSD: React.FC<EMCToVUSDProps> = ({ refreshBalance, balance }) => {
   const handleDestinationAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     if (newValue === "") {
-      setDestinationAddress(address || "0x" as Address);
+      setDestinationAddress(address || ("0x" as Address));
     } else {
       setDestinationAddress(newValue as Address);
     }
@@ -43,7 +46,7 @@ const EMC_to_VUSD: React.FC<EMCToVUSDProps> = ({ refreshBalance, balance }) => {
   const handleEMCtoVUSD = () => {
     writeContract({
       abi: VARQ_CONTRACT,
-      address: VARQ_ADDRESS,
+      address: addresses[chainId]["varq"],
       functionName: "convertTokensToVUSD",
       args: [transfer_VRT, destinationAddress],
     });
@@ -88,7 +91,12 @@ const EMC_to_VUSD: React.FC<EMCToVUSDProps> = ({ refreshBalance, balance }) => {
         <h1 className="ml-2">vTTD & vRT -{">"} vUSD</h1>
       </div>
       <div className="flex rounded-2xl items-left flex-col flex-grow mx-2">
-        <InputComponent label="vRT" onValueChange={setVRT} initialValue={VRT} balance={balance}/>
+        <InputComponent
+          label="vRT"
+          onValueChange={setVRT}
+          initialValue={VRT}
+          balance={balance}
+        />
         <p className="ml-2">Destination Address (Optional)</p>
         <input
           className="pl-4 rounded-xl mb-4 bg-inherit border border-[#8FA2B7] input input-ghost text-xl focus:text-white focus:outline-none h-[2.2rem] min-h-[2.2rem] px-1 font-medium placeholder:text-[#9ba3af] text-gray-400"
@@ -100,10 +108,18 @@ const EMC_to_VUSD: React.FC<EMCToVUSDProps> = ({ refreshBalance, balance }) => {
       </div>
       <div className="flex flex-col justify-center mx-2">
         {!address ? (
-          <Button className="bg-[#00A651] rounded-2xl px-6 hover:bg-[#C2D952] font-semibold" onClick={handleConnect}>Connect Wallet</Button>
+          <Button
+            className="bg-[#00A651] rounded-2xl px-6 hover:bg-[#C2D952] font-semibold"
+            onClick={handleConnect}
+          >
+            Connect Wallet
+          </Button>
         ) : (
           <>
-            <Button className="bg-[#00A651] rounded-2xl px-6 hover:bg-[#C2D952] font-semibold" onClick={handleEMCtoVUSD}>
+            <Button
+              className="bg-[#00A651] rounded-2xl px-6 hover:bg-[#C2D952] font-semibold"
+              onClick={handleEMCtoVUSD}
+            >
               Convert
             </Button>
           </>

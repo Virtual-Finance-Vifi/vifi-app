@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
 import { Button } from "../ui/button";
-import { useWriteContract , useWaitForTransactionReceipt} from "wagmi";
+import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import MUSD_CONTRACT from "../../contracts/mUSD.json";
-import { MUSD_ADDRESS, VIRTUALIZER_ADDRESS } from "@/constants/addresses";
+import { config } from "@/configs";
+import { getChainId } from "@wagmi/core";
+import { addresses } from "@/constants/addresses";
 import { toast } from "sonner";
 
 interface ModalProps {
@@ -12,8 +14,19 @@ interface ModalProps {
   refetchApproval: () => void;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, refetchApproval }) => {
-  const { writeContractAsync, isSuccess, isError: error , data:hash} = useWriteContract();
+const Modal: React.FC<ModalProps> = ({
+  isOpen,
+  onClose,
+  children,
+  refetchApproval,
+}) => {
+  const chainId = getChainId(config);
+  const {
+    writeContractAsync,
+    isSuccess,
+    isError: error,
+    data: hash,
+  } = useWriteContract();
 
   useEffect(() => {
     if (isSuccess === true) {
@@ -26,7 +39,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, refetchApprova
 
   const {
     isLoading: isConfirming,
-    isError:receiptError,
+    isError: receiptError,
     isSuccess: isConfirmed,
   } = useWaitForTransactionReceipt({
     hash,
@@ -47,7 +60,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, refetchApprova
           },
         },
       });
-      refetchApproval?.()
+      refetchApproval?.();
     }
     if (error) {
       toast.error("Approval Failed");
@@ -72,9 +85,12 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, refetchApprova
             onClick={() =>
               writeContractAsync({
                 abi: MUSD_CONTRACT,
-                address: MUSD_ADDRESS,
+                address: addresses[chainId]["musd"],
                 functionName: "approve",
-                args: [VIRTUALIZER_ADDRESS, "1000000000000000000000000"],
+                args: [
+                  addresses[chainId]["virtualizer"],
+                  "1000000000000000000000000",
+                ],
               })
             }
             className="mt-4 py-2 px-4 bg-[#020817] text-white"

@@ -9,15 +9,18 @@ import {
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import VARQ_CONTRACT from "../../contracts/varq.json";
 import { Address, parseEther } from "viem";
-import { VARQ_ADDRESS } from "@/constants/addresses";
+import { config } from "@/configs";
+import { getChainId } from "@wagmi/core";
+import { addresses } from "@/constants/addresses";
 import { toast } from "sonner";
 
 interface VUSDToEMCProps {
-  refreshBalance: () => void; 
+  refreshBalance: () => void;
   balance: number;
 }
 
 const VUSD_to_EMC: React.FC<VUSDToEMCProps> = ({ refreshBalance, balance }) => {
+  const chainId = getChainId(config);
   const { address } = useAccount();
   const { open } = useWeb3Modal();
   const [destinationAddress, setDestinationAddress] = useState<Address>(
@@ -34,7 +37,7 @@ const VUSD_to_EMC: React.FC<VUSDToEMCProps> = ({ refreshBalance, balance }) => {
   const handleDestinationAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     if (newValue === "") {
-      setDestinationAddress(address || "0x" as Address);
+      setDestinationAddress(address || ("0x" as Address));
     } else {
       setDestinationAddress(newValue as Address);
     }
@@ -43,7 +46,7 @@ const VUSD_to_EMC: React.FC<VUSDToEMCProps> = ({ refreshBalance, balance }) => {
   const handleVUSDtoEMC = () => {
     writeContract({
       abi: VARQ_CONTRACT,
-      address: VARQ_ADDRESS,
+      address: addresses[chainId]["varq"],
       functionName: "convertVUSDToTokens",
       args: [transfer_VUSD, destinationAddress],
     });
@@ -105,10 +108,18 @@ const VUSD_to_EMC: React.FC<VUSDToEMCProps> = ({ refreshBalance, balance }) => {
       </div>
       <div className="flex flex-col justify-center mx-2">
         {!address ? (
-          <Button className="bg-[#00A651] rounded-2xl px-6 hover:bg-[#C2D952]" onClick={handleConnect}>Connect Wallet</Button>
+          <Button
+            className="bg-[#00A651] rounded-2xl px-6 hover:bg-[#C2D952]"
+            onClick={handleConnect}
+          >
+            Connect Wallet
+          </Button>
         ) : (
           <>
-            <Button className="bg-[#00A651] rounded-2xl px-6 hover:bg-[#C2D952]" onClick={handleVUSDtoEMC}>
+            <Button
+              className="bg-[#00A651] rounded-2xl px-6 hover:bg-[#C2D952]"
+              onClick={handleVUSDtoEMC}
+            >
               Convert
             </Button>
           </>
