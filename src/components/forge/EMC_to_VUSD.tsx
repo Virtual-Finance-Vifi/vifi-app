@@ -27,7 +27,7 @@ const EMC_to_VUSD: React.FC<EMCToVUSDProps> = ({ refreshBalance, balance }) => {
     open();
   };
   const [destinationAddress, setDestinationAddress] = useState<Address>(
-    () => address || "0x"
+    address || "0x"
   );
   const [VRT, setVRT] = useState<number>(0);
   const { writeContract, data: hash } = useWriteContract();
@@ -36,11 +36,9 @@ const EMC_to_VUSD: React.FC<EMCToVUSDProps> = ({ refreshBalance, balance }) => {
 
   const handleDestinationAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
-    if (newValue === "") {
-      setDestinationAddress(address || ("0x" as Address));
-    } else {
-      setDestinationAddress(newValue as Address);
-    }
+    setDestinationAddress(
+      newValue ? (newValue as Address) : address || ("0x" as Address)
+    );
   };
 
   const handleEMCtoVUSD = () => {

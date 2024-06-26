@@ -24,23 +24,26 @@ const VUSD_to_EMC: React.FC<VUSDToEMCProps> = ({ refreshBalance, balance }) => {
   const { address } = useAccount();
   const { open } = useWeb3Modal();
   const [destinationAddress, setDestinationAddress] = useState<Address>(
-    () => address || "0x"
+    address || "0x"
   );
   const handleConnect = () => {
     open();
   };
 
   const [VUSD, setVUSD] = useState<number>(0);
-  const { writeContract, data: hash } = useWriteContract();
+  const {
+    writeContract,
+    data: hash,
+    error: the_error,
+    isError,
+  } = useWriteContract();
   const transfer_VUSD = parseEther(VUSD.toString());
 
   const handleDestinationAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
-    if (newValue === "") {
-      setDestinationAddress(address || ("0x" as Address));
-    } else {
-      setDestinationAddress(newValue as Address);
-    }
+    setDestinationAddress(
+      newValue ? (newValue as Address) : address || ("0x" as Address)
+    );
   };
 
   const handleVUSDtoEMC = () => {
@@ -50,9 +53,7 @@ const VUSD_to_EMC: React.FC<VUSDToEMCProps> = ({ refreshBalance, balance }) => {
       functionName: "convertVUSDToTokens",
       args: [transfer_VUSD, destinationAddress],
     });
-
-    console.log("Transferring:", VUSD, transfer_VUSD);
-    setDestinationAddress("0x");
+    console.log("Transferring:", VUSD + "to " + destinationAddress);
   };
 
   const {
