@@ -13,14 +13,12 @@ import MUSD_CONTRACT from "../../contracts/mUSD.json";
 import CLAIM_CONTRACT from "../../contracts/claim.json";
 import { Card } from "@tremor/react";
 import { toast } from "sonner";
-import { addresses } from "@/constants/addresses";
-import { getChainId } from "@wagmi/core";
 import { config } from "@/configs";
+import { getChainId } from "@wagmi/core";
+import { addresses } from "@/constants/addresses";
 
 export default function Claim() {
   const chainId = getChainId(config);
-  const claim_address = addresses[chainId]["claim"];
-  const musd_address = addresses[chainId]["musd"];
   const { address } = useAccount();
   const { open } = useWeb3Modal();
   const handleConnect = () => {
@@ -38,7 +36,7 @@ export default function Claim() {
 
   const { data: mUSDC_balance, refetch: refreshBalance } = useReadContract({
     abi: MUSD_CONTRACT,
-    address: musd_address,
+    address: addresses[chainId]["musd"],
     functionName: "balanceOf",
     args: [address],
   });
@@ -84,7 +82,7 @@ export default function Claim() {
                 onClick={() =>
                   writeContract({
                     abi: CLAIM_CONTRACT,
-                    address: claim_address,
+                    address: addresses[chainId]["claim"],
                     functionName: "claim",
                   })
                 }

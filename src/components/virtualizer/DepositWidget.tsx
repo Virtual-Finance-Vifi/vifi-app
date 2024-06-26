@@ -13,7 +13,9 @@ import MUSD_CONTRACT from "../../contracts/mUSD.json";
 import VIRTUALISER_CONTRACT from "../../contracts/virtualizer.json";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { parseEther } from "viem";
-import { MUSD_ADDRESS, VIRTUALIZER_ADDRESS } from "@/constants/addresses";
+import { config } from "@/configs";
+import { getChainId } from "@wagmi/core";
+import { addresses } from "@/constants/addresses";
 import { toast } from "sonner";
 
 interface DepositWidgetProps {
@@ -21,7 +23,11 @@ interface DepositWidgetProps {
   balance: number;
 }
 
-const DepositWidget: React.FC<DepositWidgetProps> = ({ refreshBalance, balance }) => {
+const DepositWidget: React.FC<DepositWidgetProps> = ({
+  refreshBalance,
+  balance,
+}) => {
+  const chainId = getChainId(config);
   const { address } = useAccount();
   const [mUSDC, setmUSDC] = useState<number>(0);
   const [isModalOpen, setModalOpen] = useState(false);
@@ -43,9 +49,9 @@ const DepositWidget: React.FC<DepositWidgetProps> = ({ refreshBalance, balance }
 
   const { data: approved, refetch: refetch_approval } = useReadContract({
     abi: MUSD_CONTRACT,
-    address: MUSD_ADDRESS,
+    address: addresses[chainId]["musd"],
     functionName: "allowance",
-    args: [address, VIRTUALIZER_ADDRESS],
+    args: [address, addresses[chainId]["virtualizer"]],
   });
 
   const approve_str = approved?.toString();
@@ -57,7 +63,7 @@ const DepositWidget: React.FC<DepositWidgetProps> = ({ refreshBalance, balance }
     } else {
       writeContract({
         abi: VIRTUALISER_CONTRACT,
-        address: VIRTUALIZER_ADDRESS,
+        address: addresses[chainId]["virtualizer"],
         functionName: "wrap",
         args: [transfer_mUSDC],
       });
@@ -71,7 +77,7 @@ const DepositWidget: React.FC<DepositWidgetProps> = ({ refreshBalance, balance }
       toast.loading("Transaction Pending");
     }
     toast.dismiss();
-      
+
     if (isConfirmed) {
       toast.success("Transaction Successful", {
         action: {
@@ -84,11 +90,11 @@ const DepositWidget: React.FC<DepositWidgetProps> = ({ refreshBalance, balance }
       refreshBalance?.();
       setmUSDC(0);
     }
-      if (error) {
+    if (error) {
       toast.error("Transaction Failed");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isConfirmed, isConfirming, error, hash])
+  }, [isConfirmed, isConfirming, error, hash]);
 
   return (
     <div>
@@ -108,7 +114,10 @@ const DepositWidget: React.FC<DepositWidgetProps> = ({ refreshBalance, balance }
 
       <div className="mx-2">
         {!address ? (
-          <Button className="w-full rounded-full bg-[#F15A22] hover:bg-[#F5846F] font-semibold" onClick={handleConnect}>
+          <Button
+            className="w-full rounded-full bg-[#F15A22] hover:bg-[#F5846F] font-semibold"
+            onClick={handleConnect}
+          >
             Connect Wallet
           </Button>
         ) : (
@@ -121,7 +130,11 @@ const DepositWidget: React.FC<DepositWidgetProps> = ({ refreshBalance, balance }
           </Button>
         )}
 
-        <Modal isOpen={isModalOpen} onClose={closeModal} refetchApproval={refetch_approval}>
+        <Modal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          refetchApproval={refetch_approval}
+        >
           <DisabledInputComponent
             label="mUSDC"
             heading="Approve amount of funds that can be transferred"
