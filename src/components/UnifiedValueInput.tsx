@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface UnifiedInputProps {
   label: string;
@@ -20,6 +20,10 @@ const UnifiedInput: React.FC<UnifiedInputProps> = ({
   const [inputValue, setInputValue] = useState<string>(
     value !== 0 ? value.toString() : ""
   );
+
+  useEffect(() => {
+    setInputValue(value !== 0 ? value.toString() : "");
+  }, [value]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
