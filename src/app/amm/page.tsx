@@ -46,7 +46,7 @@ export default function AmmPage() {
   const vrt_to_vttd = [
     addresses[chainId]["vrt"],
     addresses[chainId]["vttd"],
-    3000,
+    500,
     address,
     Number(parseEther(vRT.toString())),
     1000000000000000,
@@ -56,7 +56,7 @@ export default function AmmPage() {
   const vttd_to_vrt = [
     addresses[chainId]["vttd"],
     addresses[chainId]["vrt"],
-    3000,
+    500,
     address,
     Number(parseEther(vTTD.toString())),
     1000000000000000,
@@ -73,7 +73,7 @@ export default function AmmPage() {
     setSwap("vttd");
   };
 
-  const { writeContract, data: hash } = useWriteContract();
+  const { writeContract, data: hash, error: the_error, isError } = useWriteContract();
   const {
     isLoading: isConfirming,
     error,
@@ -124,14 +124,14 @@ export default function AmmPage() {
 
   useEffect(() => {
     if (formatted_cb_rate !== undefined && !Number.isNaN(formatted_cb_rate)) {
-      setReceiveVRT(parseFloat((vTTD - 0.003 * vTTD).toFixed(3)));
+      setReceiveVRT(parseFloat((vTTD - 0.0005 * vTTD).toFixed(3)));
     }
   }, [vTTD]);
 
   useEffect(() => {
     if (formatted_cb_rate !== undefined && !Number.isNaN(formatted_cb_rate)) {
       console.log("cb rate = ", formatted_cb_rate);
-      setReceiveVTTD(parseFloat((vRT - 0.003 * vRT).toFixed(3)));
+      setReceiveVTTD(parseFloat((vRT - 0.0005 * vRT).toFixed(3)));
     }
   }, [vRT]);
 
@@ -170,6 +170,9 @@ export default function AmmPage() {
               functionName: "exactInputSingle",
               args: [vttd_to_vrt],
             });
+            if (isError) {
+              console.log("Error - ", the_error)
+            }
             console.log("Transferring:", vTTD);
           } catch (error) {
             console.error("Transaction error:", error);

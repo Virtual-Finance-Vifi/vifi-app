@@ -69,14 +69,14 @@ const Modal: React.FC<ModalProps> = ({
     const address =
       swapType === "vrt"
         ? addresses[chainId]["vrt"]
-        : addresses[chainId]["vttd"]; // Replace with actual VTTD contract address
+        : addresses[chainId]["vttd"]; 
 
     writeContractAsync({
       abi,
       address,
       functionName: "approve",
       args: [
-        "0x3bFA4769FB09eefC5a80d6E87c3B9C650f7Ae48E",
+        addresses[chainId]["swap"],
         "10000000000000000000000000",
       ],
     });
