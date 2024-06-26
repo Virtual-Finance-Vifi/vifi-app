@@ -72,12 +72,12 @@ const Modal: React.FC<ModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4">
-      <div className="bg-secondary rounded-lg shadow-lg p-6 w-full max-w-md">
+      <div className="bg-white dark:bg-[#1e293b] rounded-lg shadow-2xl p-6 w-full max-w-md">
         {children}
         <div className="flex flex-row justify-between">
           <Button
             onClick={onClose}
-            className="mt-4 py-2 px-4 bg-[#020817] text-white"
+            className="mt-4 py-2 px-4 bg-[#020817] bg-[#F15A22] hover:bg-[#F5846F]"
           >
             Cancel
           </Button>
@@ -93,7 +93,7 @@ const Modal: React.FC<ModalProps> = ({
                 ],
               })
             }
-            className="mt-4 py-2 px-4 bg-[#020817] text-white"
+            className="mt-4 py-2 px-4 bg-[#F15A22] hover:bg-[#F5846F]"
           >
             Approve
           </Button>
