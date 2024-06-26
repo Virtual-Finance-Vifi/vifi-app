@@ -6,7 +6,7 @@ interface UnifiedInputProps {
   setValue: (value: number) => void;
   type?: string;
   disabled?: boolean;
-  balance: number;
+  balance: number | null;
 }
 
 const UnifiedInput: React.FC<UnifiedInputProps> = ({
@@ -62,12 +62,12 @@ const UnifiedInput: React.FC<UnifiedInputProps> = ({
           h-[2.2rem] min-h-[2.2rem] px-1 font-medium  
           overflow-hidden text-ellipsis whitespace-nowrap w-auto"
         />
-        {balance ? (
+        {balance !== null ? (
           <h1 className="ml-3">
             Balance: {(Number(balance) / 10 ** 18).toFixed(2)}
           </h1>
         ) : (
-          <h1 className="ml-3">Balance: 0</h1>
+          <h1 className="ml-3">Loading balance...</h1>
         )}
       </div>
     </div>

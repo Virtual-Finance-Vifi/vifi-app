@@ -17,6 +17,8 @@ export default function Virtualizer() {
   const chainId = getChainId(config);
   const [activeTab, setActiveTab] = useState<string>("deposit");
   const { address } = useAccount();
+  const [musdcBalance, setMusdcBalance] = useState<number | null>(null);
+  const [vusdBalance, setVusdBalance] = useState<number | null>(null);
 
   const handleTabChange = (tabName: string) => {
     setActiveTab(tabName);
@@ -39,13 +41,24 @@ export default function Virtualizer() {
     }
   );
 
+  useEffect(() => {
+    if (mUSDC_balance !== undefined) {
+      const newMusdcBalance = Number(mUSDC_balance);
+      setMusdcBalance(newMusdcBalance);
+    }
+  }, [mUSDC_balance]);
+
+  useEffect(() => {
+    if (vUSD_balance !== undefined) {
+      const newVusdBalance = Number(vUSD_balance);
+      setVusdBalance(newVusdBalance);
+    }
+  }, [mUSDC_balance]);
+
   const refreshBalances = () => {
     refresh_musdc_Balance();
     refresh_vusd_Balance();
   };
-
-  const mUSD_balance_number = mUSDC_balance ? Number(mUSDC_balance) : 0;
-  const vUSD_balance_number = vUSD_balance ? Number(vUSD_balance) : 0;
 
   return (
     <div className="flex items-center flex-col flex-grow pt-6">
@@ -89,7 +102,7 @@ export default function Virtualizer() {
             <div>
               <DepositWidget
                 refreshBalance={refreshBalances}
-                balance={mUSD_balance_number}
+                balance={musdcBalance}
               />
             </div>
           )}
@@ -97,7 +110,7 @@ export default function Virtualizer() {
             <div>
               <WithdrawWidget
                 refreshBalance={refreshBalances}
-                balance={vUSD_balance_number}
+                balance={vusdBalance}
               />
             </div>
           )}

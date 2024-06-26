@@ -35,7 +35,7 @@ const CustomToast: React.FC<CustomToastProps> = ({ message, gifUrl }) => (
 );
 interface WithdrawWidgetProps {
   refreshBalance: () => void; // Define the type of refreshBalance as a function
-  balance: number;
+  balance: number | null;
 }
 
 const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({
