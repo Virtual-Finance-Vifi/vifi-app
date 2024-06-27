@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import { Button } from "../ui/button";
+import { Button } from "../../../components/ui/button";
 import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
-import VRT_CONTRACT from "../../contracts/vtoken.json";
+import MUSD_CONTRACT from "../../../contracts/mUSD.json";
 import { config } from "@/configs";
 import { getChainId } from "@wagmi/core";
 import { addresses } from "@/constants/addresses";
@@ -9,18 +9,16 @@ import { toast } from "sonner";
 
 interface ModalProps {
   isOpen: boolean;
-  onClose: () => void;
+  onClose: () => void; // Define the type for onClose as a function that returns nothing
   children: React.ReactNode;
-  swapType: string;
-  refetchApprovals: () => void;
+  refetchApproval: () => void;
 }
 
 const Modal: React.FC<ModalProps> = ({
   isOpen,
   onClose,
   children,
-  swapType,
-  refetchApprovals,
+  refetchApproval,
 }) => {
   const chainId = getChainId(config);
   const {
@@ -29,6 +27,15 @@ const Modal: React.FC<ModalProps> = ({
     isError: error,
     data: hash,
   } = useWriteContract();
+
+  useEffect(() => {
+    if (isSuccess === true) {
+      onClose();
+    }
+    if (error) {
+      console.error("Transaction Failed");
+    }
+  }, [isSuccess, error, onClose]);
 
   const {
     isLoading: isConfirming,
@@ -53,8 +60,7 @@ const Modal: React.FC<ModalProps> = ({
           },
         },
       });
-      onClose();
-      refetchApprovals?.();
+      refetchApproval?.();
     }
     if (error) {
       toast.error("Approval Failed");
@@ -64,42 +70,32 @@ const Modal: React.FC<ModalProps> = ({
 
   if (!isOpen) return null;
 
-  const handleApprove = () => {
-    const abi = VRT_CONTRACT;
-    const address =
-      swapType === "vrt"
-        ? addresses[chainId]["vrt"]
-        : addresses[chainId]["vttd"]; 
-
-    writeContractAsync({
-      abi,
-      address,
-      functionName: "approve",
-      args: [
-        addresses[chainId]["swap"],
-        "10000000000000000000000000",
-      ],
-    });
-  };
-
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4">
-      <div className="bg-secondary rounded-lg shadow-lg p-6 w-full max-w-md">
+      <div className="bg-white dark:bg-[#1e293b] rounded-lg shadow-2xl p-6 w-full max-w-md">
         {children}
         <div className="flex flex-row justify-between">
           <Button
             onClick={onClose}
-            disabled={isConfirming}
-            className="mt-4 py-2 px-4 bg-[#020817] text-white"
+            className="mt-4 py-2 px-4 bg-[#020817] bg-[#F15A22] hover:bg-[#F5846F]"
           >
             Cancel
           </Button>
           <Button
-            onClick={handleApprove}
-            disabled={isConfirming}
-            className="mt-4 py-2 px-4 bg-[#020817] text-white"
+            onClick={() =>
+              writeContractAsync({
+                abi: MUSD_CONTRACT,
+                address: addresses[chainId]["musd"],
+                functionName: "approve",
+                args: [
+                  addresses[chainId]["virtualizer"],
+                  "1000000000000000000000000",
+                ],
+              })
+            }
+            className="mt-4 py-2 px-4 bg-[#F15A22] hover:bg-[#F5846F]"
           >
-            Approve {swapType.toUpperCase()}
+            Approve
           </Button>
         </div>
       </div>

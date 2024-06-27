@@ -1,50 +1,35 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "../ui/button";
-import InputComponent from "@/components/virtualizer/Input";
+import { Button } from "../../../components/ui/button";
+import InputComponent from "./Input";
 import Modal from "./Modal";
 import DisabledInputComponent from "./DisabledInput";
-import VIRTUALISER_CONTRACT from "../../contracts/virtualizer.json";
 import {
   useAccount,
   useReadContract,
-  useWriteContract,
   useWaitForTransactionReceipt,
+  useWriteContract,
 } from "wagmi";
+import MUSD_CONTRACT from "../../../contracts/mUSD.json";
+import VIRTUALISER_CONTRACT from "../../../contracts/virtualizer.json";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
-import MUSD_CONTRACT from "../../contracts/mUSD.json";
 import { parseEther } from "viem";
 import { config } from "@/configs";
 import { getChainId } from "@wagmi/core";
 import { addresses } from "@/constants/addresses";
 import { toast } from "sonner";
 
-interface CustomToastProps {
-  message: string;
-  gifUrl: string;
-}
-
-const CustomToast: React.FC<CustomToastProps> = ({ message, gifUrl }) => (
-  <div className="flex flex-col items-center">
-    <img
-      src={gifUrl}
-      alt="Toast Icon"
-      className="border border-green-400 self-center"
-    />
-    <h1 className="text-xl font-bold">{message}...</h1>
-  </div>
-);
-interface WithdrawWidgetProps {
+interface DepositWidgetProps {
   refreshBalance: () => void; // Define the type of refreshBalance as a function
   balance: number | null;
 }
 
-const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({
+const DepositWidget: React.FC<DepositWidgetProps> = ({
   refreshBalance,
   balance,
 }) => {
   const chainId = getChainId(config);
   const { address } = useAccount();
-  const [vUSD, setvUSD] = useState<number>(0);
+  const [mUSDC, setmUSDC] = useState<number>(0);
   const [isModalOpen, setModalOpen] = useState(false);
   const { writeContract, data: hash } = useWriteContract();
   const openModal = () => setModalOpen(true);
@@ -70,43 +55,26 @@ const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({
   });
 
   const approve_str = approved?.toString();
-  const transfer_vUSD = String(parseEther(vUSD.toString()));
+  const transfer_mUSDC = String(parseEther(mUSDC.toString()));
 
-  const handleWithdraw = () => {
+  const handleDeposit = () => {
     if (approve_str === "0") {
       openModal();
     } else {
       writeContract({
         abi: VIRTUALISER_CONTRACT,
         address: addresses[chainId]["virtualizer"],
-        functionName: "unwrap",
-        args: [transfer_vUSD],
+        functionName: "wrap",
+        args: [transfer_mUSDC],
       });
 
-      console.log("Transferring:", transfer_vUSD);
+      console.log("Transferring:", transfer_mUSDC);
     }
   };
 
   useEffect(() => {
     if (isConfirming) {
-      toast.loading(
-        <CustomToast
-          message="TransactionPending"
-          gifUrl="walking_orange.gif"
-        />,
-        {
-          style: {
-            background: "#3A4047",
-            width: "33vw",
-            height: "75vh",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%,-50%)",
-            position: "fixed",
-          },
-          //className:"bg-[#3A4047] w-full h-full top-[145px] left-[490px]"
-        }
-      );
+      toast.loading("Transaction Pending");
     }
     toast.dismiss();
 
@@ -120,7 +88,7 @@ const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({
         },
       });
       refreshBalance?.();
-      setvUSD(0);
+      setmUSDC(0);
     }
     if (error) {
       toast.error("Transaction Failed");
@@ -134,10 +102,10 @@ const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({
         <div>
           <div className="flex mx-2">
             <InputComponent
-              label="vUSD"
-              type="withdraw"
-              initialValue={vUSD}
-              onValueChange={setvUSD}
+              label="mUSDC"
+              type="deposit"
+              initialValue={mUSDC}
+              onValueChange={setmUSDC}
               balance={balance}
             />
           </div>
@@ -155,10 +123,10 @@ const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({
         ) : (
           <Button
             className="w-full rounded-full bg-[#F15A22] hover:bg-[#F5846F] font-semibold"
-            onClick={handleWithdraw}
+            onClick={handleDeposit}
             disabled={isConfirming}
           >
-            Withdraw
+            Deposit
           </Button>
         )}
 
@@ -168,10 +136,10 @@ const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({
           refetchApproval={refetch_approval}
         >
           <DisabledInputComponent
-            label="vUSD"
+            label="mUSDC"
             heading="Approve amount of funds that can be transferred"
             initialValue={1000000}
-            currency="vUSD"
+            currency="mUSDC"
           />
         </Modal>
       </div>
@@ -179,4 +147,4 @@ const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({
   );
 };
 
-export default WithdrawWidget;
+export default DepositWidget;

@@ -12,16 +12,16 @@ import { parseEther } from "viem";
 import { toast } from "sonner";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { Card, Tab, TabGroup, TabList } from "@tremor/react";
-import InputComponent from "@/components/amm/Input";
-import Modal from "@/components/amm/Modal";
-import VTOKEN_CONTRACT from "../../contracts/vtoken.json";
-import SWAP_CONTRACT from "../../contracts/swap.json";
+import InputComponent from "./Input";
+import Modal from "./Modal";
+import VTOKEN_CONTRACT from "@/contracts/vtoken.json";
+import SWAP_CONTRACT from "@/contracts/swap.json";
 import VARQ_CONTRACT from "@/contracts/varq.json";
 import { config } from "@/configs";
 import { getChainId } from "@wagmi/core";
 import { addresses } from "@/constants/addresses";
 
-export default function AmmPage() {
+export default function Markets() {
   const chainId = getChainId(config);
   const { isConnected } = useAccount();
   const { address } = useAccount();

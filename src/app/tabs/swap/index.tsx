@@ -11,13 +11,13 @@ import {
 import { parseEther } from "viem";
 import { toast } from "sonner";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
-import VEX_CONTRACT from "../../contracts/vex.json";
+import VEX_CONTRACT from "@/contracts/vex.json";
 import { Card } from "@tremor/react";
 import UnifiedInput from "@/components/UnifiedValueInput";
 import { config } from "@/configs";
 import { getChainId } from "@wagmi/core";
 import { addresses } from "@/constants/addresses";
-import VexModal from "@/components/swap/VexModal";
+import VexModal from "./VexModal";
 import VTOKEN_CONTRACT from "@/contracts/vtoken.json";
 
 export default function Vex() {

@@ -1,38 +1,43 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import InputComponent from "./Input";
-import Image from "next/image";
-import { Button } from "../ui/button";
+import { Button } from "../../../components/ui/button";
 import {
   useAccount,
-  useWaitForTransactionReceipt,
   useWriteContract,
+  useWaitForTransactionReceipt,
 } from "wagmi";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
-import VARQ_CONTRACT from "../../contracts/varq.json";
+import VARQ_CONTRACT from "../../../contracts/varq.json";
 import { Address, parseEther } from "viem";
 import { config } from "@/configs";
 import { getChainId } from "@wagmi/core";
 import { addresses } from "@/constants/addresses";
 import { toast } from "sonner";
 
-interface EMCToVUSDProps {
+interface VUSDToEMCProps {
   refreshBalance: () => void;
   balance: number;
 }
 
-const EMC_to_VUSD: React.FC<EMCToVUSDProps> = ({ refreshBalance, balance }) => {
+const VUSD_to_EMC: React.FC<VUSDToEMCProps> = ({ refreshBalance, balance }) => {
   const chainId = getChainId(config);
   const { address } = useAccount();
-  const handleConnect = () => {
-    open();
-  };
+  const { open } = useWeb3Modal();
   const [destinationAddress, setDestinationAddress] = useState<Address>(
     address || "0x"
   );
-  const [VRT, setVRT] = useState<number>(0);
-  const { writeContract, data: hash } = useWriteContract();
-  const { open } = useWeb3Modal();
-  const transfer_VRT = String(parseEther(VRT.toString()));
+  const handleConnect = () => {
+    open();
+  };
+
+  const [VUSD, setVUSD] = useState<number>(0);
+  const {
+    writeContract,
+    data: hash,
+    error: the_error,
+    isError,
+  } = useWriteContract();
+  const transfer_VUSD = parseEther(VUSD.toString());
 
   const handleDestinationAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
@@ -41,15 +46,14 @@ const EMC_to_VUSD: React.FC<EMCToVUSDProps> = ({ refreshBalance, balance }) => {
     );
   };
 
-  const handleEMCtoVUSD = () => {
+  const handleVUSDtoEMC = () => {
     writeContract({
       abi: VARQ_CONTRACT,
       address: addresses[chainId]["varq"],
-      functionName: "convertTokensToVUSD",
-      args: [transfer_VRT, destinationAddress],
+      functionName: "convertVUSDToTokens",
+      args: [transfer_VUSD, destinationAddress],
     });
-
-    console.log("Transferring: ", [VRT] + "to " + [destinationAddress]);
+    console.log("Transferring:", VUSD + "to " + destinationAddress);
   };
 
   const {
@@ -76,23 +80,22 @@ const EMC_to_VUSD: React.FC<EMCToVUSDProps> = ({ refreshBalance, balance }) => {
         },
       });
       refreshBalance?.();
-      setVRT(0);
+      setVUSD(0);
     }
     if (error) {
       toast.error("Transaction Failed");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConfirmed, isConfirming, error, hash]);
+
   return (
     <div>
       <div className="flex rounded-2xl items-left flex-col flex-grow pt-4 mx-2">
-        <h1 className="ml-2">vTTD & vRT -{">"} vUSD</h1>
-      </div>
-      <div className="flex rounded-2xl items-left flex-col flex-grow mx-2">
+        <h1 className="ml-2">vUSD -{">"} vTTD</h1>
         <InputComponent
-          label="vRT"
-          onValueChange={setVRT}
-          initialValue={VRT}
+          label="vUSD"
+          onValueChange={setVUSD}
+          initialValue={VUSD}
           balance={balance}
         />
         <p className="ml-2">Destination Address (Optional)</p>
@@ -107,7 +110,7 @@ const EMC_to_VUSD: React.FC<EMCToVUSDProps> = ({ refreshBalance, balance }) => {
       <div className="flex flex-col justify-center mx-2">
         {!address ? (
           <Button
-            className="bg-[#00A651] rounded-2xl px-6 hover:bg-[#C2D952] font-semibold"
+            className="bg-[#00A651] rounded-2xl px-6 hover:bg-[#C2D952]"
             onClick={handleConnect}
           >
             Connect Wallet
@@ -115,8 +118,8 @@ const EMC_to_VUSD: React.FC<EMCToVUSDProps> = ({ refreshBalance, balance }) => {
         ) : (
           <>
             <Button
-              className="bg-[#00A651] rounded-2xl px-6 hover:bg-[#C2D952] font-semibold"
-              onClick={handleEMCtoVUSD}
+              className="bg-[#00A651] rounded-2xl px-6 hover:bg-[#C2D952]"
+              onClick={handleVUSDtoEMC}
             >
               Convert
             </Button>
@@ -127,4 +130,4 @@ const EMC_to_VUSD: React.FC<EMCToVUSDProps> = ({ refreshBalance, balance }) => {
   );
 };
 
-export default EMC_to_VUSD;
+export default VUSD_to_EMC;

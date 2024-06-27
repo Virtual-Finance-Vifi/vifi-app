@@ -19,6 +19,7 @@ export const addresses: any = {
         vex: "0xD3AD0258d0929d30F40b5f3516FAE2891B4C7D79"
     },
     534351: {
+        testnet: true,
         musd: "0xB152BB6e264E90A23e86617B1763FB4e734F50c5",
         vifi_dao: "0x5cB10F2d9e6838D03A6B66324fED3D569AC5F871",
         vusd: "0xFcde9E29C280c3efCC0297c2CCE67B6810f15B67",
@@ -31,6 +32,7 @@ export const addresses: any = {
         vex: "0xD3AD0258d0929d30F40b5f3516FAE2891B4C7D79"
     },
     84532: {
+        testnet: true,
         musd: "0x13D07539925924304cD8104E82C6BB7256487F23",
         vifi_dao: "0xC7c7a051b4523c26355Cbd2CdBAf92E2fE80E661",
         vusd: "0x4A3Da8048e721Fb9D8363DCef2527e3c89d2A351",

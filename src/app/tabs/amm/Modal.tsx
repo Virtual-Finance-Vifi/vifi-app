@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
-import { Button } from "../ui/button";
+import { Button } from "../../../components/ui/button";
 import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
-import VRT_CONTRACT from "../../contracts/vtoken.json";
-import VEX_CONTRACT from "@/contracts/vex.json";
+import VRT_CONTRACT from "../../../contracts/vtoken.json";
 import { config } from "@/configs";
 import { getChainId } from "@wagmi/core";
 import { addresses } from "@/constants/addresses";
@@ -68,15 +67,18 @@ const Modal: React.FC<ModalProps> = ({
   const handleApprove = () => {
     const abi = VRT_CONTRACT;
     const address =
-      swapType === "vUSD"
-        ? addresses[chainId]["vusd"]
-        : addresses[chainId]["vttd"]; // Replace with actual VTTD contract address
+      swapType === "vrt"
+        ? addresses[chainId]["vrt"]
+        : addresses[chainId]["vttd"]; 
 
     writeContractAsync({
       abi,
       address,
       functionName: "approve",
-      args: [addresses[chainId]["vex"], "10000000000000000000000000"],
+      args: [
+        addresses[chainId]["swap"],
+        "10000000000000000000000000",
+      ],
     });
   };
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import UnifiedInput from '../UnifiedValueInput';
+import UnifiedInput from '../../../components/UnifiedValueInput';
 
 interface InputComponentProps {
   label: string;
