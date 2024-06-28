@@ -11,7 +11,7 @@ import {
 import { parseEther } from "viem";
 import { toast } from "sonner";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
-import Claim from './claim'
+import Claim from './claim/page'
 
 import {Markets, Forge, Swap, Virtualizer} from "./tabs"
 

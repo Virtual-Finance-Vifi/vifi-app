@@ -1,11 +1,15 @@
 "use client";
 import Image from "next/image";
-import { ModeToggle } from "./Modetoggle";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { addresses } from "@/constants/addresses";
+import { useAccount } from "wagmi";
 
 export default function Nav() {
+  const {chain} = useAccount();
   const [activeTab, setActiveTab] = useState<string>("");
+
+  const testnet = chain?.id !== undefined ? addresses[chain.id]?.testnet : undefined;
 
   useEffect(() => {
     const storedActiveTab = localStorage.getItem("activeTab");
@@ -18,6 +22,7 @@ export default function Nav() {
     setActiveTab(tabName);
     localStorage.setItem("activeTab", tabName);
   };
+  
 
   return (
     <header>
@@ -43,9 +48,18 @@ export default function Nav() {
             </li> 
           </ul>
           <div className="flex flex-row items-center">
-            <div className="mr-2">
-              <ModeToggle />
-            </div>
+            {!testnet ? null : (
+              <Link
+                className={`py-2 px-4 rounded-full border text-white border-gray-500 shadow-lg  bg-[#038240] hover:bg-[#00A651] ${
+                  activeTab === "claim"
+                    ? "border-green-200 border-2"
+                    : "text-gray-500"
+                }`}
+                href="claim"
+              >
+                Faucet
+              </Link>
+            )}
             <w3m-button size="sm" balance="hide" />
             <w3m-network-button />
           </div>
