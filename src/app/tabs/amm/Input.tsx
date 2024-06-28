@@ -6,6 +6,7 @@ interface InputComponentProps {
   setValue: (value: number) => void;
   type: string;
   balance: number;
+  disabled?: boolean;
 }
 
 const InputComponent: React.FC<InputComponentProps> = ({
@@ -13,7 +14,8 @@ const InputComponent: React.FC<InputComponentProps> = ({
   value,
   setValue,
   type,
-  balance
+  balance,
+  disabled,
 }) => {
   const [inputValue, setInputValue] = useState<string>(
     value !== 0 ? value.toString() : ""
@@ -43,6 +45,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
         </h1>
         <div className="flex flex-row items-center pb-2">
           <input
+            disabled={disabled}
             type="number"
             value={inputValue}
             onChange={handleChange}

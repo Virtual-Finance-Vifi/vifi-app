@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
-import { Button } from "../ui/button";
+import { Button } from "../../../components/ui/button";
 import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
-import VRT_CONTRACT from "../../contracts/vtoken.json";
-import VEX_CONTRACT from "@/contracts/vex.json";
-import { VTTD_ADDRESS, VUSD_ADDRESS, VEX_ADDRESS } from "@/constants/addresses";
+import VRT_CONTRACT from "../../../contracts/vtoken.json";
+import { config } from "@/configs";
+import { getChainId } from "@wagmi/core";
+import { addresses } from "@/constants/addresses";
 import { toast } from "sonner";
 
 interface ModalProps {
@@ -19,13 +20,19 @@ const Modal: React.FC<ModalProps> = ({
   onClose,
   children,
   swapType,
-  refetchApprovals
+  refetchApprovals,
 }) => {
-  const { writeContractAsync, isSuccess, isError: error, data:hash } = useWriteContract();
+  const chainId = getChainId(config);
+  const {
+    writeContractAsync,
+    isSuccess,
+    isError: error,
+    data: hash,
+  } = useWriteContract();
 
   const {
     isLoading: isConfirming,
-    isError:receiptError,
+    isError: receiptError,
     isSuccess: isConfirmed,
   } = useWaitForTransactionReceipt({
     hash,
@@ -47,7 +54,7 @@ const Modal: React.FC<ModalProps> = ({
         },
       });
       onClose();
-      refetchApprovals?.()
+      refetchApprovals?.();
     }
     if (error) {
       toast.error("Approval Failed");
@@ -59,14 +66,17 @@ const Modal: React.FC<ModalProps> = ({
 
   const handleApprove = () => {
     const abi = VRT_CONTRACT;
-    const address = swapType === "vUSD" ? VUSD_ADDRESS : VTTD_ADDRESS; // Replace with actual VTTD contract address
+    const address =
+      swapType === "vrt"
+        ? addresses[chainId]["vrt"]
+        : addresses[chainId]["vttd"]; 
 
     writeContractAsync({
       abi,
       address,
       functionName: "approve",
       args: [
-        VEX_ADDRESS,
+        addresses[chainId]["swap"],
         "10000000000000000000000000",
       ],
     });

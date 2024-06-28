@@ -23,14 +23,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   // const initialState = cookieToInitialState(config, headers().get("cookie")) || null;
+  
   return (
     <html lang="en">
       <head>
         <link rel="icon" type="image/svg+xml" href="/icon.svg" />
-        <title>Modern Web3 Starter</title>
+        <title>Virtual Finance</title>
         <meta
           name="description"
-          content="A starter kit for using the latest tools for building your dApps frontends"
+          content="Stablecoin Protocol for the Frontier Currencies"
         />
       </head>
       <body

@@ -1,32 +1,39 @@
 import React, { useEffect } from "react";
-import { Button } from "../ui/button";
-import { useWriteContract , useWaitForTransactionReceipt} from "wagmi";
-import MUSD_CONTRACT from "../../contracts/mUSD.json";
-import { MUSD_ADDRESS, VIRTUALIZER_ADDRESS } from "@/constants/addresses";
+import { Button } from "@/components/ui/button";
+import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
+import VRT_CONTRACT from "../../../contracts/vtoken.json";
+import VEX_CONTRACT from "@/contracts/vex.json";
+import { config } from "@/configs";
+import { getChainId } from "@wagmi/core";
+import { addresses } from "@/constants/addresses";
 import { toast } from "sonner";
 
 interface ModalProps {
   isOpen: boolean;
-  onClose: () => void; // Define the type for onClose as a function that returns nothing
+  onClose: () => void;
   children: React.ReactNode;
-  refetchApproval: () => void;
+  swapType: string;
+  refetchApprovals: () => void;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, refetchApproval }) => {
-  const { writeContractAsync, isSuccess, isError: error , data:hash} = useWriteContract();
-
-  useEffect(() => {
-    if (isSuccess === true) {
-      onClose();
-    }
-    if (error) {
-      console.error("Transaction Failed");
-    }
-  }, [isSuccess, error, onClose]);
+const Modal: React.FC<ModalProps> = ({
+  isOpen,
+  onClose,
+  children,
+  swapType,
+  refetchApprovals,
+}) => {
+  const chainId = getChainId(config);
+  const {
+    writeContractAsync,
+    isSuccess,
+    isError: error,
+    data: hash,
+  } = useWriteContract();
 
   const {
     isLoading: isConfirming,
-    isError:receiptError,
+    isError: receiptError,
     isSuccess: isConfirmed,
   } = useWaitForTransactionReceipt({
     hash,
@@ -47,7 +54,8 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, refetchApprova
           },
         },
       });
-      refetchApproval?.()
+      onClose();
+      refetchApprovals?.();
     }
     if (error) {
       toast.error("Approval Failed");
@@ -57,6 +65,21 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, refetchApprova
 
   if (!isOpen) return null;
 
+  const handleApprove = () => {
+    const abi = VRT_CONTRACT;
+    const address =
+      swapType === "vUSD"
+        ? addresses[chainId]["vusd"]
+        : addresses[chainId]["vttd"]; // Replace with actual VTTD contract address
+
+    writeContractAsync({
+      abi,
+      address,
+      functionName: "approve",
+      args: [addresses[chainId]["vex"], "10000000000000000000000000"],
+    });
+  };
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4">
       <div className="bg-secondary rounded-lg shadow-lg p-6 w-full max-w-md">
@@ -64,22 +87,17 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, refetchApprova
         <div className="flex flex-row justify-between">
           <Button
             onClick={onClose}
+            disabled={isConfirming}
             className="mt-4 py-2 px-4 bg-[#020817] text-white"
           >
             Cancel
           </Button>
           <Button
-            onClick={() =>
-              writeContractAsync({
-                abi: MUSD_CONTRACT,
-                address: MUSD_ADDRESS,
-                functionName: "approve",
-                args: [VIRTUALIZER_ADDRESS, "1000000000000000000000000"],
-              })
-            }
+            onClick={handleApprove}
+            disabled={isConfirming}
             className="mt-4 py-2 px-4 bg-[#020817] text-white"
           >
-            Approve
+            Approve {swapType.toUpperCase()}
           </Button>
         </div>
       </div>

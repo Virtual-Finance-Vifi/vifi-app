@@ -11,18 +11,17 @@ import {
 import { parseEther } from "viem";
 import { toast } from "sonner";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
-import VEX_CONTRACT from "../../contracts/vex.json";
+import VEX_CONTRACT from "@/contracts/vex.json";
 import { Card } from "@tremor/react";
 import UnifiedInput from "@/components/UnifiedValueInput";
-import {
-  VUSD_ADDRESS,
-  VTTD_ADDRESS,
-  VEX_ADDRESS,
-} from "@/constants/addresses";
-import VexModal from "@/components/vex/VexModal";
+import { config } from "@/configs";
+import { getChainId } from "@wagmi/core";
+import { addresses } from "@/constants/addresses";
+import VexModal from "./VexModal";
 import VTOKEN_CONTRACT from "@/contracts/vtoken.json";
 
 export default function Vex() {
+  const chainId = getChainId(config);
   const { isConnected } = useAccount();
   const { address } = useAccount();
   const { open } = useWeb3Modal();
@@ -67,7 +66,7 @@ export default function Vex() {
   const { data: vTTD_balance, refetch: refresh_vTTD_balance } = useReadContract(
     {
       abi: VTOKEN_CONTRACT,
-      address: VTTD_ADDRESS,
+      address: addresses[chainId]["vttd"],
       functionName: "balanceOf",
       args: [address],
     }
@@ -75,7 +74,7 @@ export default function Vex() {
   const { data: vUSD_balance, refetch: refresh_vUSD_balance } = useReadContract(
     {
       abi: VTOKEN_CONTRACT,
-      address: VUSD_ADDRESS,
+      address: addresses[chainId]["vusd"],
       functionName: "balanceOf",
       args: [address],
     }
@@ -84,17 +83,17 @@ export default function Vex() {
   const { data: vUSD_approval, refetch: refetch_vUSD_approval } =
     useReadContract({
       abi: VTOKEN_CONTRACT,
-      address: VUSD_ADDRESS,
+      address: addresses[chainId]["vusd"],
       functionName: "allowance",
-      args: [address, VEX_ADDRESS],
+      args: [address, addresses[chainId]["vex"]],
     });
 
   const { data: vTTD_approval, refetch: refetch_vTTD_approval } =
     useReadContract({
       abi: VTOKEN_CONTRACT,
-      address: VTTD_ADDRESS,
+      address: addresses[chainId]["vttd"],
       functionName: "allowance",
-      args: [address, VEX_ADDRESS],
+      args: [address, addresses[chainId]["vex"]],
     });
 
   // console.log("vUSD approval:", vUSD_approval?.toString());
@@ -117,7 +116,7 @@ export default function Vex() {
           try {
             writeContract({
               abi: VEX_CONTRACT,
-              address: VEX_ADDRESS,
+              address: addresses[chainId]["vex"],
               functionName: "swapVexIn",
               args: [transfer_vUSD],
             });
@@ -135,7 +134,7 @@ export default function Vex() {
           try {
             writeContract({
               abi: VEX_CONTRACT,
-              address: VEX_ADDRESS,
+              address: addresses[chainId]["vex"],
               functionName: "swapVexOut",
               args: [transfer_vTTD],
             });
@@ -182,9 +181,8 @@ export default function Vex() {
 
   return (
     <main className="pt-6">
-
       <Card className="max-w-md mx-auto rounded-3xl lg:mt-0 mt-14 bg-background">
-      <div className="flex flex-row items-center justify-between pb-4">
+        <div className="flex flex-row items-center justify-between pb-4">
           <div className="flex flex-row items-center">
             <Image
               src="/swap-logo.svg"
@@ -193,7 +191,7 @@ export default function Vex() {
               height={58}
               priority
             />
-            <h1 className="ml-2 text-[#68AAFF] lg:text-3xl font-bold">Swap</h1>
+            <h1 className="ml-2 text-[#FFCB05] lg:text-3xl font-bold">Swap</h1>
           </div>
 
           <Image
@@ -284,10 +282,18 @@ export default function Vex() {
 
         <div className="flex justify-center">
           {!isConnected ? (
-            <Button onClick={handleConnect}>Connect Wallet</Button>
+            <Button
+              className="rounded-2xl px-6 w-full bg-[#FFCB05] hover:bg-[#FBD873] font-semibold"
+              onClick={handleConnect}
+            >
+              Connect Wallet
+            </Button>
           ) : (
             <>
-              <Button className="rounded-2xl px-6 w-full bg-[#68AAFF]" onClick={handleDeposit}>
+              <Button
+                className="rounded-2xl px-6 w-full bg-[#FFCB05] hover:bg-[#FBD873] font-semibold"
+                onClick={handleDeposit}
+              >
                 Convert
               </Button>
             </>

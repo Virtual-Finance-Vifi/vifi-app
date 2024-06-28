@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import UnifiedInput from '../UnifiedValueInput';
+import UnifiedInput from '../../../components/UnifiedValueInput';
 
 interface InputComponentProps {
   label: string;
-  initialValue: number;
-  onValueChange?: (newValue: number) => void;
-  type: string;
+  initialValue: number;  
+  onValueChange?: (newValue: number) => void;  
   balance: number;
 }
 
@@ -13,8 +12,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
   label,
   initialValue,
   onValueChange,
-  type,
-  balance,
+  balance
 }) => {
   const [value, setValue] = useState(initialValue);
   const [isMounted, setIsMounted] = useState(false);
@@ -42,17 +40,8 @@ const InputComponent: React.FC<InputComponentProps> = ({
     setValue(initialValue);
   }, [initialValue]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = parseFloat(e.target.value);
-    if (!isNaN(newValue)) {
-      setValue(newValue);
-    } else {
-      setValue(0);
-    }
-  };
-
   return (
-    <UnifiedInput label={label} value={value} setValue={setValue} type={type} balance={balance}/>
+    <UnifiedInput label={label} value={value} setValue={setValue} balance={balance}/>
   );
 };
 

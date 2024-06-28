@@ -12,20 +12,17 @@ import { parseEther } from "viem";
 import { toast } from "sonner";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { Card, Tab, TabGroup, TabList } from "@tremor/react";
-import InputComponent from "@/components/amm/InputWidget";
-import DisabledInputComponent from "@/components/amm/DisabledInput";
-import Modal from "@/components/amm/Modal";
-import VTOKEN_CONTRACT from "../../contracts/vtoken.json";
-import SWAP_CONTRACT from "../../contracts/swap.json";
+import InputComponent from "./Input";
+import Modal from "./Modal";
+import VTOKEN_CONTRACT from "@/contracts/vtoken.json";
+import SWAP_CONTRACT from "@/contracts/swap.json";
 import VARQ_CONTRACT from "@/contracts/varq.json";
-import {
-  VRT_ADDRESS,
-  VTTD_ADDRESS,
-  SWAP_ADDRESS,
-  VARQ_ADDRESS,
-} from "@/constants/addresses";
+import { config } from "@/configs";
+import { getChainId } from "@wagmi/core";
+import { addresses } from "@/constants/addresses";
 
-export default function AmmPage() {
+export default function Markets() {
+  const chainId = getChainId(config);
   const { isConnected } = useAccount();
   const { address } = useAccount();
   const { open } = useWeb3Modal();
@@ -47,9 +44,9 @@ export default function AmmPage() {
   };
 
   const vrt_to_vttd = [
-    VRT_ADDRESS,
-    VTTD_ADDRESS,
-    3000,
+    addresses[chainId]["vrt"],
+    addresses[chainId]["vttd"],
+    500,
     address,
     Number(parseEther(vRT.toString())),
     1000000000000000,
@@ -57,9 +54,9 @@ export default function AmmPage() {
   ];
 
   const vttd_to_vrt = [
-    VTTD_ADDRESS,
-    VRT_ADDRESS,
-    3000,
+    addresses[chainId]["vttd"],
+    addresses[chainId]["vrt"],
+    500,
     address,
     Number(parseEther(vTTD.toString())),
     1000000000000000,
@@ -76,7 +73,7 @@ export default function AmmPage() {
     setSwap("vttd");
   };
 
-  const { writeContract, data: hash } = useWriteContract();
+  const { writeContract, data: hash, error: the_error, isError } = useWriteContract();
   const {
     isLoading: isConfirming,
     error,
@@ -88,38 +85,38 @@ export default function AmmPage() {
   const { data: vrt_approval, refetch: refetch_vrt_approval } = useReadContract(
     {
       abi: VTOKEN_CONTRACT,
-      address: VRT_ADDRESS,
+      address: addresses[chainId]["vrt"],
       functionName: "allowance",
-      args: [address, SWAP_ADDRESS],
+      args: [address, addresses[chainId]["swap"]],
     }
   );
 
   const { data: vttd_approval, refetch: refetch_vttd_approval } =
     useReadContract({
       abi: VTOKEN_CONTRACT,
-      address: VTTD_ADDRESS,
+      address: addresses[chainId]["vttd"],
       functionName: "allowance",
-      args: [address, SWAP_ADDRESS],
+      args: [address, addresses[chainId]["swap"]],
     });
 
   const { data: vTTD_balance, refetch: refresh_vttd_balance } = useReadContract(
     {
       abi: VTOKEN_CONTRACT,
-      address: VTTD_ADDRESS,
+      address: addresses[chainId]["vttd"],
       functionName: "balanceOf",
       args: [address],
     }
   );
   const { data: vRT_balance, refetch: refresh_vrt_balance } = useReadContract({
     abi: VTOKEN_CONTRACT,
-    address: VRT_ADDRESS,
+    address: addresses[chainId]["vrt"],
     functionName: "balanceOf",
     args: [address],
   });
 
   const { data: cb_rate, refetch: refresh_cb_rate } = useReadContract({
     abi: VARQ_CONTRACT,
-    address: VARQ_ADDRESS,
+    address: addresses[chainId]["varq"],
     functionName: "CBrate",
   });
 
@@ -127,14 +124,14 @@ export default function AmmPage() {
 
   useEffect(() => {
     if (formatted_cb_rate !== undefined && !Number.isNaN(formatted_cb_rate)) {
-      setReceiveVRT(parseFloat((vTTD - 0.003 * vTTD).toFixed(3)));
+      setReceiveVRT(parseFloat((vTTD - 0.0005 * vTTD).toFixed(3)));
     }
   }, [vTTD]);
 
   useEffect(() => {
     if (formatted_cb_rate !== undefined && !Number.isNaN(formatted_cb_rate)) {
       console.log("cb rate = ", formatted_cb_rate);
-      setReceiveVTTD(parseFloat((vRT - 0.003 * vRT).toFixed(3)));
+      setReceiveVTTD(parseFloat((vRT - 0.0005 * vRT).toFixed(3)));
     }
   }, [vRT]);
 
@@ -151,7 +148,7 @@ export default function AmmPage() {
           try {
             writeContract({
               abi: SWAP_CONTRACT,
-              address: SWAP_ADDRESS,
+              address: addresses[chainId]["swap"],
               functionName: "exactInputSingle",
               args: [vrt_to_vttd],
             });
@@ -169,10 +166,13 @@ export default function AmmPage() {
           try {
             writeContract({
               abi: SWAP_CONTRACT,
-              address: SWAP_ADDRESS,
+              address: addresses[chainId]["swap"],
               functionName: "exactInputSingle",
               args: [vttd_to_vrt],
             });
+            if (isError) {
+              console.log("Error - ", the_error)
+            }
             console.log("Transferring:", vTTD);
           } catch (error) {
             console.error("Transaction error:", error);
@@ -252,16 +252,8 @@ export default function AmmPage() {
             >
               Swap
             </Tab>
-            <Tab
-              className="px-4 rounded-2xl"
-            >
-              Limit Order
-            </Tab>
-            <Tab
-              className="px-4 rounded-2xl"
-            >
-              Pool
-            </Tab>
+            <Tab className="px-4 rounded-2xl">Limit Order</Tab>
+            <Tab className="px-4 rounded-2xl">Pool</Tab>
           </TabList>
         </TabGroup>
         {Swap === "vrt" ? (
@@ -295,12 +287,13 @@ export default function AmmPage() {
                 </svg>
               </button>
             </div>
-            <DisabledInputComponent
+            <InputComponent
               type="receive"
+              value={receiveVTTD}
+              setValue={setReceiveVTTD}
               label="vTTD"
-              initialValue={receiveVTTD}
-              currency="vTTD"
               balance={vTTD_balance_number}
+              disabled={true}
             />
           </>
         ) : (
@@ -333,20 +326,29 @@ export default function AmmPage() {
                 </svg>
               </button>
             </div>
-            <DisabledInputComponent
+            <InputComponent
               type="receive"
+              value={receiveVRT}
               label="vRT"
-              initialValue={receiveVRT}
-              currency="vRT"
               balance={vRT_balance_number}
+              setValue={setReceiveVRT}
+              disabled={true}
             />
           </>
         )}
         <div className="flex justify-center">
           {!isConnected ? (
-            <Button onClick={handleConnect}>Connect Wallet</Button>
+            <Button
+              className="rounded-2xl px-6 w-full bg-[#68AAFF] hover:bg-[#87b9fb] font-semibold"
+              onClick={handleConnect}
+            >
+              Connect Wallet
+            </Button>
           ) : (
-            <Button className="rounded-2xl px-6 w-full bg-[#68AAFF]" onClick={handleDeposit}>
+            <Button
+              className="rounded-2xl px-6 w-full bg-[#68AAFF] hover:bg-[#87b9fb] font-semibold"
+              onClick={handleDeposit}
+            >
               Swap
             </Button>
           )}
