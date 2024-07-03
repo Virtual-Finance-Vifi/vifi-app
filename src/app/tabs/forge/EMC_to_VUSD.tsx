@@ -62,7 +62,7 @@ const EMC_to_VUSD: React.FC<EMCToVUSDProps> = ({ refreshBalance, balance }) => {
 
   useEffect(() => {
     if (isConfirming) {
-      toast.loading("Transaction Pending");
+      toast.loading("Transaction Pending", { style: { background: "black" } });
     }
     toast.dismiss();
 
