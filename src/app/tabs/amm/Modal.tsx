@@ -40,7 +40,7 @@ const Modal: React.FC<ModalProps> = ({
 
   useEffect(() => {
     if (isConfirming) {
-      toast.loading("Approval Pending");
+      toast.loading("Approval Pending", { style: { background: "black" } });
     }
     toast.dismiss();
 
@@ -69,16 +69,13 @@ const Modal: React.FC<ModalProps> = ({
     const address =
       swapType === "vrt"
         ? addresses[chainId]["vrt"]
-        : addresses[chainId]["vttd"]; 
+        : addresses[chainId]["vttd"];
 
     writeContractAsync({
       abi,
       address,
       functionName: "approve",
-      args: [
-        addresses[chainId]["swap"],
-        "10000000000000000000000000",
-      ],
+      args: [addresses[chainId]["swap"], "10000000000000000000000000"],
     });
   };
 

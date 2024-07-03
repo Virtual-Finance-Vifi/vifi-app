@@ -41,7 +41,7 @@ const Modal: React.FC<ModalProps> = ({
 
   useEffect(() => {
     if (isConfirming) {
-      toast.loading("Approval Pending");
+      toast.loading("Approval Pending", { style: { background: "black" } });
     }
     toast.dismiss();
 
