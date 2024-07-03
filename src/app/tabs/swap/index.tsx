@@ -27,7 +27,7 @@ export default function Vex() {
   const { open } = useWeb3Modal();
   const [vUSD, setVUSD] = useState<number>(0);
   const [vTTD, setVTTD] = useState<number>(0);
-  const [Swap, setSwap] = useState<string>("vTTD");
+  const [Swap, setSwap] = useState<string>("vUSD");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState("");
 

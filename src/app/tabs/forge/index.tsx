@@ -80,12 +80,12 @@ export default function Varq() {
         </div>
         <div className="justify-left flex px-2">
           <CustomTab
-            label="USD to EMC"
+            label="USD to TTD"
             isActive={activeTab === "deposit"}
             onClick={() => handleTabChange("deposit")}
           />
           <CustomTab
-            label="EMC to USD"
+            label="TTD to USD"
             isActive={activeTab === "withdraw"}
             onClick={() => handleTabChange("withdraw")}
           />
