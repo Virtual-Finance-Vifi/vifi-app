@@ -70,7 +70,6 @@ export default function Home() {
               Welcome to our Testnet Dapp.
             </p>
           </section>
-          <Button onClick={handleConnect}>Connect Wallet</Button>
         </>
       ) : (
         <>
