@@ -2,6 +2,7 @@ import "./globals.css";
 import { Inter as FontSans } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { headers } from "next/headers";
+import { BalanceProvider } from "@/contexts/Balance";
 
 import { cn } from "@/lib/utils";
 import Nav from "@/components/Nav";
@@ -23,7 +24,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   // const initialState = cookieToInitialState(config, headers().get("cookie")) || null;
-  
+
   return (
     <html lang="en">
       <head>
@@ -40,14 +41,12 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-
         <div id="root" className="p-2 w-screen h-screen">
           <div className="fixed bottom-0 left-0 right-0">
             <div className="flex justify-between">
-              <img src="bleft_img.svg"/>
-              <img src="bright_img.svg"/>
+              <img src="bleft_img.svg" />
+              <img src="bright_img.svg" />
             </div>
-
           </div>
 
           <ThemeProvider
@@ -57,8 +56,10 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <Web3ModalProvider>
-              <Nav />
-              {children}
+              <BalanceProvider>
+                <Nav />
+                {children}
+              </BalanceProvider>
             </Web3ModalProvider>
           </ThemeProvider>
         </div>

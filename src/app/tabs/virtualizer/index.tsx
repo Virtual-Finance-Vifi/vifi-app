@@ -12,8 +12,11 @@ import { config } from "@/configs";
 import { getChainId } from "@wagmi/core";
 import { addresses } from "@/constants/addresses";
 import { formatEther } from "viem";
+import { useBalance } from "@/contexts/Balance";
 
 export default function Virtualizer() {
+  const { balance, refreshBalance } = useBalance();
+
   const chainId = getChainId(config);
   const [activeTab, setActiveTab] = useState<string>("deposit");
   const { address } = useAccount();
@@ -101,8 +104,8 @@ export default function Virtualizer() {
           {activeTab === "deposit" && (
             <div>
               <DepositWidget
-                refreshBalance={refreshBalances}
-                balance={musdcBalance}
+                refreshBalance={refreshBalance}
+                balance={balance}
               />
             </div>
           )}
