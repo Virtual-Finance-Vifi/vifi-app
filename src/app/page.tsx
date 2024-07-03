@@ -16,7 +16,7 @@ import Claim from "./claim/page";
 import { Markets, Forge, Swap, Virtualizer } from "./tabs";
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<string>("Swap");
+  const [activeTab, setActiveTab] = useState<string>("Virtualizer");
   const { isConnected } = useAccount();
   const { signMessage } = useSignMessage();
   const { sendTransaction, data: hash } = useSendTransaction();
@@ -54,8 +54,8 @@ export default function Home() {
   }, [isConfirming, isConfirmed, error, hash]);
 
   const tabs = [
-    { id: "Swap", label: "Swap", logo: "/swap-logo.svg" },
     { id: "Virtualizer", label: "Virtualizer", logo: "/virtualizer-logo.svg" },
+    { id: "Swap", label: "Swap", logo: "/swap-logo.svg" },
     { id: "Forge", label: "Forge", logo: "/forge-logo.svg" },
     { id: "Markets", label: "Markets", logo: "/amm-logo.svg" },
   ];
@@ -73,7 +73,7 @@ export default function Home() {
         </>
       ) : (
         <>
-          <section className="py-12 flex flex-col">
+          <section className="py-6 flex flex-col">
             <div className="flex gap-6 items-center justify-center">
               <div className="font-semibold text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
                 {tabs.map((tab) => (
@@ -103,8 +103,8 @@ export default function Home() {
           </section>
           <section>
             <div className="p-4">
-              {activeTab === "Swap" && <Swap />}
               {activeTab === "Virtualizer" && <Virtualizer />}
+              {activeTab === "Swap" && <Swap />}
               {activeTab === "Forge" && <Forge />}
               {activeTab === "Markets" && <Markets />}
             </div>
