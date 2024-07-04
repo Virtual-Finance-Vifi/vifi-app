@@ -77,6 +77,7 @@ const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({
         toast.loading(
           <CustomToast
             message="Waiting for confirmation..."
+            message2="ETA: 2 min 25 sec. Take a walk :)"
             gifUrl="walking_orange.gif"
             width={325}
             height={325}
@@ -108,6 +109,7 @@ const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({
       toast.loading(
         <CustomToast
           message="Transaction Pending ..."
+          message2="Your transaction has been submitted. Please check in a while."
           gifUrl="pending_lemon.gif"
           width={225}
           height={126}
@@ -133,6 +135,7 @@ const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({
       toast.success(
         <CustomToast
           message="Transaction Successful"
+          message2="Yippie :D"
           gifUrl="changing_fruit.gif"
           width={240}
           height={196}
@@ -156,23 +159,25 @@ const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({
       setvUSD(0);
     }
     if (error) {
-      toast.error(<CustomToast 
-        message="Transaction Failed"
-        gifUrl="confused_apple.gif"
-        width={325}
-        height={325}
-        hash={hash}/>,
-        {
-          style:{
-            background: "#101419",
-            width: "33vw",
-            height: "75vh",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%,-50%)",
-            position: "fixed",
+      toast.error(
+        <CustomToast 
+          message="Transaction Failed"
+          message2="Error Details"
+          gifUrl="confused_apple.gif"
+          width={325}
+          height={325}
+          hash={hash}/>,
+          {
+            style:{
+              background: "#101419",
+              width: "33vw",
+              height: "75vh",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%,-50%)",
+              position: "fixed",
+            }
           }
-        }
       
       );
     }
