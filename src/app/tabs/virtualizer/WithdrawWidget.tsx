@@ -17,22 +17,10 @@ import { config } from "@/configs";
 import { getChainId } from "@wagmi/core";
 import { addresses } from "@/constants/addresses";
 import { toast } from "sonner";
+import CustomToast from "@/components/CustomToast";
 
-// interface CustomToastProps {
-//   message: string;
-//   gifUrl: string;
-// }
 
-// const CustomToast: React.FC<CustomToastProps> = ({ message, gifUrl }) => (
-//   <div className="flex flex-col items-center">
-//     <img
-//       src={gifUrl}
-//       alt="Toast Icon"
-//       className="border border-green-400 self-center"
-//     />
-//     <h1 className="text-xl font-bold">{message}...</h1>
-//   </div>
-// );
+
 interface WithdrawWidgetProps {
   refreshBalance: () => void; // Define the type of refreshBalance as a function
   balance: number | null;
@@ -73,40 +61,120 @@ const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({
   const transfer_vUSD = String(parseEther(vUSD.toString()));
 
   const handleWithdraw = () => {
-    if (approve_str === "0") {
-      openModal();
-    } else {
-      writeContract({
-        abi: VIRTUALISER_CONTRACT,
-        address: addresses[chainId]["virtualizer"],
-        functionName: "unwrap",
-        args: [transfer_vUSD],
-      });
+    try {
+      if (approve_str === "0") {
+        openModal();
+      } else {
+        writeContract({
+          abi: VIRTUALISER_CONTRACT,
+          address: addresses[chainId]["virtualizer"],
+          functionName: "unwrap",
+          args: [transfer_vUSD],
+        });
 
-      console.log("Transferring:", transfer_vUSD);
-    }
+        console.log("Transferring:", transfer_vUSD);
+
+        toast.loading(
+          <CustomToast
+            message="Waiting for confirmation..."
+            gifUrl="walking_orange.gif"
+            width={325}
+            height={325}
+            hash={hash}
+          />,
+          {
+            style: {
+              background: "#101419",
+              width: "33vw", // 1/3 of viewport width
+              height: "75vh", // 1/3 of viewport height
+              top: "50%", // Center vertically
+              left: "50%", // Center horizontally
+              transform: "translate(-50%, -50%)", // Adjust position relative to center
+              position: "fixed", // Ensure it's fixed position
+              border: "solid green",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+            },
+            //className:"!bg-[#3A4047] !w-1/3 !h-3/4vh !top-1/2 !left-1/2 !-translate-x-1/2 !-translate-y-1/2 !fixed !border-solid !border-green"
+          }
+        );
+      }
+    } catch {}
   };
 
   useEffect(() => {
     if (isConfirming) {
-      toast.loading("Transaction Pending", {style:{background:"black"}});
+      toast.loading(
+        <CustomToast
+          message="Transaction Pending ..."
+          gifUrl="pending_lemon.gif"
+          width={225}
+          height={126}
+          hash={hash}
+        />,
+        {
+          style: {
+            background: "#101419",
+            width: "33vw",
+            height: "75vh",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%,-50%)",
+            position: "fixed",
+          },
+          //className:"bg-[#3A4047] w-full h-full top-[145px] left-[490px]"
+        }
+      );
     }
     toast.dismiss();
 
     if (isConfirmed) {
-      toast.success("Transaction Successful", {
-        action: {
-          label: "View on Etherscan",
-          onClick: () => {
-            window.open(`${addresses[chainId]['blockexplorer']}/tx/${hash}`);
+      toast.success(
+        <CustomToast
+          message="Transaction Successful"
+          gifUrl="changing_fruit.gif"
+          width={240}
+          height={196}
+          hash={hash}
+        />,
+        {
+          style: {
+            background: "#101419",
+            width: "33vw",
+            height: "75vh",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%,-50%)",
+            position: "fixed",
           },
-        },
-      });
+          //className:"bg-[#3A4047] w-full h-full top-[145px] left-[490px]"
+          
+        }
+      );
       refreshBalance?.();
       setvUSD(0);
     }
     if (error) {
-      toast.error("Transaction Failed");
+      toast.error(<CustomToast 
+        message="Transaction Failed"
+        gifUrl="confused_apple.gif"
+        width={325}
+        height={325}
+        hash={hash}/>,
+        {
+          style:{
+            background: "#101419",
+            width: "33vw",
+            height: "75vh",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%,-50%)",
+            position: "fixed",
+          }
+        }
+      
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConfirmed, isConfirming, error, hash]);
