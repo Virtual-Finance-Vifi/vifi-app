@@ -120,6 +120,7 @@ export default function Varq() {
             </div>
           </div>
         )}
+        <div className="py-10">The Forge lets you swap mUSD for our two tokens, a Virtual Frontier Currency Token (vFCT) and its corresponding Virtual Reserve Token</div>
       </Card>
     </div>
   );

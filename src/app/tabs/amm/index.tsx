@@ -232,7 +232,7 @@ export default function Markets() {
               height={58}
               priority
             />
-            <h1 className="ml-2 text-[#68AAFF] lg:text-3xl font-bold">AMM</h1>
+            <h1 className="ml-2 text-[#68AAFF] lg:text-3xl font-bold">Markets</h1>
           </div>
 
           <Image
@@ -353,6 +353,7 @@ export default function Markets() {
             </Button>
           )}
         </div>
+        <div className="py-10">Here you can provide liqduity to the protocol by swapping Reserve Tokens for vFCT markets. More Market Maker features will be added in the future.</div>
         <Modal
           isOpen={isModalOpen}
           onClose={closeModal}

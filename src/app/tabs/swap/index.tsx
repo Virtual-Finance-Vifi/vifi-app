@@ -312,6 +312,7 @@ export default function Vex() {
             </>
           )}
         </div>
+        <div className="py-10">Easily swap USD stablecoins for any vFCT that we support. Use our Faucet to get Mock USDC to try it out.</div>
         <VexModal
           isOpen={isModalOpen}
           onClose={closeModal}
