@@ -6,6 +6,7 @@ import { getChainId } from "@wagmi/core";
 import { addresses } from "@/constants/addresses";
 import { toast } from "sonner";
 import CLAIM_CONTRACT from "@/contracts/claim.json";
+import Link from "next/link";
 
 interface ClaimModalProps {
   isOpen: boolean;
@@ -81,6 +82,23 @@ const ClaimModal: React.FC<ClaimModalProps> = ({
           >
             Get Mock USDC
           </Button>
+        </div>
+        <div className="flex mt-10 flex-col">
+          <p>Need Some Testnet Eth?</p>
+          <Link
+            className={`mt-4`}
+            href="https://learnweb3.io/faucets/base_sepolia/"
+            target="_blank"
+          >
+            Base Eth Faucet
+          </Link>
+          <Link
+            className={`mt-2`}
+            href="https://learnweb3.io/faucets/sepolia/"
+            target="_blank"
+          >
+            Sepolia Eth Faucet
+          </Link>
         </div>
       </div>
     </div>

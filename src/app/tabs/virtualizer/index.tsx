@@ -118,7 +118,7 @@ export default function Virtualizer() {
             </div>
           )}
         </div>
-        <div className="py-10">The Virtualizer swaps your USD stablecoins for the ViFi USD Meta Token. vUSD can be swapped for any supported vFCT.</div>
+        <div className="py-10">The Virtualizer swaps your USD stablecoins for the ViFi USD Meta Token. vUSD can be used in the Forge to get our dual tokens.</div>
       </Card>
     </div>
   );

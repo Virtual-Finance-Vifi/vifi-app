@@ -16,7 +16,7 @@ import Claim from "./claim/page";
 import { Markets, Forge, Swap, Virtualizer } from "./tabs";
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<string>("Virtualizer");
+  const [activeTab, setActiveTab] = useState<string>("Swap");
   const { isConnected } = useAccount();
   const { signMessage } = useSignMessage();
   const { sendTransaction, data: hash } = useSendTransaction();
@@ -26,8 +26,8 @@ export default function Home() {
   };
   
   const tabs = [
-    { id: "Virtualizer", label: "Virtualizer", logo: "/virtualizer-logo.svg" },
     { id: "Swap", label: "Swap", logo: "/swap-logo.svg" },
+    { id: "Virtualizer", label: "Virtualizer", logo: "/virtualizer-logo.svg" },
     { id: "Forge", label: "Forge", logo: "/forge-logo.svg" },
     { id: "Markets", label: "Markets", logo: "/amm-logo.svg" },
   ];

@@ -50,16 +50,6 @@ export default function Nav() {
           </ul>
           <div className="flex flex-row items-center">
             {!testnet ? null : (
-              // <Link
-              //   className={`py-2 px-4 rounded-full border text-white border-gray-500 shadow-lg  bg-[#038240] hover:bg-[#00A651] ${
-              //     activeTab === "claim"
-              //       ? "border-green-200 border-2"
-              //       : "text-gray-500"
-              //   }`}
-              //   href="claim"
-              // >
-              //   Faucet
-              // </Link>
               <Button
                 onClick={() => openModal()}
                 className="py-2 px-4 rounded-full border text-white border-gray-500 shadow-lg  bg-[#038240] hover:bg-[#00A651] active:border-green-200"
