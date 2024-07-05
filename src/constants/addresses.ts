@@ -42,6 +42,6 @@ export const addresses: any = {
         virtualizer: "0xc63E8A090C866D0e19553c73be02175242d52e9e",
         claim: "0x64318F8EA6cEA2cfAf9E7bB5521a8FCe8Da6fC7D",
         swap: "0x94cC0AaC535CCDB3C01d6787D6413C739ae12bc4",
-        vex: "0x6B51b94177C3fcaDF71aB7f94BFc8822C1149fbD"
+        vex: "0x9f4E432b5D692c8Bb9908279992ABE7Fb5615B70"
     },
 }

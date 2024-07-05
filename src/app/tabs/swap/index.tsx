@@ -19,15 +19,16 @@ import { getChainId } from "@wagmi/core";
 import { addresses } from "@/constants/addresses";
 import VexModal from "./VexModal";
 import VTOKEN_CONTRACT from "@/contracts/vtoken.json";
+import MUSD_CONTRACT from "@/contracts/mUSD.json";
 
 export default function Vex() {
   const chainId = getChainId(config);
   const { isConnected } = useAccount();
   const { address } = useAccount();
   const { open } = useWeb3Modal();
-  const [vUSD, setVUSD] = useState<number>(0);
+  const [mUSD, setMUSD] = useState<number>(0);
   const [vTTD, setVTTD] = useState<number>(0);
-  const [Swap, setSwap] = useState<string>("vUSD");
+  const [Swap, setSwap] = useState<string>("mUSD");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState("");
 
@@ -44,7 +45,7 @@ export default function Vex() {
   };
   const handleSwapVUSD = () => {
     // console.log("swap set vusd");
-    setSwap("vUSD");
+    setSwap("mUSD");
   };
   const handleSwapVTTD = () => {
     setSwap("vTTD");
@@ -60,8 +61,17 @@ export default function Vex() {
     hash,
   });
 
-  const transfer_vUSD = parseEther(vUSD.toString());
+  const transfer_mUSD = parseEther(mUSD.toString());
   const transfer_vTTD = parseEther(vTTD.toString());
+
+  const { data: liveRateIn, refetch:refresh_rateIn}=useReadContract(
+    {
+      abi:VEX_CONTRACT,
+      address:addresses[chainId]["vex"],
+      functionName:"getLiveRateIn",
+      args:["1000000000000000000"]
+    }
+  )
 
   const { data: vTTD_balance, refetch: refresh_vTTD_balance } = useReadContract(
     {
@@ -71,23 +81,25 @@ export default function Vex() {
       args: [address],
     }
   );
-  const { data: vUSD_balance, refetch: refresh_vUSD_balance } = useReadContract(
+  const { data: mUSD_balance, refetch: refresh_mUSD_balance } = useReadContract(
     {
-      abi: VTOKEN_CONTRACT,
-      address: addresses[chainId]["vusd"],
+      abi: MUSD_CONTRACT,
+      address: addresses[chainId]["musd"],
       functionName: "balanceOf",
       args: [address],
     }
   );
 
-  const { data: vUSD_approval, refetch: refetch_vUSD_approval } =
+  const { data: mUSD_approval, refetch: refetch_mUSD_approval } =
     useReadContract({
-      abi: VTOKEN_CONTRACT,
-      address: addresses[chainId]["vusd"],
+      abi: MUSD_CONTRACT,
+      address: addresses[chainId]["musd"],
       functionName: "allowance",
       args: [address, addresses[chainId]["vex"]],
     });
-
+  
+  console.log(mUSD_approval?.toString)
+  console.log(error)
   const { data: vTTD_approval, refetch: refetch_vTTD_approval } =
     useReadContract({
       abi: VTOKEN_CONTRACT,
@@ -99,33 +111,34 @@ export default function Vex() {
   // console.log("vUSD approval:", vUSD_approval?.toString());
   // console.log("vTTD approval:", vTTD_approval?.toString());
   const vTTD_balance_number = vTTD_balance ? Number(vTTD_balance) : 0;
-  const vUSD_balance_number = vUSD_balance ? Number(vUSD_balance) : 0;
+  const mUSD_balance_number = mUSD_balance ? Number(mUSD_balance) : 0;
 
   const refreshBalances = () => {
-    refresh_vUSD_balance(), refresh_vTTD_balance();
+    refresh_mUSD_balance(), refresh_vTTD_balance();
   };
 
   const refreshApprovals = () => {
-    refetch_vUSD_approval(), refetch_vTTD_approval();
+    refetch_mUSD_approval(), refetch_vTTD_approval();
   };
 
   const handleDeposit = () => {
     switch (Swap) {
-      case "vUSD":
-        if (vUSD_approval?.toString() !== "0") {
+      case "mUSD":
+        if (mUSD_approval?.toString() !== "0") {
           try {
+            
             writeContract({
               abi: VEX_CONTRACT,
               address: addresses[chainId]["vex"],
-              functionName: "swapVexIn",
-              args: [transfer_vUSD],
+              functionName: "swapVexIn_RWA",
+              args: [transfer_mUSD],
             });
-            console.log("Transferring:", transfer_vUSD);
+            console.log("Transferring:", transfer_mUSD);
           } catch (error) {
             console.error("Transaction error:", error);
           }
         } else {
-          openModal("vUSD");
+          openModal("mUSD");
         }
         break;
 
@@ -135,7 +148,7 @@ export default function Vex() {
             writeContract({
               abi: VEX_CONTRACT,
               address: addresses[chainId]["vex"],
-              functionName: "swapVexOut",
+              functionName: "swapVexOut_RWA",
               args: [transfer_vTTD],
             });
             console.log("Transferring:", transfer_vTTD);
@@ -169,7 +182,7 @@ export default function Vex() {
         },
       });
       refreshBalances();
-      setVUSD(0);
+      setMUSD(0);
       setVTTD(0);
     }
     if (error) {
@@ -234,20 +247,20 @@ export default function Vex() {
             </div>
             <UnifiedInput
               type="receive"
-              label="vUSD"
-              value={vUSD}
-              setValue={setVUSD}
-              balance={vUSD_balance_number}
+              label="mUSD"
+              value={mUSD}
+              setValue={setMUSD}
+              balance={mUSD_balance_number}
             />
           </>
         ) : (
           <>
             <UnifiedInput
               type="pay"
-              label="vUSD"
-              value={vUSD}
-              setValue={setVUSD}
-              balance={vUSD_balance_number}
+              label="mUSD"
+              value={mUSD}
+              setValue={setMUSD}
+              balance={mUSD_balance_number}
             />
             <div className="flex justify-center mb-2">
               <button
