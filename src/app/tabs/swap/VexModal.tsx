@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import VRT_CONTRACT from "../../../contracts/vtoken.json";
+import MUSD_CONTRACT from "@/contracts/mUSD.json";
 import VEX_CONTRACT from "@/contracts/vex.json";
 import { config } from "@/configs";
 import { getChainId } from "@wagmi/core";
@@ -66,10 +67,10 @@ const Modal: React.FC<ModalProps> = ({
   if (!isOpen) return null;
 
   const handleApprove = () => {
-    const abi = VRT_CONTRACT;
+    const abi = swapType==="musd"?MUSD_CONTRACT:VRT_CONTRACT;
     const address =
-      swapType === "vUSD"
-        ? addresses[chainId]["vusd"]
+      swapType === "mUSD"
+        ? addresses[chainId]["musd"]
         : addresses[chainId]["vttd"]; // Replace with actual VTTD contract address
 
     writeContractAsync({
