@@ -71,7 +71,7 @@ const EMC_to_VUSD: React.FC<EMCToVUSDProps> = ({ refreshBalance, balance }) => {
         action: {
           label: "View on Etherscan",
           onClick: () => {
-            window.open(`https://sepolia.etherscan.io/tx/${hash}`);
+            window.open(`${addresses[chainId]['blockexplorer']}/tx/${hash}`);
           },
         },
       });

@@ -74,7 +74,7 @@ export default function Nav() {
                 refreshBalance();
               }}
             >
-              <h1>Claim 1000 mUSDC</h1>
+              <h1>When using ViFi on a testnet, we have provided a Mock USDC Faucet that you can use to swap for any of our supported tokens</h1>
             </ClaimModal>
             <w3m-button size="sm" balance="hide" />
             <div className="px-2"></div>

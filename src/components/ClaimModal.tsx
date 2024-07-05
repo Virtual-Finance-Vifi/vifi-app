@@ -28,6 +28,7 @@ const ClaimModal: React.FC<ClaimModalProps> = ({
   } = useWaitForTransactionReceipt({
     hash,
   });
+  
 
   useEffect(() => {
     if (isConfirming) {
@@ -40,7 +41,7 @@ const ClaimModal: React.FC<ClaimModalProps> = ({
         action: {
           label: "View on Etherscan",
           onClick: () => {
-            window.open(`https://sepolia.etherscan.io/tx/${hash}`);
+            window.open(`${addresses[chainId]['blockexplorer']}/tx/${hash}`);
           },
         },
       });
@@ -57,7 +58,7 @@ const ClaimModal: React.FC<ClaimModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4 z-50">
-      <div className="bg-secondary rounded-lg shadow-lg p-6 w-1/4 max-w-md">
+      <div className="bg-secondary rounded-lg shadow-lg p-6 w-1/4-md w-10/12 max-w-md">
         {children}
         <div className="flex justify-between">
           <Button
@@ -78,7 +79,7 @@ const ClaimModal: React.FC<ClaimModalProps> = ({
             disabled={isConfirming}
             className="mt-4 py-2 px-4 bg-[#020817] hover:bg-[#87b9fb] "
           >
-            Claim
+            Get Mock USDC
           </Button>
         </div>
       </div>

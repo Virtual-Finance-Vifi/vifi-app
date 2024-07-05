@@ -7,19 +7,7 @@
 export const addresses: any = {
     11155111: {
         testnet: true,
-        musd: "0xB152BB6e264E90A23e86617B1763FB4e734F50c5",
-        vifi_dao: "0x5cB10F2d9e6838D03A6B66324fED3D569AC5F871",
-        vusd: "0xFcde9E29C280c3efCC0297c2CCE67B6810f15B67",
-        vrt: "0x9874fe5f4736C755E4b9A3FF77977a23A6f93C7f",
-        vttd: "0x9eCA688094720Ab7fd5d74530b07ECA182590221",
-        varq: "0x9E3f6Ef1cc1AD22425750b4921804363E34d1033",
-        virtualizer: "0x4659C70696F281dFB216fFD297013D5613E4b792",
-        claim: "0xDFB4e8Fa9F8370e369A11ceA8be1a05A4D66eB2B",
-        swap: "0x3bFA4769FB09eefC5a80d6E87c3B9C650f7Ae48E",
-        vex: "0xD3AD0258d0929d30F40b5f3516FAE2891B4C7D79"
-    },
-    534351: {
-        testnet: true,
+        blockexplorer: 'https://sepolia.etherscan.io',
         musd: "0xB152BB6e264E90A23e86617B1763FB4e734F50c5",
         vifi_dao: "0x5cB10F2d9e6838D03A6B66324fED3D569AC5F871",
         vusd: "0xFcde9E29C280c3efCC0297c2CCE67B6810f15B67",
@@ -33,6 +21,7 @@ export const addresses: any = {
     },
     84532: {
         testnet: true,
+        blockexplorer: 'https://sepolia.basescan.org',
         musd: "0x13D07539925924304cD8104E82C6BB7256487F23",
         vifi_dao: "0xC7c7a051b4523c26355Cbd2CdBAf92E2fE80E661",
         vusd: "0x4A3Da8048e721Fb9D8363DCef2527e3c89d2A351",

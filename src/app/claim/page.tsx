@@ -52,7 +52,7 @@ export default function Claim() {
         action: {
           label: "View on Etherscan",
           onClick: () => {
-            window.open(`https://sepolia.etherscan.io/tx/${hash}`);
+            window.open(`${addresses[chainId]['blockexplorer']}/tx/${hash}`);
           },
         },
       });

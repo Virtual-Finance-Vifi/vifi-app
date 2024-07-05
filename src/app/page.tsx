@@ -24,35 +24,7 @@ export default function Home() {
   const handleConnect = () => {
     open();
   };
-  const {
-    isLoading: isConfirming,
-    error,
-    isSuccess: isConfirmed,
-  } = useWaitForTransactionReceipt({
-    hash,
-  });
-
-  useEffect(() => {
-    if (isConfirming) {
-      toast.loading("Transaction Pending", { style: { background: "black" } });
-    }
-    toast.dismiss();
-
-    if (isConfirmed) {
-      toast.success("Transaction Successful", {
-        action: {
-          label: "View on Etherscan",
-          onClick: () => {
-            window.open(`https://explorer-testnet.morphl2.io/tx/${hash}`);
-          },
-        },
-      });
-    }
-    if (error) {
-      toast.error("Transaction Failed");
-    }
-  }, [isConfirming, isConfirmed, error, hash]);
-
+  
   const tabs = [
     { id: "Virtualizer", label: "Virtualizer", logo: "/virtualizer-logo.svg" },
     { id: "Swap", label: "Swap", logo: "/swap-logo.svg" },
@@ -66,9 +38,13 @@ export default function Home() {
         <>
           <section className="py-12 flex flex-col items-center text-center gap-8">
             <h1 className="text-4xl font-bold">Virtual Finance</h1>
-            <p className="text-2xl text-muted-foreground">
-              Welcome to our Testnet Dapp.
+            <p className="text-2xl text-muted-foreground max-w-80">
+              ViFi is a synthetic USD-backed stablecoin protocol that mints Frontier Currency Tokens that capture USD parallel market value
             </p>
+            <p className="text-2xl text-muted-foreground max-w-80">
+              Connect your wallet to get started.
+            </p>
+            <Button className="bg-vifigreen w-140 mt-5 font-semibold hover:bg-vifigreenlight text-lg rounded-full" onClick={handleConnect}>Connect Wallet</Button>
           </section>
         </>
       ) : (

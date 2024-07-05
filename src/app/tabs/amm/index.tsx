@@ -73,12 +73,7 @@ export default function Markets() {
     setSwap("vttd");
   };
 
-  const {
-    writeContract,
-    data: hash,
-    error: the_error,
-    isError,
-  } = useWriteContract();
+  const { writeContract, data: hash, error: the_error, isError } = useWriteContract();
   const {
     isLoading: isConfirming,
     error,
@@ -176,7 +171,7 @@ export default function Markets() {
               args: [vttd_to_vrt],
             });
             if (isError) {
-              console.log("Error - ", the_error);
+              console.log("Error - ", the_error)
             }
             console.log("Transferring:", vTTD);
           } catch (error) {
@@ -202,7 +197,7 @@ export default function Markets() {
 
   useEffect(() => {
     if (isConfirming) {
-      toast.loading("Transaction Pending", { style: { background: "black" } });
+      toast.loading("Transaction Pending");
     }
     toast.dismiss();
 
@@ -211,7 +206,7 @@ export default function Markets() {
         action: {
           label: "View on Etherscan",
           onClick: () => {
-            window.open(`https://sepolia.etherscan.io/tx/${hash}`);
+            window.open(`${addresses[chainId]['blockexplorer']}/tx/${hash}`);
           },
         },
       });

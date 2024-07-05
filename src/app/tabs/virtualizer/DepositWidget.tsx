@@ -83,7 +83,7 @@ const DepositWidget: React.FC<DepositWidgetProps> = ({
         action: {
           label: "View on Etherscan",
           onClick: () => {
-            window.open(`https://sepolia.etherscan.io/tx/${hash}`);
+            window.open(`${addresses[chainId]['blockexplorer']}/tx/${hash}`);
           },
         },
       });
