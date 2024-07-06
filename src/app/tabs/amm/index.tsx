@@ -130,7 +130,6 @@ export default function Markets() {
 
   useEffect(() => {
     if (formatted_cb_rate !== undefined && !Number.isNaN(formatted_cb_rate)) {
-      console.log("cb rate = ", formatted_cb_rate);
       setReceiveVTTD(parseFloat((vRT - 0.0005 * vRT).toFixed(3)));
     }
   }, [vRT]);
@@ -221,7 +220,7 @@ export default function Markets() {
   }, [isConfirmed, isConfirming, error, hash]);
 
   return (
-    <main className="pt-6">
+    <main className="md:pt-6">
       <Card className="max-w-md mx-auto rounded-3xl lg:mt-0 bg-background">
         <div className="flex flex-row items-center justify-between">
           <div className="flex flex-row items-center">
@@ -353,7 +352,7 @@ export default function Markets() {
             </Button>
           )}
         </div>
-        <div className="py-10">Here you can provide liqduity to the protocol by swapping Reserve Tokens for vFCT markets. More Market Maker features will be added in the future.</div>
+        <div className="pt-10">Here you can provide liquidity to the protocol by swapping Reserve Tokens for vFCT markets. More Market Maker features will be added in the future.</div>
         <Modal
           isOpen={isModalOpen}
           onClose={closeModal}

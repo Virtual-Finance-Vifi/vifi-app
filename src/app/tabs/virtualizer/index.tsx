@@ -64,8 +64,8 @@ export default function Virtualizer() {
   };
 
   return (
-    <div className="flex items-center flex-col flex-grow pt-6">
-      <Card className="max-w-md mx-auto rounded-3xl lg:mt-0 mt-14 bg-background">
+    <div className="flex items-center flex-col flex-grow md:pt-6">
+      <Card className="max-w-md mx-auto rounded-3xl lg:mt-0 md:mt-14 bg-background">
         <div className="flex flex-row items-center justify-between pb-4">
           <div className="flex flex-row items-center">
             <Image
@@ -118,7 +118,7 @@ export default function Virtualizer() {
             </div>
           )}
         </div>
-        <div className="py-10">The Virtualizer swaps your USD stablecoins for the ViFi USD Meta Token. vUSD can be used in the Forge to get our dual tokens.</div>
+        <div className="pt-10">The Virtualizer swaps your USD stablecoins for the ViFi USD Meta Token. vUSD can be used in the Forge to get our dual tokens.</div>
       </Card>
     </div>
   );

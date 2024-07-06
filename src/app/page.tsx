@@ -33,7 +33,7 @@ export default function Home() {
   ];
 
   return (
-    <main>
+    <main >
       {!isConnected ? (
         <>
           <section className="py-12 flex flex-col items-center text-center gap-8">
@@ -51,24 +51,25 @@ export default function Home() {
         <>
           <section className="py-6 flex flex-col">
             <div className="flex gap-6 items-center justify-center">
-              <div className="font-semibold text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
+              <div className="font-semibold text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 grid grid-cols-4 gap-2">
                 {tabs.map((tab) => (
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`flex-1 py-2 px-4 mx-12 text-center focus:outline-none ${
+                    className={`flex-1 py-2 text-center focus:outline-none ${
                       activeTab === tab.id
                         ? "text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500"
                         : "border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
                     }`}
                   >
-                    <div className="flex flex-row gap-4 items-center">
+                    <div className="flex flex-row gap-0 md:gap-4 text-sm items-center justify-center">
                       <Image
                         src={tab.logo}
                         alt="virtualizer-logo"
-                        width={32}
-                        height={32}
+                        width={16}
+                        height={16}
                         priority
+                        className="sm:hidden md:block md:w-[32px] md:h-[32px]"
                       />
                       {tab.label}
                     </div>
@@ -78,7 +79,7 @@ export default function Home() {
             </div>
           </section>
           <section>
-            <div className="p-4">
+            <div className="md:p-4 p-1">
               {activeTab === "Virtualizer" && <Virtualizer />}
               {activeTab === "Swap" && <Swap />}
               {activeTab === "Forge" && <Forge />}

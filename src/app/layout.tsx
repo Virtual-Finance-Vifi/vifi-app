@@ -6,6 +6,7 @@ import { BalanceProvider } from "@/contexts/Balance";
 
 import { cn } from "@/lib/utils";
 import Nav from "@/components/Nav";
+import Footer from "@/components/Footer";
 import { Toaster } from "@/components/ui/sonner";
 
 import { cookieToInitialState } from "wagmi";
@@ -46,28 +47,29 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <div id="root" className="p-2 w-screen h-screen">
-          <div className="fixed bottom-0 left-0 right-0">
+        {/* <div className="fixed bottom-0 left-0 right-0">
             <div className="flex justify-between">
               <img src="bleft_img.svg" />
               <img src="bright_img.svg" />
             </div>
-          </div>
+          </div> */}
 
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <Web3ModalProvider>
-              <BalanceProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Web3ModalProvider>
+            <BalanceProvider>
+              <div className="flex flex-col min-h-screen">
                 <Nav />
-                {children}
-              </BalanceProvider>
-            </Web3ModalProvider>
-          </ThemeProvider>
-        </div>
+                <main className="flex-grow">{children}</main>
+                <Footer />
+              </div>
+            </BalanceProvider>
+          </Web3ModalProvider>
+        </ThemeProvider>
         <Toaster richColors />
       </body>
     </html>
