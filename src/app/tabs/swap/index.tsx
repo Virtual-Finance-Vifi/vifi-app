@@ -193,8 +193,8 @@ export default function Vex() {
   }, [isConfirmed, isConfirming, error, hash]);
 
   return (
-    <main className="pt-6">
-      <Card className="max-w-md mx-auto rounded-3xl lg:mt-0 mt-14 bg-background">
+    <main className="md:pt-6">
+      <Card className="max-w-md mx-auto rounded-3xl lg:mt-0 md:mt-14 bg-background">
         <div className="flex flex-row items-center justify-between pb-4">
           <div className="flex flex-row items-center">
             <Image
@@ -312,7 +312,7 @@ export default function Vex() {
             </>
           )}
         </div>
-        <div className="py-10">Easily swap USD stablecoins for any vFCT that we support. Use our Faucet to get Mock USDC to try it out.</div>
+        <div className="pt-10">Easily swap USD stablecoins for any vFCT that we support. Use our Faucet to get Mock USDC to try it out.</div>
         <VexModal
           isOpen={isModalOpen}
           onClose={closeModal}

@@ -56,8 +56,8 @@ export default function Varq() {
   const vUSD_balance_number = vUSD_balance ? Number(vUSD_balance) : 0;
 
   return (
-    <div className="flex items-center flex-col flex-grow pt-6">
-      <Card className="max-w-md mx-auto rounded-3xl lg:mt-0 mt-14 bg-background">
+    <div className="flex items-center flex-col flex-grow md:pt-6">
+      <Card className="max-w-md mx-auto rounded-3xl lg:mt-0 md:mt-14 bg-background">
         <div className="flex flex-row items-center justify-between pb-4">
           <div className="flex flex-row items-center">
             <Image
@@ -120,7 +120,7 @@ export default function Varq() {
             </div>
           </div>
         )}
-        <div className="py-10">The Forge lets you swap mUSD for our two tokens, a Virtual Frontier Currency Token (vFCT) and its corresponding Virtual Reserve Token</div>
+        <div className="pt-10">The Forge lets you swap mUSD for our two tokens, a Virtual Frontier Currency Token (vFCT) and its corresponding Virtual Reserve Token</div>
       </Card>
     </div>
   );
