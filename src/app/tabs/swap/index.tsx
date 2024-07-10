@@ -46,12 +46,12 @@ export default function Vex() {
     setIsModalOpen(false);
   };
   const handleSwapVUSD = () => {
-    // console.log("swap set vusd");
+
     setSwap("mUSD");
   };
   const handleSwapVTTD = () => {
     setSwap("vTTD");
-    // console.log("swap set vttd", Swap === "vTTD");
+
   };
   const { writeContract, data: hash, error } = useWriteContract();
 
@@ -87,10 +87,6 @@ export default function Vex() {
       setReceiveMUSD(parseFloat((vTTD / formatted_musd_in).toFixed(3)));
     }
   }, [vTTD]);
-
-  const handleRate = () => {
-    console.log("receive VTTD - ", receiveMUSD);
-  };
 
   const { data: vTTD_balance, refetch: refresh_vTTD_balance } = useReadContract(
     {
@@ -342,9 +338,6 @@ export default function Vex() {
         >
           <p>Approve the contract to proceed with the swap.</p>
         </VexModal>
-        <Button className="bg-blue-400" onClick={handleRate}>
-          check rate
-        </Button>
       </Card>
     </main>
   );
