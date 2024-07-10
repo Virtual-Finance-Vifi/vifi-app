@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
+import { useWriteContract, useWaitForTransactionReceipt, useReadContract } from "wagmi";
 import VRT_CONTRACT from "../../../contracts/vtoken.json";
 import MUSD_CONTRACT from "@/contracts/mUSD.json";
 import VEX_CONTRACT from "@/contracts/vex.json";
@@ -8,6 +8,32 @@ import { config } from "@/configs";
 import { getChainId } from "@wagmi/core";
 import { addresses } from "@/constants/addresses";
 import { toast } from "sonner";
+import CustomToast from "@/components/CustomToast";
+
+
+const chainId = getChainId(config);
+/*const { data: liveRateIn, refetch:refresh_rateIn}=useReadContract(
+  {
+    abi:VEX_CONTRACT,
+    address:addresses[chainId]["vex"],
+    functionName:"getLiveRateIn",
+    args:["10000000000000000000"],
+  }
+)
+console.log(liveRateIn)
+
+const { data: liveRateOut, refetch:refresh_rateOut}=useReadContract(
+  {
+    abi:VEX_CONTRACT,
+    address:addresses[chainId]["vex"],
+    functionName:"getLiveRateOut",
+    args:["1000000000000000000"],
+  }
+)
+console.log(liveRateOut)
+
+const liveRateIn_number=liveRateIn?Number(liveRateIn):0;
+const liveRateOut_number=liveRateOut?Number(liveRateOut):0;*/
 
 interface ModalProps {
   isOpen: boolean;
@@ -42,24 +68,86 @@ const Modal: React.FC<ModalProps> = ({
 
   useEffect(() => {
     if (isConfirming) {
-      toast.loading("Approval Pending", { style: { background: "black" } });
+      toast.loading(
+        <CustomToast
+          message="Transaction Successful"
+          message2="Your transaction has been submitted. Please check in a while."
+          gifUrl="pending_lemon.gif"
+          tokenIcon1="usdc_icon.svg"
+          tokenIcon2="ttd_icon.svg"
+          width={240}
+          height={196}
+          hash={hash}
+        />,
+        {
+          style: {
+            background: "#101419",
+            width: "33vw",
+            height: "75vh",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%,-50%)",
+            position: "fixed",
+          },
+          //className:"bg-[#3A4047] w-full h-full top-[145px] left-[490px]"
+          
+        }
+      );
     }
     toast.dismiss();
 
     if (isConfirmed) {
-      toast.success("Approval Successful", {
-        action: {
-          label: "View on Etherscan",
-          onClick: () => {
-            window.open(`${addresses[chainId]['blockexplorer']}/tx/${hash}`);
+      toast.success(
+        <CustomToast
+          message="Transaction Successful"
+          message2="Yippie :D"
+          gifUrl="changing_fruit.gif"
+          tokenIcon1="usdc_icon.svg"
+          tokenIcon2="ttd_icon.svg"
+          width={240}
+          height={196}
+          hash={hash}
+        />,
+        {
+          style: {
+            background: "#101419",
+            width: "33vw",
+            height: "75vh",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%,-50%)",
+            position: "fixed",
           },
-        },
-      });
+          //className:"bg-[#3A4047] w-full h-full top-[145px] left-[490px]"
+          
+        }
+      );
       onClose();
       refetchApprovals?.();
     }
     if (error) {
-      toast.error("Approval Failed");
+      toast.error(
+        <CustomToast 
+          message="Transaction Failed"
+          message2="Error Details"
+          gifUrl="confused_apple.gif"
+          tokenIcon1="usdc_icon.svg"
+          tokenIcon2="vusd_icon.png"
+          width={325}
+          height={325}
+          hash={hash}/>,
+          {
+            style:{
+              background: "#101419",
+              width: "33vw",
+              height: "75vh",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%,-50%)",
+              position: "fixed",
+            }
+          }
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConfirmed, isConfirming, error, hash]);

@@ -19,6 +19,9 @@ import { addresses } from "@/constants/addresses";
 import { toast } from "sonner";
 import CustomToast from "@/components/CustomToast";
 
+
+
+
 interface DepositWidgetProps {
   refreshBalance: () => void; // Define the type of refreshBalance as a function
   balance: number | null;
@@ -77,6 +80,8 @@ const DepositWidget: React.FC<DepositWidgetProps> = ({
             message="Waiting for confirmation..."
             message2="ETA: 2 min 25 sec. Take a walk :)"
             gifUrl="walking_orange.gif"
+            tokenIcon1="usdc_icon.svg"
+            tokenIcon2="vusd_icon.png"
             width={325}
             height={325}
             hash={hash}
@@ -90,7 +95,6 @@ const DepositWidget: React.FC<DepositWidgetProps> = ({
               left: "50%", // Center horizontally
               transform: "translate(-50%, -50%)", // Adjust position relative to center
               position: "fixed", // Ensure it's fixed position
-              border: "solid green",
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
@@ -104,14 +108,13 @@ const DepositWidget: React.FC<DepositWidgetProps> = ({
 
   useEffect(() => {
     if (isConfirming) {
-<<<<<<< HEAD
-      toast.loading("Transaction Pending", { style: { background: "black" } });
-=======
       toast.loading(
         <CustomToast
           message="Transaction Pending ..."
           message2="Your transaction has been submitted. Please check in a while."
           gifUrl="pending_lemon.gif"
+          tokenIcon1="usdc_icon.svg"
+          tokenIcon2="vusd_icon.png"
           width={225}
           height={126}
           hash={hash}
@@ -130,23 +133,17 @@ const DepositWidget: React.FC<DepositWidgetProps> = ({
         }
       
       );
->>>>>>> 4ccf620 (feature(virtualizer): Added toast to DepositWidget \n style(toast):changed toast stylingfor transaction detail msg border)
     }
     toast.dismiss();
 
     if (isConfirmed) {
-<<<<<<< HEAD
-      toast.success("Transaction Successful", {
-        action: {
-          label: "View on Etherscan",
-          onClick: () => {
-            window.open(`${addresses[chainId]['blockexplorer']}/tx/${hash}`);
-=======
       toast.success(
         <CustomToast
           message="Transaction Successful"
           message2="Yippie :D"
           gifUrl="changing_fruit.gif"
+          tokenIcon1="usdc_icon.svg"
+          tokenIcon2="vusd_icon.png"
           width={240}
           height={196}
           hash={hash}
@@ -160,7 +157,6 @@ const DepositWidget: React.FC<DepositWidgetProps> = ({
             left: "50%",
             transform: "translate(-50%,-50%)",
             position: "fixed",
->>>>>>> 4ccf620 (feature(virtualizer): Added toast to DepositWidget \n style(toast):changed toast stylingfor transaction detail msg border)
           },
           //className:"bg-[#3A4047] w-full h-full top-[145px] left-[490px]"
           
@@ -175,6 +171,8 @@ const DepositWidget: React.FC<DepositWidgetProps> = ({
           message="Transaction Failed"
           message2="Error Details"
           gifUrl="confused_apple.gif"
+          tokenIcon1="usdc_icon.svg"
+          tokenIcon2="vusd_icon.png"
           width={325}
           height={325}
           hash={hash}/>,

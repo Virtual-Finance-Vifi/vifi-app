@@ -70,7 +70,7 @@ export default function RootLayout({
             </BalanceProvider>
           </Web3ModalProvider>
         </ThemeProvider>
-        <Toaster richColors />
+        <Toaster />
       </body>
     </html>
   );

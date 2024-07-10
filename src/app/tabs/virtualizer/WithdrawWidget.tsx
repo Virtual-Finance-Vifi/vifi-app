@@ -79,6 +79,8 @@ const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({
             message="Waiting for confirmation..."
             message2="ETA: 2 min 25 sec. Take a walk :)"
             gifUrl="walking_orange.gif"
+            tokenIcon1="vusd_icon.png"
+            tokenIcon2="usdc_icon.svg"
             width={325}
             height={325}
             hash={hash}
@@ -92,7 +94,6 @@ const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({
               left: "50%", // Center horizontally
               transform: "translate(-50%, -50%)", // Adjust position relative to center
               position: "fixed", // Ensure it's fixed position
-              border: "solid green",
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
@@ -111,6 +112,8 @@ const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({
           message="Transaction Pending ..."
           message2="Your transaction has been submitted. Please check in a while."
           gifUrl="pending_lemon.gif"
+          tokenIcon1="vusd_icon.png"
+          tokenIcon2="usdc_icon.svg"
           width={225}
           height={126}
           hash={hash}
@@ -137,6 +140,8 @@ const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({
           message="Transaction Successful"
           message2="Yippie :D"
           gifUrl="changing_fruit.gif"
+          tokenIcon1="vusd_icon.png"
+          tokenIcon2="usdc_icon.svg"
           width={240}
           height={196}
           hash={hash}
@@ -164,6 +169,8 @@ const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({
           message="Transaction Failed"
           message2="Error Details"
           gifUrl="confused_apple.gif"
+          tokenIcon1="vusd_icon.png"
+          tokenIcon2="usdc_icon.svg"
           width={325}
           height={325}
           hash={hash}/>,

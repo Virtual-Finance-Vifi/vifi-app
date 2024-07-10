@@ -6,6 +6,7 @@ import { config } from "@/configs";
 import { getChainId } from "@wagmi/core";
 import { addresses } from "@/constants/addresses";
 import { toast } from "sonner";
+import CustomToast from "@/components/CustomToast";
 
 interface ModalProps {
   isOpen: boolean;
@@ -40,24 +41,85 @@ const Modal: React.FC<ModalProps> = ({
 
   useEffect(() => {
     if (isConfirming) {
-      toast.loading("Approval Pending", { style: { background: "black" } });
+      toast.loading(
+        <CustomToast
+          message="Transaction Pending ..."
+          message2="Your transaction has been submitted. Please check in a while."
+          gifUrl="pending_lemon.gif"
+          tokenIcon1="vrt_icon.png"
+          tokenIcon2="ttd_icon.svg"
+          width={225}
+          height={126}
+          hash={hash}
+        />,
+        {
+          style: {
+            background: "#101419",
+            width: "33vw",
+            height: "75vh",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%,-50%)",
+            position: "fixed",
+          },
+          //className:"bg-[#3A4047] w-full h-full top-[145px] left-[490px]"
+        }
+      );
     }
     toast.dismiss();
 
     if (isConfirmed) {
-      toast.success("Approval Successful", {
-        action: {
-          label: "View on Etherscan",
-          onClick: () => {
-            window.open(`${addresses[chainId]['blockexplorer']}/tx/${hash}`);
+      toast.success(
+        <CustomToast
+          message="Transaction Successful"
+          message2="Yippie :D"
+          gifUrl="changing_fruit.gif"
+          tokenIcon1="vrt_icon.png"
+          tokenIcon2="ttd_icon.svg"
+          width={240}
+          height={196}
+          hash={hash}
+        />,
+        {
+          style: {
+            background: "#101419",
+            width: "33vw",
+            height: "75vh",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%,-50%)",
+            position: "fixed",
           },
-        },
-      });
+          //className:"bg-[#3A4047] w-full h-full top-[145px] left-[490px]"
+          
+        }
+      );
       onClose();
       refetchApprovals?.();
     }
     if (error) {
-      toast.error("Approval Failed");
+      toast.error(
+        <CustomToast 
+          message="Transaction Failed"
+          message2="Error Details"
+          gifUrl="confused_apple.gif"
+          tokenIcon1="vrt_icon.png"
+          tokenIcon2="ttd_icon.svg"
+          width={325}
+          height={325}
+          hash={hash}/>,
+          {
+            style:{
+              background: "#101419",
+              width: "33vw",
+              height: "75vh",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%,-50%)",
+              position: "fixed",
+            }
+          }
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConfirmed, isConfirming, error, hash]);

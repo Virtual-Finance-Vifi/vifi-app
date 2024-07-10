@@ -20,6 +20,7 @@ import { addresses } from "@/constants/addresses";
 import VexModal from "./VexModal";
 import VTOKEN_CONTRACT from "@/contracts/vtoken.json";
 import MUSD_CONTRACT from "@/contracts/mUSD.json";
+import CustomToast from "@/components/CustomToast";
 
 export default function Vex() {
   const chainId = getChainId(config);
@@ -66,31 +67,6 @@ export default function Vex() {
   const transfer_mUSD = parseEther(mUSD.toString());
   const transfer_vTTD = parseEther(vTTD.toString());
 
-  const { data: musdInLiveRate, refetch: refresh_musdrateIn } = useReadContract({
-      abi: VEX_CONTRACT,
-      address: addresses[chainId]["vex"],
-      functionName: "getLiveRateIn",
-      args: ["1000000000000000000"],
-    }
-  );
-
-  const formatted_musd_in = Number(musdInLiveRate) / 10 ** 18;
-
-  useEffect(() => {
-    if (formatted_musd_in !== undefined && !Number.isNaN(formatted_musd_in)) {
-      setReceiveVTTD(parseFloat((mUSD * Number(formatted_musd_in)).toFixed(3)));
-    }
-  }, [mUSD]);
-
-  useEffect(() => {
-    if (formatted_musd_in !== undefined && !Number.isNaN(formatted_musd_in)) {
-      setReceiveMUSD(parseFloat((vTTD / formatted_musd_in).toFixed(3)));
-    }
-  }, [vTTD]);
-
-  const handleRate = () => {
-    console.log("receive VTTD - ", receiveMUSD);
-  };
 
   const { data: vTTD_balance, refetch: refresh_vTTD_balance } = useReadContract(
     {
@@ -108,7 +84,7 @@ export default function Vex() {
       args: [address],
     }
   );
-
+  //console.log(mUSD_balance)
   const { data: mUSD_approval, refetch: refetch_mUSD_approval } =
     useReadContract({
       abi: MUSD_CONTRACT,
@@ -117,6 +93,9 @@ export default function Vex() {
       args: [address, addresses[chainId]["vex"]],
     });
 
+  
+  //console.log(mUSD_approval?.toString)
+  //console.log(error)
   const { data: vTTD_approval, refetch: refetch_vTTD_approval } =
     useReadContract({
       abi: VTOKEN_CONTRACT,
@@ -148,6 +127,34 @@ export default function Vex() {
               args: [transfer_mUSD],
             });
             console.log("Transferring:", transfer_mUSD);
+            toast.loading(
+              <CustomToast
+                message="Waiting for confirmation..."
+                message2="ETA: 2 min 25 sec. Take a walk :)"
+                gifUrl="walking_orange.gif"
+                tokenIcon1="usdc_icon.svg"
+                tokenIcon2="ttd_icon.svg"
+                width={325}
+                height={325}
+                hash={hash}
+              />,
+              {
+                style: {
+                  background: "#101419",
+                  width: "33vw", // 1/3 of viewport width
+                  height: "75vh", // 1/3 of viewport height
+                  top: "50%", // Center vertically
+                  left: "50%", // Center horizontally
+                  transform: "translate(-50%, -50%)", // Adjust position relative to center
+                  position: "fixed", // Ensure it's fixed position
+                  border: "solid green",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                },
+                //className:"!bg-[#3A4047] !w-1/3 !h-3/4vh !top-1/2 !left-1/2 !-translate-x-1/2 !-translate-y-1/2 !fixed !border-solid !border-green"
+              }
+            );
           } catch (error) {
             console.error("Transaction error:", error);
           }
@@ -166,6 +173,33 @@ export default function Vex() {
               args: [transfer_vTTD],
             });
             console.log("Transferring:", transfer_vTTD);
+            toast.loading(
+              <CustomToast
+                message="Waiting for confirmation..."
+                message2="ETA: 2 min 25 sec. Take a walk :)"
+                gifUrl="walking_orange.gif"
+                tokenIcon1="usdc_icon.svg"
+                tokenIcon2="ttd_icon.svg"
+                width={325}
+                height={325}
+                hash={hash}
+              />,
+              {
+                style: {
+                  background: "#101419",
+                  width: "33vw", // 1/3 of viewport width
+                  height: "75vh", // 1/3 of viewport height
+                  top: "50%", // Center vertically
+                  left: "50%", // Center horizontally
+                  transform: "translate(-50%, -50%)", // Adjust position relative to center
+                  position: "fixed", // Ensure it's fixed position
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                },
+                //className:"!bg-[#3A4047] !w-1/3 !h-3/4vh !top-1/2 !left-1/2 !-translate-x-1/2 !-translate-y-1/2 !fixed !border-solid !border-green"
+              }
+            );
           } catch (error) {
             console.error("Transaction error:", error);
           }
@@ -182,33 +216,94 @@ export default function Vex() {
 
   useEffect(() => {
     if (isConfirming) {
-      toast.loading("Transaction Pending", { style: { background: "black" } });
+      toast.loading(
+        <CustomToast
+          message="Transaction Pending ..."
+          message2="Your transaction has been submitted. Please check in a while."
+          gifUrl="pending_lemon.gif"
+          tokenIcon1="usdc_icon.svg"
+          tokenIcon2="ttd_icon.svg"
+          width={225}
+          height={126}
+          hash={hash}
+        />,
+        {
+          style: {
+            background: "#101419",
+            width: "33vw",
+            height: "75vh",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%,-50%)",
+            position: "fixed",
+          },
+          //className:"bg-[#3A4047] w-full h-full top-[145px] left-[490px]"
+        }
+      );
     }
     toast.dismiss();
 
     if (isConfirmed) {
-      toast.success("Transaction Successful", {
-        action: {
-          label: "View on Etherscan",
-          onClick: () => {
-            window.open(`${addresses[chainId]["blockexplorer"]}/tx/${hash}`);
+      toast.success(
+        <CustomToast
+          message="Transaction Successful"
+          message2="Yippie :D"
+          gifUrl="changing_fruit.gif"
+          tokenIcon1="usdc_icon.svg"
+          tokenIcon2="ttd_icon.svg"
+          width={240}
+          height={196}
+          hash={hash}
+        />,
+        {
+          style: {
+            background: "#101419",
+            width: "33vw",
+            height: "75vh",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%,-50%)",
+            position: "fixed",
           },
-        },
-      });
+          //className:"bg-[#3A4047] w-full h-full top-[145px] left-[490px]"
+          
+        }
+      );
       refreshBalances();
       setMUSD(0);
       setVTTD(0);
     }
     if (error) {
-      toast.error("Transaction Failed");
+      toast.error(
+        <CustomToast 
+          message="Transaction Failed"
+          message2="Error Details"
+          gifUrl="confused_apple.gif"
+          tokenIcon1="usdc_icon.svg"
+          tokenIcon2="ttd_icon.svg"
+          width={325}
+          height={325}
+          hash={hash}/>,
+          {
+            style:{
+              background: "#101419",
+              width: "33vw",
+              height: "75vh",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%,-50%)",
+              position: "fixed",
+            }
+          }
+      );
       console.log(receiptError);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConfirmed, isConfirming, error, hash]);
 
   return (
-    <main className="md:pt-6">
-      <Card className="max-w-md mx-auto rounded-3xl lg:mt-0 md:mt-14 bg-background">
+    <main className="pt-6">
+      <Card className="max-w-md mx-auto rounded-3xl lg:mt-0 mt-14 bg-background">
         <div className="flex flex-row items-center justify-between pb-4">
           <div className="flex flex-row items-center">
             <Image
@@ -276,7 +371,6 @@ export default function Vex() {
               value={mUSD}
               setValue={setMUSD}
               balance={mUSD_balance_number}
-              refetch={refresh_musdrateIn}
             />
             <div className="flex justify-center mb-2">
               <button
@@ -342,7 +436,7 @@ export default function Vex() {
         >
           <p>Approve the contract to proceed with the swap.</p>
         </VexModal>
-        <Button className="bg-blue-400" onClick={handleRate}>
+        <Button className="bg-blue-400">
           check rate
         </Button>
       </Card>
