@@ -7,6 +7,7 @@ interface UnifiedInputProps {
   type?: string;
   disabled?: boolean;
   balance: number | null;
+  refetch?: () => void;
 }
 
 const UnifiedInput: React.FC<UnifiedInputProps> = ({
@@ -16,6 +17,8 @@ const UnifiedInput: React.FC<UnifiedInputProps> = ({
   type,
   disabled,
   balance,
+  refetch,
+
 }) => {
   const [inputValue, setInputValue] = useState<string>(
     value !== 0 ? value.toString() : ""
@@ -28,12 +31,19 @@ const UnifiedInput: React.FC<UnifiedInputProps> = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     setInputValue(newValue);
+    if (refetch) {
+      refetch();
+    }
+    
 
     const parsedValue = parseFloat(newValue);
     if (!isNaN(parsedValue)) {
       setValue(parsedValue);
     } else {
       setValue(0);
+      if (refetch) {
+        refetch();
+      }
     }
   };
 
