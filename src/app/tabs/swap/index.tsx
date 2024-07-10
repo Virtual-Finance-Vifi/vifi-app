@@ -147,7 +147,6 @@ export default function Vex() {
                   left: "50%", // Center horizontally
                   transform: "translate(-50%, -50%)", // Adjust position relative to center
                   position: "fixed", // Ensure it's fixed position
-                  border: "solid green",
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
