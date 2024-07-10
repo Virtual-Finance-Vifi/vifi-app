@@ -8,7 +8,7 @@ import {
   useReadContract,
   useWriteContract,
 } from "wagmi";
-import { parseEther } from "viem";
+import { formatEther, parseEther } from "viem";
 import { toast } from "sonner";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import VEX_CONTRACT from "@/contracts/vex.json";
@@ -28,6 +28,8 @@ export default function Vex() {
   const { open } = useWeb3Modal();
   const [mUSD, setMUSD] = useState<number>(0);
   const [vTTD, setVTTD] = useState<number>(0);
+  const [receiveMUSD, setReceiveMUSD] = useState<number>(0);
+  const [receiveVTTD, setReceiveVTTD] = useState<number>(0);
   const [Swap, setSwap] = useState<string>("mUSD");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState("");
@@ -64,14 +66,31 @@ export default function Vex() {
   const transfer_mUSD = parseEther(mUSD.toString());
   const transfer_vTTD = parseEther(vTTD.toString());
 
-  const { data: liveRateIn, refetch:refresh_rateIn}=useReadContract(
-    {
-      abi:VEX_CONTRACT,
-      address:addresses[chainId]["vex"],
-      functionName:"getLiveRateIn",
-      args:["1000000000000000000"]
+  const { data: musdInLiveRate, refetch: refresh_musdrateIn } = useReadContract({
+      abi: VEX_CONTRACT,
+      address: addresses[chainId]["vex"],
+      functionName: "getLiveRateIn",
+      args: ["1000000000000000000"],
     }
-  )
+  );
+
+  const formatted_musd_in = Number(musdInLiveRate) / 10 ** 18;
+
+  useEffect(() => {
+    if (formatted_musd_in !== undefined && !Number.isNaN(formatted_musd_in)) {
+      setReceiveVTTD(parseFloat((mUSD * Number(formatted_musd_in)).toFixed(3)));
+    }
+  }, [mUSD]);
+
+  useEffect(() => {
+    if (formatted_musd_in !== undefined && !Number.isNaN(formatted_musd_in)) {
+      setReceiveMUSD(parseFloat((vTTD / formatted_musd_in).toFixed(3)));
+    }
+  }, [vTTD]);
+
+  const handleRate = () => {
+    console.log("receive VTTD - ", receiveMUSD);
+  };
 
   const { data: vTTD_balance, refetch: refresh_vTTD_balance } = useReadContract(
     {
@@ -97,9 +116,7 @@ export default function Vex() {
       functionName: "allowance",
       args: [address, addresses[chainId]["vex"]],
     });
-  
-  console.log(mUSD_approval?.toString)
-  console.log(error)
+
   const { data: vTTD_approval, refetch: refetch_vTTD_approval } =
     useReadContract({
       abi: VTOKEN_CONTRACT,
@@ -108,8 +125,6 @@ export default function Vex() {
       args: [address, addresses[chainId]["vex"]],
     });
 
-  // console.log("vUSD approval:", vUSD_approval?.toString());
-  // console.log("vTTD approval:", vTTD_approval?.toString());
   const vTTD_balance_number = vTTD_balance ? Number(vTTD_balance) : 0;
   const mUSD_balance_number = mUSD_balance ? Number(mUSD_balance) : 0;
 
@@ -126,7 +141,6 @@ export default function Vex() {
       case "mUSD":
         if (mUSD_approval?.toString() !== "0") {
           try {
-            
             writeContract({
               abi: VEX_CONTRACT,
               address: addresses[chainId]["vex"],
@@ -177,7 +191,7 @@ export default function Vex() {
         action: {
           label: "View on Etherscan",
           onClick: () => {
-            window.open(`${addresses[chainId]['blockexplorer']}/tx/${hash}`);
+            window.open(`${addresses[chainId]["blockexplorer"]}/tx/${hash}`);
           },
         },
       });
@@ -248,9 +262,10 @@ export default function Vex() {
             <UnifiedInput
               type="receive"
               label="mUSD"
-              value={mUSD}
-              setValue={setMUSD}
+              value={receiveMUSD}
+              setValue={setReceiveMUSD}
               balance={mUSD_balance_number}
+              disabled={true}
             />
           </>
         ) : (
@@ -261,6 +276,7 @@ export default function Vex() {
               value={mUSD}
               setValue={setMUSD}
               balance={mUSD_balance_number}
+              refetch={refresh_musdrateIn}
             />
             <div className="flex justify-center mb-2">
               <button
@@ -286,9 +302,11 @@ export default function Vex() {
             <UnifiedInput
               type="receive"
               label="vTTD"
-              value={vTTD}
-              setValue={setVTTD}
+              value={receiveVTTD}
+              // setValue={setVTTD}
+              setValue={setReceiveVTTD}
               balance={vTTD_balance_number}
+              disabled={true}
             />
           </>
         )}
@@ -312,7 +330,10 @@ export default function Vex() {
             </>
           )}
         </div>
-        <div className="pt-10">Easily swap USD stablecoins for any vFCT that we support. Use our Faucet to get Mock USDC to try it out.</div>
+        <div className="pt-10">
+          Easily swap USD stablecoins for any vFCT that we support. Use our
+          Faucet to get Mock USDC to try it out.
+        </div>
         <VexModal
           isOpen={isModalOpen}
           onClose={closeModal}
@@ -321,6 +342,9 @@ export default function Vex() {
         >
           <p>Approve the contract to proceed with the swap.</p>
         </VexModal>
+        <Button className="bg-blue-400" onClick={handleRate}>
+          check rate
+        </Button>
       </Card>
     </main>
   );

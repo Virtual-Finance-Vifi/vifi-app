@@ -34,6 +34,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
       setValue(parsedValue);
     } else {
       setValue(0);
+      console.log("amm value = ", inputValue)
     }
   };
 
