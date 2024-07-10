@@ -47,12 +47,12 @@ export default function Vex() {
     setIsModalOpen(false);
   };
   const handleSwapVUSD = () => {
-    // console.log("swap set vusd");
+
     setSwap("mUSD");
   };
   const handleSwapVTTD = () => {
     setSwap("vTTD");
-    // console.log("swap set vttd", Swap === "vTTD");
+
   };
   const { writeContract, data: hash, error } = useWriteContract();
 
@@ -67,6 +67,27 @@ export default function Vex() {
   const transfer_mUSD = parseEther(mUSD.toString());
   const transfer_vTTD = parseEther(vTTD.toString());
 
+  const { data: musdInLiveRate, refetch: refresh_musdrateIn } = useReadContract({
+      abi: VEX_CONTRACT,
+      address: addresses[chainId]["vex"],
+      functionName: "getLiveRateIn",
+      args: ["1000000000000000000"],
+    }
+  );
+
+  const formatted_musd_in = Number(musdInLiveRate) / 10 ** 18;
+
+  useEffect(() => {
+    if (formatted_musd_in !== undefined && !Number.isNaN(formatted_musd_in)) {
+      setReceiveVTTD(parseFloat((mUSD * Number(formatted_musd_in)).toFixed(3)));
+    }
+  }, [mUSD]);
+
+  useEffect(() => {
+    if (formatted_musd_in !== undefined && !Number.isNaN(formatted_musd_in)) {
+      setReceiveMUSD(parseFloat((vTTD / formatted_musd_in).toFixed(3)));
+    }
+  }, [vTTD]);
 
   const { data: vTTD_balance, refetch: refresh_vTTD_balance } = useReadContract(
     {
@@ -435,9 +456,6 @@ export default function Vex() {
         >
           <p>Approve the contract to proceed with the swap.</p>
         </VexModal>
-        <Button className="bg-blue-400">
-          check rate
-        </Button>
       </Card>
     </main>
   );
