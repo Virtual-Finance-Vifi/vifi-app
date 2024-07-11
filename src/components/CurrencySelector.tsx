@@ -15,6 +15,10 @@ const CurrencySelector: React.FC = () => {
     setIsModalOpen(false);
   };
 
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div className="w-full px-3 lg:px-0 pb-2">
       <button
@@ -26,11 +30,15 @@ const CurrencySelector: React.FC = () => {
             <h1 className="text-gray-400">Currency</h1>
             <h1 className="text-lg">{currency}</h1>
           </div>
-          <div className="flex flex-col justify-center">^</div>
+          <div className="flex flex-col justify-center">
+            <img src="arrow_down.png" alt="arrow down icon" />
+          </div>
         </div>
       </button>
 
-      {isModalOpen && <Modal onOptionSelect={handleOptionSelect} />}
+      {isModalOpen && (
+        <Modal onOptionSelect={handleOptionSelect} onClose={handleCloseModal} />
+      )}
     </div>
   );
 };

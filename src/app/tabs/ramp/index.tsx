@@ -27,7 +27,7 @@ export default function Ramp() {
       <div className="mx-3 lg:mx-auto flex flex-col justify-center lg:max-w-md">
         <CurrencyInput heading="Requesting" currency="USDC" />
         <CurrencyInput heading="You send"  currency="USD" />
-        <button className="border border-gray-600 bg-red-600 p-3 rounded-full">Connect Wallet</button>
+        <button className="border border-gray-600 bg-red-600 p-3 rounded-full hover:bg-red-500">Connect Wallet</button>
       </div>
     </main>
   );

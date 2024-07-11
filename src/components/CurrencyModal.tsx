@@ -2,26 +2,52 @@ import React from "react";
 
 interface ModalProps {
   onOptionSelect: (option: string) => void;
+  onClose: () => void;
 }
 
-const Modal: React.FC<ModalProps> = ({ onOptionSelect }) => {
-  const options = ["USD", "Currency 2", "Currency 3"];
+const Modal: React.FC<ModalProps> = ({ onOptionSelect, onClose }) => {
+  const options = [
+    { currency: "USD" },
+    { currency: "INR" },
+    { currency: "TRY" },
+    { currency: "EUR, GBP, SGD, USD" },
+  ];
 
   return (
-    <div className="border border-red-500 fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="p-6 bg-gray-900 rounded-lg shadow-lg border border-gray-600">
-        <h2 className="text-lg font-bold mb-4">Select a Platform</h2>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+      <div className="bg-gray-900 rounded-lg shadow-lg border border-gray-600 w-96">
+        <div className="flex justify-between items-center p-4 border-b border-gray-600">
+          <h2 className="text-lg">Select a Currency</h2>
+          <button
+            onClick={onClose}
+            className="text-gray-400 hover:text-gray-200 text-3xl"
+          >
+            &times;
+          </button>
+        </div>
         <ul>
           {options.map((option) => (
             <li
-              key={option}
-              className="py-2 px-4 hover:bg-gray-800 cursor-pointer"
-              onClick={() => onOptionSelect(option)}
+              key={option.currency}
+              className="flex justify-between items-center p-4 hover:bg-gray-800 cursor-pointer"
+              onClick={() => onOptionSelect(option.currency)}
             >
-              {option}
+              <div className="flex items-center space-x-4 p-2">
+                <span className="material-icons text-white">
+                  <img src="/dollar_symbol.png" />
+                </span>
+                <span className="text-gray-400">{option.currency}</span>
+              </div>
             </li>
           ))}
         </ul>
+        <div className="p-4 text-gray-400 border-t border-gray-600 text-center">
+          Let us know which platforms you are interested in seeing ZKP2P add
+          support for.{" "}
+          <a href="#" className="text-blue-500 hover:underline">
+            Give feedback
+          </a>
+        </div>
       </div>
     </div>
   );
