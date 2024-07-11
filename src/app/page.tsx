@@ -13,7 +13,7 @@ import { toast } from "sonner";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import Claim from "./claim/page";
 
-import { Markets, Forge, Swap, Virtualizer } from "./tabs";
+import { Markets, Forge, Swap, Virtualizer, Ramps } from "./tabs";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<string>("Swap");
@@ -30,6 +30,7 @@ export default function Home() {
     { id: "Virtualizer", label: "Virtualizer", logo: "/virtualizer-logo.svg" },
     { id: "Forge", label: "Forge", logo: "/forge-logo.svg" },
     { id: "Markets", label: "Markets", logo: "/amm-logo.svg" },
+    { id: "Ramps", label: "Ramps", logo: "/swap-logo.svg" },
   ];
 
   return (
@@ -51,7 +52,7 @@ export default function Home() {
         <>
           <section className="py-6 flex flex-col">
             <div className="flex gap-6 items-center justify-center">
-              <div className="font-semibold text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 grid grid-cols-4 gap-2">
+              <div className="font-semibold text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 grid grid-cols-5 gap-2">
                 {tabs.map((tab) => (
                   <button
                     key={tab.id}
@@ -84,6 +85,7 @@ export default function Home() {
               {activeTab === "Swap" && <Swap />}
               {activeTab === "Forge" && <Forge />}
               {activeTab === "Markets" && <Markets />}
+              {activeTab === "Ramps" && <Ramps />}
             </div>
           </section>
         </>
