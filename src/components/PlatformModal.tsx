@@ -1,16 +1,22 @@
-import React from "react";
+import React from 'react';
 
-interface ModalProps {
+interface Platform {
+  name: string;
+  currencies: string[];
+  flag: string;
+}
+
+interface PlatformModalProps {
   onOptionSelect: (option: string) => void;
   onClose: () => void;
 }
 
-const Modal: React.FC<ModalProps> = ({ onOptionSelect, onClose }) => {
-  const options = [
-    { name: "Venmo", currency: "USD" },
-    { name: "HDFC", currency: "INR" },
-    { name: "Garanti", currency: "TRY" },
-    { name: "Revolut", currency: "EUR, GBP, SGD, USD" },
+const PlatformModal: React.FC<PlatformModalProps> = ({ onOptionSelect, onClose }) => {
+  const options: Platform[] = [
+    { name: 'Venmo', currencies: ['USD'], flag: '🇺🇸' },
+    { name: 'HDFC', currencies: ['INR'], flag: '🇮🇳' },
+    { name: 'Garanti', currencies: ['TRY'], flag: '🇹🇷' },
+    { name: 'Revolut', currencies: ['EUR', 'GBP', 'SGD', 'USD'], flag: '🇪🇺' },
   ];
 
   return (
@@ -34,17 +40,17 @@ const Modal: React.FC<ModalProps> = ({ onOptionSelect, onClose }) => {
             >
               <div className="flex items-center space-x-4 p-2">
                 <span className="material-icons text-white">
-                  <img src="/platform.png" />
+                  <img src="/platform.png" alt="platform icon" />
                 </span>
                 <span>{option.name}</span>
               </div>
-              <span className="text-gray-400">{option.currency}</span>
+              <span className="text-gray-400">{option.currencies.join(', ')}</span>
             </li>
           ))}
         </ul>
         <div className="p-4 text-gray-400 border-t border-gray-600 text-center">
           Let us know which platforms you are interested in seeing ZKP2P add
-          support for.{" "}
+          support for.{' '}
           <a href="#" className="text-blue-500 hover:underline">
             Give feedback
           </a>
@@ -54,4 +60,4 @@ const Modal: React.FC<ModalProps> = ({ onOptionSelect, onClose }) => {
   );
 };
 
-export default Modal;
+export default PlatformModal;

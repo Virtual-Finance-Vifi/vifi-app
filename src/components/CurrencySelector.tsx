@@ -1,10 +1,30 @@
-import React, { useState } from "react";
-import Modal from "./CurrencyModal";
+import React, { useState, useEffect } from "react";
+import CurrencyModal from "./CurrencyModal";
 
-const CurrencySelector: React.FC = () => {
+interface Platform {
+  name: string;
+  currencies: string[];
+  flag: string;
+}
+
+interface CurrencySelectorProps {
+  selectedPlatform: Platform | null;
+  onSelect: (currency: string) => void;
+}
+
+const CurrencySelector: React.FC<CurrencySelectorProps> = ({
+  selectedPlatform,
+  onSelect,
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedCurrency, setSelectedCurrency] = useState<string>("USD");
-  const currency = selectedCurrency || "Select a Currency";
+  const [selectedCurrency, setSelectedCurrency] = useState<string>("");
+
+  useEffect(() => {
+    if (selectedPlatform) {
+      setSelectedCurrency(selectedPlatform.currencies[0]);
+      onSelect(selectedPlatform.currencies[0]);
+    }
+  }, [selectedPlatform]);
 
   const handleButtonClick = () => {
     setIsModalOpen(true);
@@ -12,6 +32,7 @@ const CurrencySelector: React.FC = () => {
 
   const handleOptionSelect = (option: string) => {
     setSelectedCurrency(option);
+    onSelect(option);
     setIsModalOpen(false);
   };
 
@@ -28,7 +49,9 @@ const CurrencySelector: React.FC = () => {
         <div className="flex flex-row justify-between w-full">
           <div className="flex flex-col text-left">
             <h1 className="text-gray-400">Currency</h1>
-            <h1 className="text-lg">{currency}</h1>
+            <h1 className="text-lg">
+              {selectedCurrency || "Select a Currency"}
+            </h1>
           </div>
           <div className="flex flex-col justify-center">
             <img src="arrow_down.png" alt="arrow down icon" />
@@ -36,8 +59,12 @@ const CurrencySelector: React.FC = () => {
         </div>
       </button>
 
-      {isModalOpen && (
-        <Modal onOptionSelect={handleOptionSelect} onClose={handleCloseModal} />
+      {isModalOpen && selectedPlatform && (
+        <CurrencyModal
+          currencies={selectedPlatform.currencies}
+          onOptionSelect={handleOptionSelect}
+          onClose={handleCloseModal}
+        />
       )}
     </div>
   );
