@@ -36,7 +36,7 @@ const CurrencyModal: React.FC<CurrencyModalProps> = ({ currencies, onOptionSelec
           ))}
         </ul>
         <div className="p-4 text-gray-400 border-t border-gray-600 text-center">
-          Let us know which platforms you are interested in seeing ZKP2P add
+          Let us know which platforms you are interested in seeing Vifi add
           support for.{' '}
           <a href="#" className="text-blue-500 hover:underline">
             Give feedback

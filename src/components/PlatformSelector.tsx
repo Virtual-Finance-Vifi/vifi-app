@@ -14,9 +14,9 @@ interface PlatformSelectorProps {
 
 const platforms: Platform[] = [
   { name: 'Venmo', currencies: ['USD'], flag: '🇺🇸' },
-  { name: 'HDFC', currencies: ['INR'], flag: '🇮🇳' },
+  { name: 'Kotani Pay', currencies: ['KES'], flag: '🇰🇪' },
   { name: 'Garanti', currencies: ['TRY'], flag: '🇹🇷' },
-  { name: 'Revolut', currencies: ['EUR', 'GBP', 'SGD', 'USD'], flag: '🇪🇺' },
+  { name: 'Wam', currencies: ['TTD'], flag: '🇹🇹' },
 ];
 
 const PlatformSelector: React.FC<PlatformSelectorProps> = ({ title, onSelect }) => {

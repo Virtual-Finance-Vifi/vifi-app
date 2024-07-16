@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface Platform {
   name: string;
@@ -11,12 +11,15 @@ interface PlatformModalProps {
   onClose: () => void;
 }
 
-const PlatformModal: React.FC<PlatformModalProps> = ({ onOptionSelect, onClose }) => {
+const PlatformModal: React.FC<PlatformModalProps> = ({
+  onOptionSelect,
+  onClose,
+}) => {
   const options: Platform[] = [
-    { name: 'Venmo', currencies: ['USD'], flag: '🇺🇸' },
-    { name: 'HDFC', currencies: ['INR'], flag: '🇮🇳' },
-    { name: 'Garanti', currencies: ['TRY'], flag: '🇹🇷' },
-    { name: 'Revolut', currencies: ['EUR', 'GBP', 'SGD', 'USD'], flag: '🇪🇺' },
+    { name: "Venmo", currencies: ["USD"], flag: "🇺🇸" },
+    { name: "Kotani Pay", currencies: ["KES"], flag: "🇰🇪" },
+    { name: "Garanti", currencies: ["TRY"], flag: "🇹🇷" },
+    { name: "Wam", currencies: ["TTD"], flag: "🇹🇹" },
   ];
 
   return (
@@ -44,13 +47,15 @@ const PlatformModal: React.FC<PlatformModalProps> = ({ onOptionSelect, onClose }
                 </span>
                 <span>{option.name}</span>
               </div>
-              <span className="text-gray-400">{option.currencies.join(', ')}</span>
+              <span className="text-gray-400">
+                {option.currencies.join(", ")}
+              </span>
             </li>
           ))}
         </ul>
         <div className="p-4 text-gray-400 border-t border-gray-600 text-center">
-          Let us know which platforms you are interested in seeing ZKP2P add
-          support for.{' '}
+          Let us know which platforms you are interested in seeing Vifi add
+          support for.{" "}
           <a href="#" className="text-blue-500 hover:underline">
             Give feedback
           </a>
