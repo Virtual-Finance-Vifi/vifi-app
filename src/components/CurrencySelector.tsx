@@ -47,15 +47,19 @@ const CurrencySelector: React.FC<CurrencySelectorProps> = ({
         onClick={handleButtonClick}
       >
         <div className="flex flex-row justify-between w-full">
-          <h1 className="text-2xl flex items-center">
-            {selectedPlatform ? `${selectedPlatform.flag}` : ""}
-          </h1>
-          <div className="flex flex-col text-left mr-8">
-            <h1 className="text-gray-400">Currency</h1>
-            <h1 className="text-lg">
-              {selectedCurrency || "Select a Currency"}
+          <div className="flex flex-row">
+            <h1 className="text-2xl flex items-center pr-3">
+              {selectedPlatform ? `${selectedPlatform.flag}` : ""}
             </h1>
+
+            <div className="flex flex-col text-left">
+              <h1 className="text-gray-400">Currency</h1>
+              <h1 className="text-lg">
+                {selectedCurrency || "Select a Currency"}
+              </h1>
+            </div>
           </div>
+
           <div className="flex flex-col justify-center">
             <img src="arrow_down.png" alt="arrow down icon" />
           </div>
