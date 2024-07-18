@@ -34,6 +34,9 @@ export default function Markets() {
   const [Swap, setSwap] = useState<string>("vrt");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState("");
+  const [tokenIcons,setTokenIcons]=useState<string[]>(["vrt_icon.png","ttd_icon.svg"])
+  const [tokenLabels,setTokenLabels]=useState<string[]>(["VRT","VTTD"])
+  const [values,setValues]=useState<number[]>([0.0,0.0])
 
   const openModal = (type: string) => {
     setModalType(type);
@@ -126,13 +129,17 @@ export default function Markets() {
   useEffect(() => {
     if (formatted_cb_rate !== undefined && !Number.isNaN(formatted_cb_rate)) {
       setReceiveVRT(parseFloat((vTTD - 0.0005 * vTTD).toFixed(3)));
+      setValues([vTTD,parseFloat((vTTD - 0.0005 * vTTD).toFixed(3))])
     }
+    console.log(`vTTD:${values[0]} vRT:${values[1]}`)
   }, [vTTD]);
 
   useEffect(() => {
     if (formatted_cb_rate !== undefined && !Number.isNaN(formatted_cb_rate)) {
       setReceiveVTTD(parseFloat((vRT - 0.0005 * vRT).toFixed(3)));
+      setValues([vRT,parseFloat((vRT - 0.0005 * vRT).toFixed(3))])
     }
+    console.log(`vRT:${values[0]} vTTD:${values[1]} `)
   }, [vRT]);
 
   const vrt_approve = vrt_approval?.toString();
@@ -158,8 +165,9 @@ export default function Markets() {
                 message="Waiting for confirmation..."
                 message2="ETA: 2 min 25 sec. Take a walk :)"
                 gifUrl="walking_orange.gif"
-                tokenIcon1="vrt_icon.png"
-                tokenIcon2="ttd_icon.svg"
+                tokenIcons={tokenIcons}
+                tokenLabels={tokenLabels}
+                values={values}
                 width={325}
                 height={325}
                 hash={hash}
@@ -206,8 +214,9 @@ export default function Markets() {
                 message="Waiting for confirmation..."
                 message2="ETA: 2 min 25 sec. Take a walk :)"
                 gifUrl="walking_orange.gif"
-                tokenIcon1="ttd_icon.svg"
-                tokenIcon2="vrt_icon.png"
+                tokenIcons={tokenIcons}
+                tokenLabels={tokenLabels}
+                values={values}
                 width={325}
                 height={325}
                 hash={hash}
@@ -256,8 +265,9 @@ export default function Markets() {
           message="Transaction Pending ..."
           message2="Your transaction has been submitted. Please check in a while."
           gifUrl="pending_lemon.gif"
-          tokenIcon1="vrt_icon.png"
-          tokenIcon2="ttd_icon.svg"
+          tokenIcons={tokenIcons}
+          tokenLabels={tokenLabels}
+          values={values}
           width={225}
           height={126}
           hash={hash}
@@ -284,8 +294,9 @@ export default function Markets() {
           message="Transaction Successful"
           message2="Yippie :D"
           gifUrl="changing_fruit.gif"
-          tokenIcon1="vrt_icon.png"
-          tokenIcon2="ttd_icon.svg"
+          tokenIcons={tokenIcons}
+          tokenLabels={tokenLabels}
+          values={values}
           width={240}
           height={196}
           hash={hash}
@@ -314,8 +325,9 @@ export default function Markets() {
           message="Transaction Failed"
           message2="Error Details"
           gifUrl="confused_apple.gif"
-          tokenIcon1="vrt_icon.png"
-          tokenIcon2="ttd_icon.svg"
+          tokenIcons={tokenIcons}
+          tokenLabels={tokenLabels}
+          values={values}
           width={325}
           height={325}
           hash={hash}/>,
@@ -334,6 +346,27 @@ export default function Markets() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConfirmed, isConfirming, error, hash]);
+
+  const swapStrings=(arr:string[])=>{
+    if (arr.length>1){
+      const newArr=[...arr];
+      [newArr[0], newArr[1]] = [newArr[1], newArr[0]]; // Swap the first two elements
+      console.log(newArr)
+      return newArr;
+    }
+    return arr;
+    
+  }
+
+ 
+  
+  const handleIconSwap=()=>{
+    setTokenIcons(swapStrings(tokenIcons));
+  }
+
+  const handleLabelSwap=()=>{
+    setTokenLabels(swapStrings(tokenLabels));
+  }
 
   return (
     <main className="md:pt-6">
@@ -383,7 +416,7 @@ export default function Markets() {
 
             <div className="flex justify-center mb-2">
               <button
-                onClick={handleSwapVttd}
+                onClick={()=>{handleSwapVttd(); handleIconSwap(); handleLabelSwap();}}
                 className="btn btn-accent hover:bg-secondary p-2 border border-[#8FA2B7] rounded-xl"
               >
                 <svg
@@ -422,7 +455,7 @@ export default function Markets() {
             />
             <div className="flex justify-center mb-2">
               <button
-                onClick={handleSwapVrt}
+                onClick={()=>{handleSwapVrt(); handleIconSwap(); handleLabelSwap();}}
                 className="btn btn-accent hover:bg-secondary p-2 border rounded-xl"
               >
                 <svg

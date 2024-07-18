@@ -9,14 +9,11 @@ interface CustomToastProps {
     message: string;
     message2: string;
     gifUrl: string;
-    tokenIcon1:string;
-    tokenIcon2:string;
-    liveRateIn?:number|null;
-    liveRateOut?:number|null;
+    tokenIcons?:string[] | null;
+    liveRates?:string[];
     transferVal?:number|null;
-    coinLabel1?:string;
-    coinLabel2?:string;
-    coinLabel3?:string;
+    tokenLabels?:string[];
+    values?:number[];
     type?:string|null;
     width: number;
     height: number;
@@ -27,14 +24,11 @@ interface CustomToastProps {
     message,
     message2,
     gifUrl,
-    tokenIcon1,
-    tokenIcon2,
-    liveRateIn,
-    liveRateOut,
+    tokenIcons,
+    liveRates,
+    tokenLabels,
     transferVal,
-    coinLabel1,
-    coinLabel2,
-    coinLabel3,
+    values,
     type,
     width,
     height,
@@ -54,11 +48,11 @@ interface CustomToastProps {
       <h1 className="text-[24px] font-bold font-['Archivo']">{message}</h1>
       {type !=="approval"?(
         <div className="justify-center flex flex-row w-full">
-          <img src={tokenIcon1} alt="usdcicon"/>
-          <p className="font-['Archivo'] font-bold text-[18px] pt-2">123USDC</p>
+          <img src={tokenIcons?.[0]} alt="usdcicon"/>
+          <p className="font-['Archivo'] font-bold text-[18px] pt-2">{values?.[0]}{tokenLabels?.[0]}</p>
           <img src="arrow_right.svg" alt="rarrow" />
-          <p className="font-['Archivo'] font-bold text-[18px] pt-2">123VUSD</p>
-          <img src={tokenIcon2} alt="vusdicon"/>
+          <p className="font-['Archivo'] font-bold text-[18px] pt-2">{values?.[1]}{tokenLabels?.[1]}</p>
+          <img src={tokenIcons?.[1]} alt="vusdicon"/>
         </div>
       ):(
         <div className="justify-center flex flex-row w-full">

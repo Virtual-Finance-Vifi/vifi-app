@@ -56,8 +56,9 @@ const EMC_to_VUSD: React.FC<EMCToVUSDProps> = ({ refreshBalance, balance }) => {
         message="Waiting for confirmation..."
         message2="ETA: 2 min 25 sec. Take a walk :)"
         gifUrl="walking_orange.gif"
-        tokenIcon1="usdc_icon.svg"
-        tokenIcon2="vrt_icon.png"
+        tokenIcons={["vrt_icon.png","usdc_icon.svg"]}
+        tokenLabels={["VRT&VTTD","VUSD"]}
+        values={[VRT,0.0]}
         width={325}
         height={325}
         hash={hash}
@@ -95,8 +96,9 @@ const EMC_to_VUSD: React.FC<EMCToVUSDProps> = ({ refreshBalance, balance }) => {
           message="Transaction Pending ..."
           message2="Your transaction has been submitted. Please check in a while."
           gifUrl="pending_lemon.gif"
-          tokenIcon1="vrt_icon.png"
-          tokenIcon2="usdc_icon.svg"
+          tokenIcons={["vrt_icon.png","usdc_icon.svg"]}
+          tokenLabels={["VRT&VTTD","VUSD"]}
+          values={[VRT,0.0]}
           width={225}
           height={126}
           hash={hash}
@@ -123,8 +125,9 @@ const EMC_to_VUSD: React.FC<EMCToVUSDProps> = ({ refreshBalance, balance }) => {
           message="Transaction Successful"
           message2="Yippie :D"
           gifUrl="changing_fruit.gif"
-          tokenIcon1="vrt_icon.png"
-          tokenIcon2="usdc_icon.svg"
+          tokenIcons={["vrt_icon.png","usdc_icon.svg"]}
+          tokenLabels={["VRT&VTTD","VUSD"]}
+          values={[VRT,0.0]}
           width={240}
           height={196}
           hash={hash}
@@ -152,8 +155,9 @@ const EMC_to_VUSD: React.FC<EMCToVUSDProps> = ({ refreshBalance, balance }) => {
           message="Transaction Failed"
           message2="Error Details"
           gifUrl="confused_apple.gif"
-          tokenIcon1="vrt_icon.png"
-          tokenIcon2="usdc_icon.svg"
+          tokenIcons={["vrt_icon.png","usdc_icon.svg"]}
+          tokenLabels={["VRT&VTTD","VUSD"]}
+          values={[VRT,0.0]}
           width={325}
           height={325}
           hash={hash}/>,
