@@ -2,9 +2,11 @@ import "./globals.css";
 import { Inter as FontSans } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { headers } from "next/headers";
+import { BalanceProvider } from "@/contexts/Balance";
 
 import { cn } from "@/lib/utils";
 import Nav from "@/components/Nav";
+import Footer from "@/components/Footer";
 import { Toaster } from "@/components/ui/sonner";
 
 import { cookieToInitialState } from "wagmi";
@@ -23,35 +25,51 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   // const initialState = cookieToInitialState(config, headers().get("cookie")) || null;
+
   return (
     <html lang="en">
       <head>
-        <link rel="icon" type="image/svg+xml" href="/icon.svg" />
-        <title>Modern Web3 Starter</title>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link
+          rel="apple-touch-icon"
+          href="/apple-touch-icon.png"
+          type="image/png"
+        />
+        <title>Virtual Finance</title>
         <meta
           name="description"
-          content="A starter kit for using the latest tools for building your dApps frontends"
+          content="Stablecoin Protocol for the Frontier Currencies"
         />
       </head>
       <body
         className={cn(
-          "min-h-screen bg-background font-sans antialiased",
+          "min-h-screen bg-black font-sans antialiased",
           fontSans.variable
         )}
       >
-        <div id="root" className="p-24">
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <Web3ModalProvider>
-              <Nav />
-              {children}
-            </Web3ModalProvider>
-          </ThemeProvider>
-        </div>
+        {/* <div className="fixed bottom-0 left-0 right-0">
+            <div className="flex justify-between">
+              <img src="bleft_img.svg" />
+              <img src="bright_img.svg" />
+            </div>
+          </div> */}
+
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Web3ModalProvider>
+            <BalanceProvider>
+              <div className="flex flex-col min-h-screen">
+                <Nav />
+                <main className="flex-grow">{children}</main>
+                <Footer />
+              </div>
+            </BalanceProvider>
+          </Web3ModalProvider>
+        </ThemeProvider>
         <Toaster richColors />
       </body>
     </html>

@@ -1,0 +1,225 @@
+[
+	{
+		"inputs": [],
+		"name": "FEE",
+		"outputs": [
+			{
+				"internalType": "uint24",
+				"name": "",
+				"type": "uint24"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amountOut",
+				"type": "uint256"
+			}
+		],
+		"name": "getLiveRateIn",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "price",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amountOut",
+				"type": "uint256"
+			}
+		],
+		"name": "getLiveRateOut",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "price",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getParallelRatio",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "price",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getPriceV2",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "price",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amountOut",
+				"type": "uint256"
+			}
+		],
+		"name": "getSplit",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "price",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amountIn",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amountOutMin",
+				"type": "uint256"
+			}
+		],
+		"name": "swapExactInputSingleHop",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amountOut",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amountInMax",
+				"type": "uint256"
+			}
+		],
+		"name": "swapExactOutputSingleHop",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amountIn",
+				"type": "uint256"
+			}
+		],
+		"name": "swapVexIn",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amountIn",
+				"type": "uint256"
+			}
+		],
+		"name": "swapVexIn_RWA",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amountOut",
+				"type": "uint256"
+			}
+		],
+		"name": "swapVexOut",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amountOut",
+				"type": "uint256"
+			}
+		],
+		"name": "swapVexOut_RWA",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "tokenIn",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "tokenOut",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "uniswapFactory",
+		"outputs": [
+			{
+				"internalType": "contract IUniswapV3Factory",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
