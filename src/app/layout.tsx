@@ -72,17 +72,18 @@ export default function RootLayout({
         </ThemeProvider>
         <Toaster
           toastOptions={{
-            style:{
-              background: "#101419",
+            style: {
+              background: "none",
               width: "33vw",
               height: "75vh",
               top: "50%",
               left: "50%",
               transform: "translate(-50%,-50%)",
               position: "fixed",
+              border: "transparent",
             },
-            className:"desktop-toast"
-          }} 
+            className: "desktop-toast",
+          }}
         />
       </body>
     </html>
