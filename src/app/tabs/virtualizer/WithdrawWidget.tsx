@@ -81,26 +81,11 @@ const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({
             gifUrl="walking_orange.gif"
             tokenIcons={["vusd_icon.png","usdc_icon.svg"]}
             tokenLabels={["VUSD","MUSD"]}
-            values={[vUSD]}
+            values={[vUSD,vUSD]}
             width={325}
             height={325}
             hash={hash}
           />,
-          {
-            style: {
-              background: "#101419",
-              width: "33vw", // 1/3 of viewport width
-              height: "75vh", // 1/3 of viewport height
-              top: "50%", // Center vertically
-              left: "50%", // Center horizontally
-              transform: "translate(-50%, -50%)", // Adjust position relative to center
-              position: "fixed", // Ensure it's fixed position
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-            },
-            //className:"!bg-[#3A4047] !w-1/3 !h-3/4vh !top-1/2 !left-1/2 !-translate-x-1/2 !-translate-y-1/2 !fixed !border-solid !border-green"
-          }
         );
       }
     } catch {}
@@ -115,23 +100,11 @@ const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({
           gifUrl="pending_lemon.gif"
           tokenIcons={["vusd_icon.png","usdc_icon.svg"]}
           tokenLabels={["VUSD","MUSD"]}
-          values={[vUSD]}
+          values={[vUSD,vUSD]}
           width={225}
           height={126}
           hash={hash}
         />,
-        {
-          style: {
-            background: "#101419",
-            width: "33vw",
-            height: "75vh",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%,-50%)",
-            position: "fixed",
-          },
-          //className:"bg-[#3A4047] w-full h-full top-[145px] left-[490px]"
-        }
       );
     }
     toast.dismiss();
@@ -144,24 +117,11 @@ const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({
           gifUrl="changing_fruit.gif"
           tokenIcons={["vusd_icon.png","usdc_icon.svg"]}
           tokenLabels={["VUSD","MUSD"]}
-          values={[vUSD]}
+          values={[vUSD,vUSD]}
           width={240}
           height={196}
           hash={hash}
         />,
-        {
-          style: {
-            background: "#101419",
-            width: "33vw",
-            height: "75vh",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%,-50%)",
-            position: "fixed",
-          },
-          //className:"bg-[#3A4047] w-full h-full top-[145px] left-[490px]"
-          
-        }
       );
       refreshBalance?.();
       setvUSD(0);
@@ -174,21 +134,10 @@ const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({
           gifUrl="confused_apple.gif"
           tokenIcons={["vusd_icon.png","usdc_icon.svg"]}
           tokenLabels={["VUSD","MUSD"]}
-          values={[vUSD]}
+          values={[vUSD,vUSD]}
           width={325}
           height={325}
           hash={hash}/>,
-          {
-            style:{
-              background: "#101419",
-              width: "33vw",
-              height: "75vh",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%,-50%)",
-              position: "fixed",
-            }
-          }
       
       );
     }

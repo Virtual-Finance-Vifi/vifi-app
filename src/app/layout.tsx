@@ -70,7 +70,20 @@ export default function RootLayout({
             </BalanceProvider>
           </Web3ModalProvider>
         </ThemeProvider>
-        <Toaster />
+        <Toaster
+          toastOptions={{
+            style:{
+              background: "#101419",
+              width: "33vw",
+              height: "75vh",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%,-50%)",
+              position: "fixed",
+            },
+            className:"desktop-toast"
+          }} 
+        />
       </body>
     </html>
   );

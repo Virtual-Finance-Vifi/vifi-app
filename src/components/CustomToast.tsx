@@ -37,7 +37,7 @@ interface CustomToastProps {
     <div
       className="flex flex-col w-full h-full align-center justify-center items-center"
     >
-      <button onClick={()=>toast.dismiss()} className="absolute top-2 right-2 bg-transparent rounded-full p-1">
+      <button onClick={()=>toast.dismiss()} className="fixed top-2 right-2 bg-transparent rounded-full p-1">
         X
       </button>
       <img

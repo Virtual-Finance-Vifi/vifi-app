@@ -272,18 +272,7 @@ export default function Markets() {
           height={126}
           hash={hash}
         />,
-        {
-          style: {
-            background: "#101419",
-            width: "33vw",
-            height: "75vh",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%,-50%)",
-            position: "fixed",
-          },
-          //className:"bg-[#3A4047] w-full h-full top-[145px] left-[490px]"
-        }
+        
       );
     }
     toast.dismiss();
@@ -301,19 +290,7 @@ export default function Markets() {
           height={196}
           hash={hash}
         />,
-        {
-          style: {
-            background: "#101419",
-            width: "33vw",
-            height: "75vh",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%,-50%)",
-            position: "fixed",
-          },
-          //className:"bg-[#3A4047] w-full h-full top-[145px] left-[490px]"
-          
-        }
+        
       );
       refreshBalances();
       setvRT(0);
@@ -331,17 +308,7 @@ export default function Markets() {
           width={325}
           height={325}
           hash={hash}/>,
-          {
-            style:{
-              background: "#101419",
-              width: "33vw",
-              height: "75vh",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%,-50%)",
-              position: "fixed",
-            }
-          }
+        
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
