@@ -71,18 +71,18 @@ export default function RootLayout({
           </Web3ModalProvider>
         </ThemeProvider>
         <Toaster
+          position="top-center"
           toastOptions={{
             style: {
               background: "none",
-              width: "33vw",
-              height: "75vh",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%,-50%)",
-              position: "fixed",
+              // width: "33vw",
+              // height: "75vh",
+              // top: "50%",
+              // left: "50%",
+              // transform: "translate(-50%,-50%)",
+              // position: "fixed",
               border: "transparent",
             },
-            className: "desktop-toast",
           }}
         />
       </body>

@@ -124,7 +124,7 @@ const EMC_to_VUSD: React.FC<EMCToVUSDProps> = ({ refreshBalance, balance }) => {
           width={325}
           height={325}
           hash={hash}/>,
-          
+          {duration: 5000}
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

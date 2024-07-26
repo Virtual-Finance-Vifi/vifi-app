@@ -34,7 +34,7 @@ const CustomToast: React.FC<CustomToastProps> = ({
   height,
   hash,
 }) => (
-  <div className="flex flex-col w-full h-full bg-[#101419] border border-gray-800 items-center rounded-xl">
+  <div className="flex flex-col w-full h-full bg-[#101419] border border-gray-800 items-center rounded-xl mt-12">
     <div className="w-full flex justify-end pr-3">
       <button
         onClick={() => toast.dismiss()}
@@ -73,7 +73,7 @@ const CustomToast: React.FC<CustomToastProps> = ({
     <p className="border-t border-[#8FA2B7] text-[#8FA2B7] w-2/3 text-center">
       {message2}
     </p>
-    <button className="bg-[#00A651] rounded-full w-2/3 h-[10%] mt-4 text-[16px] font-['Archivo] text-center">
+    <button className="bg-[#00A651] rounded-full w-2/3 mb-2 py-3 mt-4 text-[16px] font-['Archivo] text-center">
       <a href={`${addresses[chainId]["blockexplorer"]}/tx/${hash}`}>
         View on Etherscan
       </a>

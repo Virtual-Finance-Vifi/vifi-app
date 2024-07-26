@@ -34,9 +34,12 @@ export default function Vex() {
   const [Swap, setSwap] = useState<string>("mUSD");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState("");
-  const [tokenIcons,setTokenIcons]=useState<string[]>(["usdc_icon.svg","ttd_icon.svg"])
-  const [tokenLabels,setTokenLabels]=useState<string[]>(["USDC","VTTD"])
-  const [values,setValues]=useState<number[]>([0.0,0.0])
+  const [tokenIcons, setTokenIcons] = useState<string[]>([
+    "usdc_icon.svg",
+    "ttd_icon.svg",
+  ]);
+  const [tokenLabels, setTokenLabels] = useState<string[]>(["USDC", "VTTD"]);
+  const [values, setValues] = useState<number[]>([0.0, 0.0]);
 
   const handleConnect = () => {
     open();
@@ -50,14 +53,12 @@ export default function Vex() {
     setIsModalOpen(false);
   };
   const handleSwapVUSD = () => {
-
     setSwap("mUSD");
     console.log(Swap);
   };
   const handleSwapVTTD = () => {
     setSwap("vTTD");
     console.log(Swap);
-
   };
   const { writeContract, data: hash, error } = useWriteContract();
 
@@ -72,7 +73,8 @@ export default function Vex() {
   const transfer_mUSD = parseEther(mUSD.toString());
   const transfer_vTTD = parseEther(vTTD.toString());
 
-  const { data: musdInLiveRate, refetch: refresh_musdrateIn } = useReadContract({
+  const { data: musdInLiveRate, refetch: refresh_musdrateIn } = useReadContract(
+    {
       abi: VEX_CONTRACT,
       address: addresses[chainId]["vex"],
       functionName: "getLiveRateIn",
@@ -85,17 +87,20 @@ export default function Vex() {
   useEffect(() => {
     if (formatted_musd_in !== undefined && !Number.isNaN(formatted_musd_in)) {
       setReceiveVTTD(parseFloat((mUSD * Number(formatted_musd_in)).toFixed(3)));
-      setValues([mUSD,parseFloat((mUSD * Number(formatted_musd_in)).toFixed(3))])
+      setValues([
+        mUSD,
+        parseFloat((mUSD * Number(formatted_musd_in)).toFixed(3)),
+      ]);
     }
-    console.log(`mUSD:${values[0]} vTTD:${values[1]}`)
+    console.log(`mUSD:${values[0]} vTTD:${values[1]}`);
   }, [mUSD]);
 
   useEffect(() => {
     if (formatted_musd_in !== undefined && !Number.isNaN(formatted_musd_in)) {
       setReceiveMUSD(parseFloat((vTTD / formatted_musd_in).toFixed(3)));
-      setValues([vTTD,parseFloat((vTTD / formatted_musd_in).toFixed(3))])
+      setValues([vTTD, parseFloat((vTTD / formatted_musd_in).toFixed(3))]);
     }
-    console.log(`vTTD:${values[0]} mUSD:${values[1]}`)
+    console.log(`vTTD:${values[0]} mUSD:${values[1]}`);
   }, [vTTD]);
 
   const { data: vTTD_balance, refetch: refresh_vTTD_balance } = useReadContract(
@@ -123,7 +128,6 @@ export default function Vex() {
       args: [address, addresses[chainId]["vex"]],
     });
 
-  
   //console.log(mUSD_approval?.toString)
   //console.log(error)
   const { data: vTTD_approval, refetch: refetch_vTTD_approval } =
@@ -169,7 +173,6 @@ export default function Vex() {
                 height={325}
                 hash={hash}
               />,
-              
             );
           } catch (error) {
             console.error("Transaction error:", error);
@@ -201,7 +204,6 @@ export default function Vex() {
                 height={325}
                 hash={hash}
               />,
-              
             );
           } catch (error) {
             console.error("Transaction error:", error);
@@ -230,8 +232,7 @@ export default function Vex() {
           width={225}
           height={126}
           hash={hash}
-        />,
-        
+        />
       );
     }
     toast.dismiss();
@@ -248,8 +249,7 @@ export default function Vex() {
           width={240}
           height={196}
           hash={hash}
-        />,
-        
+        />
       );
       refreshBalances();
       setMUSD(0);
@@ -257,7 +257,7 @@ export default function Vex() {
     }
     if (error) {
       toast.error(
-        <CustomToast 
+        <CustomToast
           message="Transaction Failed"
           message2="Error Details"
           gifUrl="confused_apple.gif"
@@ -266,36 +266,32 @@ export default function Vex() {
           values={values}
           width={325}
           height={325}
-          hash={hash}/>,
-          
+          hash={hash}
+        />,
+        {duration: 5000}
       );
       console.log(receiptError);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConfirmed, isConfirming, error, hash]);
 
-  const swapStrings=(arr:string[])=>{
-    if (arr.length>1){
-      const newArr=[...arr];
+  const swapStrings = (arr: string[]) => {
+    if (arr.length > 1) {
+      const newArr = [...arr];
       [newArr[0], newArr[1]] = [newArr[1], newArr[0]]; // Swap the first two elements
-      console.log(newArr)
+      console.log(newArr);
       return newArr;
     }
     return arr;
-    
-  }
+  };
 
- 
-  
-  const handleIconSwap=()=>{
+  const handleIconSwap = () => {
     setTokenIcons(swapStrings(tokenIcons));
-  }
+  };
 
-  const handleLabelSwap=()=>{
+  const handleLabelSwap = () => {
     setTokenLabels(swapStrings(tokenLabels));
-  }
-
- 
+  };
 
   return (
     <main className="pt-6">
@@ -332,7 +328,11 @@ export default function Vex() {
             <div className="flex justify-center mb-2">
               <button
                 className="btn btn-accent hover:bg-secondary p-2 border border-[#8FA2B7] rounded-xl"
-                onClick={ ()=>{handleSwapVUSD(); handleIconSwap(); handleLabelSwap();}}
+                onClick={() => {
+                  handleSwapVUSD();
+                  handleIconSwap();
+                  handleLabelSwap();
+                }}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -371,7 +371,11 @@ export default function Vex() {
             <div className="flex justify-center mb-2">
               <button
                 className="btn btn-accent hover:bg-secondary p-2 rounded-xl"
-                onClick={ ()=>{handleSwapVTTD(); handleIconSwap(); handleLabelSwap();}}
+                onClick={() => {
+                  handleSwapVTTD();
+                  handleIconSwap();
+                  handleLabelSwap();
+                }}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

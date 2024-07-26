@@ -138,7 +138,7 @@ const WithdrawWidget: React.FC<WithdrawWidgetProps> = ({
           width={325}
           height={325}
           hash={hash}/>,
-      
+          {duration: 5000}
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

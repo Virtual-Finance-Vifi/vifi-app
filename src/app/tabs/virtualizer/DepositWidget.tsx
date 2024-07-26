@@ -140,6 +140,7 @@ const DepositWidget: React.FC<DepositWidgetProps> = ({
           width={325}
           height={325}
           hash={hash}/>,
+          {duration: 5000}
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
