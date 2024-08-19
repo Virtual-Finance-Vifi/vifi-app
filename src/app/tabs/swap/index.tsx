@@ -21,6 +21,7 @@ import VexModal from "./VexModal";
 import VTOKEN_CONTRACT from "@/contracts/vtoken.json";
 import MUSD_CONTRACT from "@/contracts/mUSD.json";
 import CustomToast from "@/components/CustomToast";
+import UnifiedInputDropdown from "@/components/UnifiedInputDropdown";
 
 export default function Vex() {
   const chainId = getChainId(config);
@@ -318,7 +319,7 @@ export default function Vex() {
         </div>
         {Swap === "vTTD" ? (
           <>
-            <UnifiedInput
+            <UnifiedInputDropdown
               type="pay"
               label="vTTD"
               value={vTTD}
@@ -350,7 +351,7 @@ export default function Vex() {
                 </svg>
               </button>
             </div>
-            <UnifiedInput
+            <UnifiedInputDropdown
               type="receive"
               label="mUSD"
               value={receiveMUSD}
@@ -361,7 +362,7 @@ export default function Vex() {
           </>
         ) : (
           <>
-            <UnifiedInput
+            <UnifiedInputDropdown
               type="pay"
               label="mUSD"
               value={mUSD}
@@ -393,7 +394,7 @@ export default function Vex() {
                 </svg>
               </button>
             </div>
-            <UnifiedInput
+            <UnifiedInputDropdown
               type="receive"
               label="vTTD"
               value={receiveVTTD}
