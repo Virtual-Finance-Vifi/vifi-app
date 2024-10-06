@@ -1,24 +1,22 @@
 import React, { useState } from "react";
-import PlatformModal from "./PlatformModal";
+import ProviderModal from "./ProviderModal";
 
 interface Platform {
   name: string;
-  currencies: string[];
-  flag: string;
+  percentages: string;
 }
 
-interface PlatformSelectorProps {
+interface ProviderSelectorProps {
   title: string;
   onSelect: (platform: Platform) => void;
 }
 
 const platforms: Platform[] = [
-  { name: 'M-PESA', currencies: ['KES'], flag: '🇰🇪' },
-  { name: 'NGN', currencies: ['NGN'], flag: '🇳🇬' },
-  { name: 'Wam', currencies: ['TTD'], flag: '🇹🇹' },
+  { name: 'Kotani Pay', percentages: "0.01" },
+  { name: 'HoneyCoin', percentages: "0.02" },
 ];
 
-const PlatformSelector: React.FC<PlatformSelectorProps> = ({ title, onSelect }) => {
+const ProviderSelector: React.FC<ProviderSelectorProps> = ({ title, onSelect }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPlatform, setSelectedPlatform] = useState<Platform | null>(platforms[0]);
   const platform = selectedPlatform ? selectedPlatform.name : "Select a Platform";
@@ -55,9 +53,9 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({ title, onSelect }) 
         </div>
       </button>
 
-      {isModalOpen && <PlatformModal onOptionSelect={handleOptionSelect} onClose={handleCloseModal} />}
+      {isModalOpen && <ProviderModal onOptionSelect={handleOptionSelect} onClose={handleCloseModal} />}
     </div>
   );
 };
 
-export default PlatformSelector;
+export default ProviderSelector;

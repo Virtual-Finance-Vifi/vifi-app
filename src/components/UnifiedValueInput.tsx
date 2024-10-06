@@ -61,6 +61,8 @@ const UnifiedInput: React.FC<UnifiedInputProps> = ({
                 ? "You Pay"
                 : type === "receive"
                 ? "You receive (≈)"
+                : type === "mobile"
+                ? ""
                 : ""}
             </h1>
           )}
@@ -76,12 +78,12 @@ const UnifiedInput: React.FC<UnifiedInputProps> = ({
           h-[2.2rem] min-h-[2.2rem] px-1 font-medium  
           overflow-hidden text-ellipsis whitespace-nowrap w-auto"
         />
-        {balance !== null ? (
-          <h1 className="ml-3">
+        {balance !== null  ? (
+          type !== "mobile" ? <h1 className="ml-3">
             Balance: {(Number(balance) / 10 ** 18).toFixed(2)}
-          </h1>
+          </h1> : ""
         ) : (
-          <h1 className="ml-3">Loading balance...</h1>
+          type !== "mobile" ? <h1 className="ml-3">Loading balance...</h1> : ""
         )}
       </div>
     </div>

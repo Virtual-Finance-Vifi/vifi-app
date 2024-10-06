@@ -30,7 +30,7 @@ export default function Home() {
     { id: "Virtualizer", label: "Virtualizer", logo: "/virtualizer-logo.svg" },
     { id: "Forge", label: "Forge", logo: "/forge-logo.svg" },
     { id: "Markets", label: "Markets", logo: "/amm-logo.svg" },
-    { id: "Ramps", label: "Ramps", logo: "/swap-logo.svg" },
+    { id: "Fiat", label: "Fiat", logo: "/swap-logo.svg" },
   ];
 
   return (
@@ -85,7 +85,7 @@ export default function Home() {
               {activeTab === "Swap" && <Swap />}
               {activeTab === "Forge" && <Forge />}
               {activeTab === "Markets" && <Markets />}
-              {activeTab === "Ramps" && <Ramps />}
+              {activeTab === "Fiat" && <Ramps />}
             </div>
           </section>
         </>

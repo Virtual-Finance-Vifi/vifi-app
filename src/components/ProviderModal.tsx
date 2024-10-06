@@ -2,8 +2,8 @@ import React from "react";
 
 interface Platform {
   name: string;
-  currencies: string[];
-  flag: string;
+  percentages: string;
+
 }
 
 interface PlatformModalProps {
@@ -16,15 +16,15 @@ const PlatformModal: React.FC<PlatformModalProps> = ({
   onClose,
 }) => {
   const options: Platform[] = [
-    { name: "M-PESA", currencies: ["KES"], flag: "🇰🇪" },
-    { name: "NGN", currencies: ["NGN"], flag: "🇳🇬" },
+    { name: "Kotani Pay", percentages: "0.01" },
+    { name: "Honeycoin", percentages: "0.02" },
   ];
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
       <div className="bg-gray-900 rounded-lg shadow-lg border border-gray-600 w-96">
         <div className="flex justify-between items-center p-4 border-b border-gray-600">
-          <h2 className="text-lg">Select a Platform</h2>
+          <h2 className="text-lg">Select a Provider</h2>
           <button
             onClick={onClose}
             className="text-gray-400 hover:text-gray-200 text-3xl"
@@ -45,9 +45,6 @@ const PlatformModal: React.FC<PlatformModalProps> = ({
                 </span>
                 <span>{option.name}</span>
               </div>
-              <span className="text-gray-400">
-                {option.currencies.join(", ")}
-              </span>
             </li>
           ))}
         </ul>
