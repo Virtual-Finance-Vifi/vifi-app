@@ -60,7 +60,7 @@ const UnifiedInput: React.FC<UnifiedInputProps> = ({
                 : type === "pay"
                 ? "You Pay"
                 : type === "receive"
-                ? "You receive (≈)"
+                ? "You Receive"
                 : type === "mobile"
                 ? ""
                 : ""}

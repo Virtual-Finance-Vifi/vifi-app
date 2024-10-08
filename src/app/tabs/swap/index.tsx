@@ -229,7 +229,7 @@ export default function Vex() {
           <>
             <UnifiedInput
               type="pay"
-              label="vTTD"
+              label="vKES"
               value={vTTD}
               setValue={setVTTD}
               balance={vTTD_balance_number}
@@ -297,7 +297,7 @@ export default function Vex() {
             </div>
             <UnifiedInput
               type="receive"
-              label="vTTD"
+              label="vKES"
               value={receiveVTTD}
               // setValue={setVTTD}
               setValue={setReceiveVTTD}

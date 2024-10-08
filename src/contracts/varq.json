@@ -102,7 +102,7 @@
 			},
 			{
 				"internalType": "address",
-				"name": "_vTTD",
+				"name": "_vKES",
 				"type": "address"
 			},
 			{
@@ -190,7 +190,7 @@
 	},
 	{
 		"inputs": [],
-		"name": "vTTD",
+		"name": "vKES",
 		"outputs": [
 			{
 				"internalType": "contract vToken",

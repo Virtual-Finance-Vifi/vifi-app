@@ -86,7 +86,7 @@ const EMC_to_VUSD: React.FC<EMCToVUSDProps> = ({ refreshBalance, balance }) => {
   return (
     <div>
       <div className="flex rounded-2xl items-left flex-col flex-grow pt-4 mx-2">
-        <h1 className="ml-2">vTTD & vRT -{">"} vUSD</h1>
+        <h1 className="ml-2">vKES & vRT -{">"} vUSD</h1>
       </div>
       <div className="flex rounded-2xl items-left flex-col flex-grow mx-2">
         <InputComponent

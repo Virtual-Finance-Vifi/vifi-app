@@ -259,7 +259,7 @@ export default function Markets() {
           <>
             <InputComponent
               type="pay"
-              label="vRT"
+              label="vRQT"
               value={vRT}
               setValue={setvRT}
               balance={vRT_balance_number}
@@ -290,7 +290,7 @@ export default function Markets() {
               type="receive"
               value={receiveVTTD}
               setValue={setReceiveVTTD}
-              label="vTTD"
+              label="vKES"
               balance={vTTD_balance_number}
               disabled={true}
             />
@@ -299,7 +299,7 @@ export default function Markets() {
           <>
             <InputComponent
               type="pay"
-              label="vTTD"
+              label="vKES"
               value={vTTD}
               setValue={setvTTD}
               balance={vTTD_balance_number}
@@ -328,7 +328,7 @@ export default function Markets() {
             <InputComponent
               type="receive"
               value={receiveVRT}
-              label="vRT"
+              label="vRQT"
               balance={vRT_balance_number}
               setValue={setReceiveVRT}
               disabled={true}

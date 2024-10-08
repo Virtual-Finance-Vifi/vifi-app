@@ -80,12 +80,12 @@ export default function Varq() {
         </div>
         <div className="justify-left flex px-2">
           <CustomTab
-            label="USD to TTD"
+            label="USD to KES"
             isActive={activeTab === "deposit"}
             onClick={() => handleTabChange("deposit")}
           />
           <CustomTab
-            label="TTD to USD"
+            label="KES to USD"
             isActive={activeTab === "withdraw"}
             onClick={() => handleTabChange("withdraw")}
           />
@@ -115,7 +115,7 @@ export default function Varq() {
             </div>
             <div className="flex flex-row justify-between">
               <h1>vUSD: {(Number(vUSD_balance) / 10 ** 18).toFixed(2)}</h1>
-              <h1>vTTD: {(Number(vTTD_balance) / 10 ** 18).toFixed(2)}</h1>
+              <h1>vKES: {(Number(vTTD_balance) / 10 ** 18).toFixed(2)}</h1>
               <h1>vRT: {(Number(vRT_balance) / 10 ** 18).toFixed(2)}</h1>
             </div>
           </div>
